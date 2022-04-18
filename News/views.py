@@ -31,7 +31,7 @@ class AuthorList(ListView):
     model=Author
     template_name='Author/author_list.html'
     success_url=reverse_lazy("News:list-author")
-    paginate_by=2
+    paginate_by=1
     
 
     def get_queryset(self):

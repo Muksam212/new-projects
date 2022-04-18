@@ -1,11 +1,10 @@
-from email.policy import default
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 #create your models here
 
 class Category(models.Model):
 	title = models.CharField(max_length=100)
-	category_image = models.ImageField(upload_to='category/image')
 	date_created = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
@@ -39,7 +38,7 @@ class News(models.Model):
 class Comment(models.Model):
 	author=models.ForeignKey(Author, on_delete=models.CASCADE)
 	news=models.ForeignKey(News, on_delete=models.CASCADE)
-	name=models.CharField(max_length=100)
+	user=models.OneToOneField(User, on_delete=models.CASCADE)
 	email=models.CharField(max_length=100)
 	comment=models.TextField()
 	status=models.BooleanField(default=False)

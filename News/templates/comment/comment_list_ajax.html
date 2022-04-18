@@ -7,17 +7,17 @@
 <!--Search -->
 
 <div class="container">
-    <div class="row">
-        <div class="search-container">
-            <div class="col">
-                <form method="GET">
-                    {% csrf_token %}
-                    <input type="text" name="q" placeholder="Search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
-        </div>
-    </div>
+	<div class="row justify-content-end">
+		<div class="col-3">
+			<form method="GET">
+				{% csrf_token %}
+				<div class="input-group">
+					<input type="text" class="form-control rounded" placeholder="Search" name="q"/>
+					<button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 <div class="container">
@@ -40,13 +40,13 @@
                 </div>
             </div>
         </div>
-        <table class="table table-striped table-hover">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Author</th>
                     <th>News </th>
-                    <th>Name</th>
+                    <th>User</th>
                     <th>Email</th>
                     <th>Comment </th>
                     <th>Status</th>
@@ -57,36 +57,49 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ co.author }}</td>
                     <td>{{ co.news }}</td>
-                    <td>{{ co.name }}</td>
+                    <td>{{ co.user }}</td>
                     <td>{{ co.email }}</td>
                     <td>{{ co.comment }}</td>
                     <td>{{ co.status }}</td>
                     <td>
-                        <a href="{% url 'News:comment-update' co.id %}" class="edit">
-                            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                        <a href="" class="delete">
-                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        <a href="{% url 'News:comment-update' co.id %}" class="btn btn-info edit"> Edit </a>                      
+                        <a href="" class="btn btn-danger delete"> Delete </a>
                     </td>
                 </tr>
                 {% endfor %}
             </thead>
         </table>
 
-        <!--Add pagination in Author-->
-        {% comment %} <div class="pagination">
-            <span class="step-links">
+        <!--Add pagination in Comment-->
+        <nav aria-label="Page navigation example">
+            {% if is_paginated %}
+            <ul class="pagination">
                 {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                {% endif %} {% for i in paginator.page_range %} {% if page_obj.number == i %}
+                <li class="page-item"><a class="page-link active">{{ i }}</a></li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %} {% endfor %} {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a href="?page={{page_obj.next_page_number}}" class="page-link">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
                 {% endif %}
-
-                <span>Page{{ page_obj.number }} of {{ page_obj.number_pages }} </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">Next </a>
-
-                {% endif %}
-            </span>
-        </div> {% endcomment %}
+            </ul>
+            {% endif %}
+        </nav>
         <!--Add Author-->
 
         <!-- Edit Author-->

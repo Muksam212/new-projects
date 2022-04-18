@@ -1,6 +1,6 @@
 from django.views.generic import *
 from django.views import View
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForms, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -17,7 +17,7 @@ class HomeView(TemplateView):
 #register 
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
-	form_class = RegisterForm
+	form_class = RegisterForms
 	success_url = reverse_lazy('Accounts:register')
 	success_message = "Your Information is Created"
 

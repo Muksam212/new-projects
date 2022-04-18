@@ -40,7 +40,7 @@ class NewsForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model=Category
-        fields=['title','category_image']
+        fields=['title']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -57,11 +57,11 @@ class CategoryForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model=Comment
-        fields=['author','news','name','email','comment','status']
+        fields=['author','news','user','email','comment','status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({
+        self.fields['user'].widget.attrs.update({
             'class' : 'form-control',
             'placeholder':'enter your name'
         })
