@@ -23,6 +23,7 @@ class AuthorForm(forms.ModelForm):
  
 
 class NewsForm(forms.ModelForm):
+    details=forms.CharField(widget=CKEditorWidget())
     class Meta:
         model=News
         fields=['category','title','image','details']
@@ -56,7 +57,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    comment=forms.CharField(widget=CKEditorWidget(), label='Comment')
+    comment=forms.CharField(widget=CKEditorWidget, label='Comment')
     class Meta:
         model=Comment
         fields=['author','news','user','email','comment','status']

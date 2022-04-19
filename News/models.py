@@ -29,7 +29,7 @@ class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
-	details=RichTextField(blank=True, null=True)
+	details=RichTextField()
 	date_created=models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
@@ -41,7 +41,7 @@ class Comment(models.Model):
 	news=models.ForeignKey(News, on_delete=models.CASCADE)
 	user=models.OneToOneField(User, on_delete=models.CASCADE)
 	email=models.CharField(max_length=100)
-	comment=models.TextField()
+	comment=RichTextField()
 	status=models.BooleanField(default=False)
 
 	def __str__(self):

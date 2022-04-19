@@ -475,9 +475,12 @@ class CommentUpdate(SuccessMessageMixin, UpdateView):
     ajax_template_name='comment/comment_update_ajax.html'
     form_class=CommentForm
     model=Comment
-    success_message="Comment is updated"
-    success_url=reverse_lazy("News:comment-update")
-    
+    success_url=reverse_lazy('News:comment-list')
+    success_message="Comment updated successfully"
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
         return get_object_or_404(Comment, id=id)
@@ -485,6 +488,3 @@ class CommentUpdate(SuccessMessageMixin, UpdateView):
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
-
-    def get_template_names(self):
-        return self.ajax_template_name
