@@ -1,5 +1,3 @@
-
-from codecs import utf_16_be_decode
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import *
 from django.urls import reverse_lazy
@@ -7,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView,DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
@@ -14,12 +13,13 @@ from django.contrib.staticfiles import finders
 
 from .models import Author, News, Category, Comment
 from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+
 
 #creating the process
-class DashboardView(TemplateView):
-    template_name='admin/dashboard.html'
+class DashboardTemplate(TemplateView):
+    template_name='dashboard/base.html'
     success_url=reverse_lazy('News:dashboard')
+
 
 class IndexView(TemplateView):
     template_name='admin/index.html'

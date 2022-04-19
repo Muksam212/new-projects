@@ -1,0 +1,56 @@
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
+        aria-controls="collapseUtilities">
+        <i class="fa-solid fa-user"></i>
+        <span>Autor</span>
+    </a>
+    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'News:create-author' %}">Author Create</a>
+            <a class="collapse-item" href="{% url 'News:list-author' %}">Author List </a>
+        </div>
+    </div>
+</li>
+
+
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory"
+        aria-expanded="true" aria-controls="collapseCategory">
+        <i class="fas fa-divide"></i>
+        <span>Category</span>
+    </a>
+    <div id="collapseCategory" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'News:create-category' %}">Create Cateogory</a>
+            <a class="collapse-item" href="{% url 'News:category-list' %}">Category List </a>
+        </div>
+    </div>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNews"
+        aria-expanded="true" aria-controls="collapseNews">
+        <i class="fas fa-newspaper"></i>
+        <span>News</span>
+    </a>
+    <div id="collapseNews" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'News:create-news' %}">Create News</a>
+            <a class="collapse-item" href="{% url 'News:new-list' %}">News List </a>
+        </div>
+    </div>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseComment"
+        aria-expanded="true" aria-controls="collapseComment">
+        <i class="fas fa-comment"></i>
+        <span>Comment</span>
+    </a>
+    <div id="collapseComment" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'News:comment-create' %}">Create Comment</a>
+            <a class="collapse-item" href="{% url 'News:comment-list' %}">Comment List </a>
+        </div>
+    </div>
+</li>

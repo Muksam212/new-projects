@@ -10,10 +10,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 
 # Create your views here.
-class HomeView(TemplateView):
-	template_name ='main/home.html'
-	success_url =reverse_lazy("Accounts:home")
-
 #register 
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
@@ -33,36 +29,27 @@ class RegisterView(SuccessMessageMixin,CreateView):
 		return self.success_message % cleaned_data
 
 #for login
-class LoginView(FormView):
+class LoginPage(FormView):
 	template_name='registration/login.html'
-	success_url=reverse_lazy('News:dashboard')
+	success_url=reverse_lazy('News:dashboard-page')
 	form_class=LoginForm
 
 	def form_valid(self, form):
-		uname = form.cleaned_data['username']
-		print(uname,"--------------")
-		pword = form.cleaned_data['password']
-		print(pword,"-----------")
+		uname=form.cleaned_data['username']
+		print(uname,'---------')
+		pword=form.cleaned_data['password']
+		print(pword,'----------')
 
-		#this check the user and return the user otherwise 
-		#None authenticate means just to check user
-		#if there is no user it return None
-
-		user = authenticate(username = uname, password = pword)
-
+		user = authenticate(username=uname, password=pword)
+		print(user, '=====================')
 		if user is not None:
+			print(user, '---------------------')
 			login(self.request, user)
 		else:
-			return render(self.request,"registration/login.html",
-				{'Error':'Invalid username or password','form':form})
+			return render(self.request,'registration/login.html',
+			{'Error':'Invalid username or password','form':form})
 
-		#super is to return form to super class
 		return super().form_valid(form)
-
-class LogoutView(View):
-	def get(self, request):
-		logout(request)
-		return redirect("Accounts:login")
 
 
 class PasswordReset(TemplateView):

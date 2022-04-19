@@ -21,10 +21,12 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v3.7.min.css" 
+    rel="stylesheet" type="text/css"/>
 
-    
+    {% block css %}
 
-
+    {% endblock css %}
 
 </head>
 
@@ -37,41 +39,25 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">News Portal</div>
-            </a>
+
+            {% include 'dashboard/sidebar.html' %}
 
             <!-- Divider -->
-            <!-- Heading -->
+
+            <!-- Nav Item - Dashboard -->
+
+            <!-- Divider -->
 
             <!-- Nav Item - Pages Collapse Menu -->
-            
-            {% include 'admin/navbar.html' %}
-
+            {% include 'dashboard/navitem.html' %}
             <!-- Nav Item - Utilities Collapse Menu -->
 
             <!-- Divider -->
-
-            <!-- Heading -->
-
-
             <!-- Nav Item - Pages Collapse Menu -->
 
-
             <!-- Nav Item - Charts -->
-            
 
-            <!-- Nav Item - Tables -->
-         
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
             <!-- Sidebar Message -->
-           
 
         </ul>
         <!-- End of Sidebar -->
@@ -86,28 +72,33 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
+
                     <!-- Topbar Search -->
-                    
+
                     <!-- Topbar Navbar -->
-                    {% comment %} {% include 'admin/user_info.html' %} {% endcomment %}
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <!-- Nav Item - User Information -->
+
+                        {% include 'dashboard/navitemuser.html' %}
+
+                    </ul>
+
                 </nav>
-                
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                {% include 'admin/content.html' %}
-
                 {% block content %}
-
                 {% endblock content %}
-                
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            {% include 'admin/footer.html' %}
+
+            {% include 'dashboard/footer.html' %}
             <!-- End of Footer -->
 
         </div>
@@ -117,13 +108,10 @@
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
     <!-- Logout Modal-->
-    
-    {% include 'admin/logout_model.html' %}
+
+    {% include 'dashboard/logout_modal.html' %}
 
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
@@ -140,10 +128,18 @@
 
     <!-- Page level custom scripts -->
     <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v3.7.min.js" 
+    type="text/javascript"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+     crossorigin="anonymous"></script>
+   
     {% block scripts %}
 
     {% endblock scripts %}
+
 </body>
+
 </html>

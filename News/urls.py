@@ -1,5 +1,6 @@
 from django.urls import path
-from News.views import (CommentList,CommentCreate, CommentUpdate, IndexView,AuthorList, AuthorUpdate, CategoryUpdate, DashboardView, AuthorCreate,
+from News.views import (CommentList,CommentCreate, CommentUpdate, IndexView,AuthorList, AuthorUpdate, 
+CategoryUpdate, AuthorCreate,DashboardTemplate,
 AuthorList,AuthorUpdate, AuthorDelete,NewsCreate,NewList, NewsUpdate, NewsDelete, CategoryCreate, 
 CategoryList,CategoryUpdate,CategoryDelete,)
 
@@ -7,8 +8,8 @@ CategoryList,CategoryUpdate,CategoryDelete,)
 app_name ='News' #implementing custom url
 
 urlpatterns = [
-    path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('index/',IndexView.as_view(),name='index'),
+    path('dashboard/', DashboardTemplate.as_view(), name='dashboard-page'),
     
     #author crud
     path('createAuthor/',AuthorCreate.as_view(), name='create-author'),
