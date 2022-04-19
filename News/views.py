@@ -6,14 +6,20 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.staticfiles import finders
 
 from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
+from News.utils import render_to_pdf, link_callback
+import xlwt
 
 
 from .models import Author, News, Category, Comment
 from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm
+import csv
 
+class ChartDetails(TemplateView):
+    template_name='dashboard/chart.html'
+    success_url=reverse_lazy('News:dashboard')
 
 #creating the process
 class DashboardTemplate(TemplateView):
@@ -112,6 +118,62 @@ class AuthorDelete(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
         return get_object_or_404(Author,id=id)
 
 
+class AuthorDetailsPdf(View):
+    def get(self, request, *args, **kwargs):
+        author=Author.objects.all()
+        data = {
+            'count':author.count(),
+            'author':author
+        }
+        pdf = render_to_pdf('Author/author_pdf.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+
+class AuthorDetailsCSV(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/csv')
+
+        writer=csv.writer(response)
+        writer.writerow(['id','name','address','email','image'])
+        image = request.FILES.get('image')
+
+        for author in Author.objects.all().values_list('id','name','address','email','image'):
+            writer.writerow(author)
+
+        response['Content-Disposition']='attachment; filename="author.csv"'
+
+        return response
+
+
+class AuthorDetailsExcel(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="Author.xls"'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Author')
+
+    # Sheet header, first row
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = ['id','name','address','email','image']
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+        font_style = xlwt.XFStyle()
+
+        rows = Author.objects.all().values_list('id','name','address','email','image')
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
 
 #New details with crud
 class NewList(ListView):
@@ -181,6 +243,64 @@ class NewsDelete(SuccessMessageMixin, DeleteView):
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
+
+
+class NewsDetailsPdf(View):
+    def get(self, request, *args, **kwargs):
+        new=News.objects.all()
+        data = {
+            'count':new.count(),
+            'new':new,
+        }
+        pdf = render_to_pdf('news/new_pdf.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+
+
+class NewsDetailsCSV(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/csv')
+
+        writer=csv.writer(response)
+        writer.writerow(['category','title','details'])
+
+        for new in News.objects.all().values_list('category','title','details'):
+            writer.writerow(new)
+
+        response['Content-Disposition']='attachment; filename="news.csv"'
+
+        return response
+
+class NewsDetailsExcel(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="News.xls"'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('News')
+
+    # Sheet header, first row
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = ['category','title','details']
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+        font_style = xlwt.XFStyle()
+
+        rows =News.objects.all().values_list('category','title','details')
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
+
 
 
 #category crud
@@ -256,7 +376,62 @@ class CategoryDelete(SuccessMessageMixin, DeleteView):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
+class CategoryDetailsPdf(View):
+    def get(self, request, *args, **kwargs):
+        category=Category.objects.all()
+        data = {
+            'count':category.count(),
+            'category':category
+        }
+        pdf = render_to_pdf('category/category_pdf.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
 
+
+
+class CategoryDetailsCSV(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/csv')
+
+        writer=csv.writer(response)
+        writer.writerow(['title','details'])
+
+        for category in Category.objects.all().values_list('title','details'):
+            writer.writerow(category)
+
+        response['Content-Disposition']='attachment; filename="category.csv"'
+
+        return response
+
+class CategoryDetailsExcel(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="Category.xls"'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Category')
+
+    # Sheet header, first row
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = ['title']
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+        font_style = xlwt.XFStyle()
+
+        rows = Category.objects.all().values_list('title')
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
 
 #comment
 

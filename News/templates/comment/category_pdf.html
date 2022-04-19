@@ -1,0 +1,29 @@
+{% block content %}
+<style>
+    th, td{
+        padding: 5px 10px;
+    }
+    th{
+        font-size: 20px;
+        font-weight: bold;
+    }
+    td{
+        font-size: 10px;
+    }
+</style>
+<table  border="0.1" style="border-collapse: collapse;">
+    <h3> Category: {{ count }}</h3>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+        </tr>
+        {% for cat in category %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ cat.title }}</td>
+        </tr>
+        {% endfor %}
+    </thead>
+</table>
+{% endblock content %}

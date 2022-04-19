@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Accounts.urls')),
     path('', include('News.urls')),
-    path('', include('api.urls'))
+    path('', include('api.urls')),
+    path('', include('ckeditor.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
