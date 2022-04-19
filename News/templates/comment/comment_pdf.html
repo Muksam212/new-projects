@@ -1,29 +1,46 @@
 {% block content %}
 <style>
     th, td{
-        padding: 5px 10px;
+        padding: 5px;
     }
     th{
         font-size: 20px;
         font-weight: bold;
     }
     td{
-        font-size: 10px;
+        font-size: 7 px;
     }
 </style>
-<table  border="0.1" style="border-collapse: collapse;">
-    <h3> Category: {{ count }}</h3>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-        </tr>
-        {% for cat in category %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ cat.title }}</td>
-        </tr>
-        {% endfor %}
-    </thead>
-</table>
+<div class="container">
+    <div class="table-wrapper">
+        <h3> Comment count : {{ count }} </h3>
+        <table border="0.1" style="border-collapse: collapse;" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Author</th>
+                    <th>News</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Comment</th>
+                    <th>Status</th>
+                </tr>
+                {% for cmt in comments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ cmt.author }}</td>
+                    <td>{{ cmt.news }}</td>
+                    <td>{{ cmt.user }}</td>
+                    <td>{{ cmt.email }}</td>
+                    <td>{{ cmt.comment }}</td>
+                    <td>{{ cmt.status }}</td>
+                </tr>
+                {% endfor %}
+            </thead>
+        </table>
+
+        <!-- Edit Author-->
+    </div>
+</div>
+
 {% endblock content %}

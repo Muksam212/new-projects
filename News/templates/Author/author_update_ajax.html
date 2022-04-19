@@ -1,5 +1,5 @@
 {% block content %}
-<form method="POST" action="{% url 'News:update-author' object.id %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'news:update-author' object.id %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="modal-header">
         <h4 class="modal-title">Edit Author</h4>

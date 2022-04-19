@@ -11,13 +11,13 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-sm-4">
-					<a href="" class="btn btn-info"> Pdf Format </a>
+					<a href="{% url 'news:comment-pdf' %}" class="btn btn-info"> Pdf Format </a>
 				</div>
 				<div class="col-sm-4">
-					<a href="" class="btn btn-success"> Csv Format</a>
+					<a href="{% url 'news:comment-csv' %}" class="btn btn-success"> Csv Format</a>
 				</div>
 				<div class="col-sm-4">
-					<a href="" class="btn btn-secondary"> Excel Format</a>
+					<a href="{% url 'news:comment-excel' %}" class="btn btn-secondary"> Excel Format</a>
 				</div>
 			</div>
 		</div>
@@ -80,8 +80,8 @@
                     <td>{{ co.comment }}</td>
                     <td>{{ co.status }}</td>
                     <td>
-                        <a href="{% url 'News:comment-update' co.id %}" class="btn btn-info edit"> Edit </a>                      
-                        <a href="" class="btn btn-danger delete"> Delete </a>
+                        <a href="{% url 'news:comment-update' co.id %}" class="btn btn-info editbtn"> Edit </a>                      
+                        <a href="{% url 'news:comment-delete' co.id %}" class="btn btn-danger deletebtn"> Delete </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -144,7 +144,7 @@
 
 {% block scripts %}
 <script>
-    $('.edit').on('click', function (e) {
+    $('.editbtn').on('click', function (e) {
         e.preventDefault()
         var url = $(this).attr('href');
         $.get(url, function (data) {
@@ -154,10 +154,10 @@
         })
     })
 
-    $('.delete').on('click', function(e){
+    $('.deletebtn').on('click', function(e){
         e.preventDefault()
         var url = $(this).attr('href');
-        $.get(url, function (data){
+        $.get(url, function(data){
             console.log(data)
             $('#deleteCommentModal').modal('show');
             $('#deleteCommentModal .modal-content').empty().append(data)

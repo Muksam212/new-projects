@@ -1,14 +1,16 @@
 from django.urls import path
-from News.views import (CommentList,CommentCreate, CommentUpdate, IndexView,AuthorList, AuthorUpdate, 
+from news.views import (CommentList,CommentCreate, CommentUpdate, CommentDelete, CommentDetailsPdf,
+IndexView,AuthorList, AuthorUpdate, CommentDetailsCSV,CommentDetailsExcel,
 CategoryUpdate, AuthorCreate,DashboardTemplate,ChartDetails,
 AuthorList,AuthorUpdate, AuthorDelete,NewsCreate,NewList, NewsUpdate, NewsDelete, CategoryCreate, 
 CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,NewsDetailsPdf,
-NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel)
+NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails)
 
 
-app_name ='News' #implementing custom url
+app_name ='news' #implementing custom url
 
 urlpatterns = [
+    path('chart/', ChartDetails.as_view(), name='chart-page'),
     path('index/',IndexView.as_view(),name='index'),
     path('dashboard/', DashboardTemplate.as_view(), name='dashboard-page'),
     path('chartDetails/', ChartDetails.as_view(),name='chart-details'),
@@ -43,5 +45,10 @@ urlpatterns = [
     #comment
     path('commentList/', CommentList.as_view(), name='comment-list'),
     path('commentCreate/', CommentCreate.as_view(), name='comment-create'),
-    path('comment/<int:id>/update/', CommentUpdate.as_view(), name='comment-update')
+    path('comment/<int:id>/update/', CommentUpdate.as_view(), name='comment-update'),
+    path('comment/<int:id>/delete/', CommentDelete.as_view(), name='comment-delete'),
+    path('commentPdf/', CommentDetailsPdf.as_view(), name='comment-pdf'),
+    path('commentCsv/', CommentDetailsCSV.as_view(), name='comment-csv'),
+    path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel')
+
 ]

@@ -1,7 +1,18 @@
 
+
 <li class="nav-item">
-    
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseChart"
+        aria-expanded="true" aria-controls="collapseChart">
+        <i class="fa fa-area-chart" style="font-size:24px"s></i>
+        <span>Chart</span>
+    </a>
+    <div id="collapseChart" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'news:chart-page' %}">Chart</a>
+        </div>
+    </div>
 </li>
+
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
         aria-controls="collapseUtilities">
@@ -10,8 +21,8 @@
     </a>
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'News:create-author' %}">Author Create</a>
-            <a class="collapse-item" href="{% url 'News:list-author' %}">Author List </a>
+            <a class="collapse-item" href="{% url 'news:create-author' %}">Author Create</a>
+            <a class="collapse-item" href="{% url 'news:list-author' %}">Author List </a>
         </div>
     </div>
 </li>
@@ -25,8 +36,8 @@
     </a>
     <div id="collapseCategory" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'News:create-category' %}">Create Cateogory</a>
-            <a class="collapse-item" href="{% url 'News:category-list' %}">Category List </a>
+            <a class="collapse-item" href="{% url 'news:create-category' %}">Create Cateogory</a>
+            <a class="collapse-item" href="{% url 'news:category-list' %}">Category List </a>
         </div>
     </div>
 </li>
@@ -39,8 +50,8 @@
     </a>
     <div id="collapseNews" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'News:create-news' %}">Create News</a>
-            <a class="collapse-item" href="{% url 'News:new-list' %}">News List </a>
+            <a class="collapse-item" href="{% url 'news:create-news' %}">Create News</a>
+            <a class="collapse-item" href="{% url 'news:new-list' %}">News List </a>
         </div>
     </div>
 </li>
@@ -53,8 +64,8 @@
     </a>
     <div id="collapseComment" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'News:comment-create' %}">Create Comment</a>
-            <a class="collapse-item" href="{% url 'News:comment-list' %}">Comment List </a>
+            <a class="collapse-item" href="{% url 'news:comment-create' %}">Create Comment</a>
+            <a class="collapse-item" href="{% url 'news:comment-list' %}">Comment List </a>
         </div>
     </div>
 </li>

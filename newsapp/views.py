@@ -14,4 +14,4 @@ class DetailsTemplate(TemplateView):
 
 class IndexTemplate(TemplateView):
     template_name='index.html'
-    sucess_url = reverse_lazy('newsap:index')
+    success_url = reverse_lazy('newsapp:index')

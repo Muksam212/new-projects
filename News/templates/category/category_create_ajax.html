@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<form method="POST" action="{% url 'News:create-category' %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'news:create-category' %}" enctype="multipart/form-data">
     {% if messages %}
         {% for message in messages %}
         <script>

@@ -1,8 +1,8 @@
 from django.urls import path
-from Accounts.views import RegisterView,PasswordReset,LoginPage,LogoutView
+from accounts.views import RegisterView,PasswordReset,LoginPage,LogoutView
 
 
-app_name = "Accounts"
+app_name = "accounts"
 
 urlpatterns = [
 	path('registerPage/', RegisterView.as_view(), name='register'),
