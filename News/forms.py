@@ -24,7 +24,7 @@ class AuthorForm(forms.ModelForm):
 class NewsForm(forms.ModelForm):
     class Meta:
         model=News
-        fields=['category','title','image','details']
+        fields=['category','title','image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
