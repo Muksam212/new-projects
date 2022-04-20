@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<div class="col-lg-4">
+    <div class="single-bottom mb-35">
+           <img src="{{ news_detail.image.url }}" alt="">
+            <div class="trend-bottom-cap">
+                <h4><a href="#"> {{ news_detail.title }}    </a></h4>
+                <span class="color1">{{ news_detail.details }}</span>
+            </div>
+    </div>
+</div>
+{% endblock content %}

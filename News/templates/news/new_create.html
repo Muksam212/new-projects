@@ -1,4 +1,4 @@
-{% extends 'admin/dashboard.html' %}
+{% extends 'dashboard/base.html' %}
 {% block content %}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <form method="POST" action="{% url 'News:create-news' %}" enctype="multipart/form-data">

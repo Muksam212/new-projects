@@ -1,4 +1,4 @@
-{% extends 'admin/dashboard.html' %}
+{% extends 'dashboard/base.html' %}
 {% block content %}
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -28,7 +28,7 @@
             <span> {{ f.errors|striptags }} </span>
         </div>
         {% endfor %}
-        <button class="btn btn-primary"> Register </button>
+        <button class="btn btn-primary"> Add Author </button>
     </div>
 </form>
 

@@ -1,0 +1,42 @@
+{% block content %}
+<style>
+    th, td{
+        padding: 5px;
+    }
+    th{
+        font-size: 20px;
+        font-weight: bold;
+    }
+    td{
+        font-size: 8px;
+    }
+</style>
+<div class="container">
+    <div class="table-wrapper">
+        <h3> Author count : {{ count }} </h3>
+        <table border="0.1" style="border-collapse: collapse;" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Image</th>
+                </tr>
+                {% for aut in author %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ aut.name }}</td>
+                    <td>{{ aut.address }}</td>
+                    <td>{{ aut.email }}</td>
+                    <td><img height="60px" width="70px" src="{{ aut.image.path }}" target="_blank"></td>
+                </tr>
+                {% endfor %}
+            </thead>
+        </table>
+
+        <!-- Edit Author-->
+    </div>
+</div>
+
+{% endblock content %}

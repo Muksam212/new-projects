@@ -1,12 +1,12 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 #create your models here
 
 class Category(models.Model):
 	title = models.CharField(max_length=100)
-	date_created = models.DateTimeField(auto_now_add=True)
-
+	
 	def __str__(self):
 		return self.title
 
@@ -15,7 +15,6 @@ class Author(models.Model):
 	address = models.CharField(max_length=100)
 	email = models.EmailField()
 	image = models.ImageField(upload_to='author/images')
-	date_created = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
 		return "{}".format(self.name)
@@ -28,8 +27,7 @@ class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
-	date_created=models.DateTimeField(auto_now_add=True)
-
+	details=RichTextField()
 	def __str__(self):
 		return "{} -> {}".format(self.category, self.title)
 
@@ -39,8 +37,8 @@ class Comment(models.Model):
 	news=models.ForeignKey(News, on_delete=models.CASCADE)
 	user=models.OneToOneField(User, on_delete=models.CASCADE)
 	email=models.CharField(max_length=100)
-	comment=models.TextField()
+	comment=RichTextField()
 	status=models.BooleanField(default=False)
 
 	def __str__(self):
-		return self.name
+		return str(self.user)

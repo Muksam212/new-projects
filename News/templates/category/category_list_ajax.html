@@ -1,10 +1,29 @@
-{% extends 'admin/dashboard.html' %}
+{% extends 'dashboard/base.html' %}
 {% block content %}
 {% load static %}
 
 <!--Sweet alert-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!--Search -->
+
+
+<div class="container">
+	<div class="card" style="width:40rem;">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-4">
+					<a href="{% url 'News:category-pdf' %}" class="btn btn-info"> Pdf Format </a>
+				</div>
+				<div class="col-sm-4">
+					<a href="{% url 'News:category-csv' %}" class="btn btn-success"> Csv Format</a>
+				</div>
+				<div class="col-sm-4">
+					<a href="{% url 'News:category-excel' %}" class="btn btn-secondary"> Excel Format</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div class="container">
 	<div class="row justify-content-end">

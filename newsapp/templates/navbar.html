@@ -1,0 +1,56 @@
+{% load static %}
+<div class="row align-items-center">
+    <div class="col-xl-10 col-lg-10 col-md-12 header-flex">
+        <!-- sticky -->
+            <div class="sticky-logo">
+                <a href="index.html"><img src="{% static 'assets/img/logo/logo.png' %}" alt=""></a>
+            </div>
+        <!-- Main-menu -->
+        <div class="main-menu d-none d-md-block">
+            
+            <nav>    
+            
+                <ul id="navigation">    
+                    <li class="nav-category nav-item dropdown"><a href="{% url 'newsapp:index' %}">Home
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-arrow-down"></i>
+                        </a>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Trending</a>
+                        <a class="dropdown-item" href="#">Politics</a>
+                        <a class="dropdown-item" href="#">Interviews</a>
+                        <a class="dropdown-item" href="#">Business</a>
+                        <a class="dropdown-item" href="#">Sports</a>
+                        {% for category_object in business_news%}
+                        <a class="dropdown-item" href="{% url 'newsapp:details-page' category_object.pk %}">{{ category_object.category }}</a>
+                        {% endfor %}
+                        {% for category_object in political_news%}
+                        <a class="dropdown-item" href="{% url 'newsapp:details-page'  category_object.pk %}">{{ category_object.category }}</a>
+                        {% endfor %}
+
+                        
+                    </div>
+                    </li>
+                    {% for category_object in political_news%}
+                    <li class="nav-category"> <a href="{% url 'newsapp:details-page' category_object.pk %}">{{ category_object.category }}</a></li>
+                    {% endfor %}
+                    {% for category_object in business_news%}
+                    <li class="nav-category"><a href="{% url 'newsapp:details-page' category_object.pk %}">{{ category_object.category }}</a></li>
+                    {% endfor %}
+                    <li class="nav-category"><a href="#"> Interviews</a></li>
+                    <li class="nav-category"> <a href="#"> Business</a></li>
+                    <li class="nav-category"> <a href="#"> Sports</a></li>
+                    <li class="nav-category"> <a href="#"> Cinema</a> </li>
+                    <li class="nav-category"><a class="dropdown-item" href="#">{{ category_object.category }}</a></li>
+                    
+                    
+                </ul>
+              
+                
+    
+            </nav>
+        </div>
+    </div>             
+    <!-- Mobile Menu -->
+</div>

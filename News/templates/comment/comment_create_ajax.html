@@ -1,4 +1,4 @@
-{% extends 'admin/dashboard.html' %}
+{% extends 'dashboard/base.html' %}
 {% block content %}
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -15,6 +15,7 @@
         {% endfor %}
     {% endif %}
     {% csrf_token %}
+    {{ form.media }}
     <div class="modal-header">
         <h4 class="modal-title">Add Comment</h4>
     </div>
