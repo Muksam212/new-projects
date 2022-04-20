@@ -11,13 +11,13 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-sm-4">
-					<a href="{% url 'News:new-pdf' %}" class="btn btn-info"> Pdf Format </a>
+					<a href="{% url 'news:new-pdf' %}" class="btn btn-info"> Pdf Format </a>
 				</div>
 				<div class="col-sm-4">
-					<a href="{% url 'News:new-csv' %}" class="btn btn-success"> Csv Format</a>
+					<a href="{% url 'news:new-csv' %}" class="btn btn-success"> Csv Format</a>
 				</div>
 				<div class="col-sm-4">
-					<a href="{% url 'News:new-excel' %}" class="btn btn-secondary"> Excel Format</a>
+					<a href="{% url 'news:new-excel' %}" class="btn btn-secondary"> Excel Format</a>
 				</div>
 			</div>
 		</div>
@@ -78,8 +78,8 @@
                     <td> {{ new.details }} </td>
                 
                     <td>
-                        <a href="{% url 'News:update-news' new.id %}" class="btn btn-info edit">Edit </a>
-                        <a href="{% url 'News:delete-news' new.id %}" class="btn btn-danger delete"> Delete </a>
+                        <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>
+                        <a href="{% url 'news:delete-news' new.id %}" class="btn btn-danger delete"> Delete </a>
                     </td>
                 </tr>
                 {% endfor %}

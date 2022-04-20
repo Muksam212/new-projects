@@ -1,7 +1,7 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<form method="POST" action="{% url 'News:create-news' %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'news:create-news' %}" enctype="multipart/form-data">
     {% if messages %}
         {% for message in messages %}
         <script>

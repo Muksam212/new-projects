@@ -12,13 +12,13 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-sm-4">
-					<a href="{% url 'News:category-pdf' %}" class="btn btn-info"> Pdf Format </a>
+					<a href="{% url 'news:category-pdf' %}" class="btn btn-info"> Pdf Format </a>
 				</div>
 				<div class="col-sm-4">
-					<a href="{% url 'News:category-csv' %}" class="btn btn-success"> Csv Format</a>
+					<a href="{% url 'news:category-csv' %}" class="btn btn-success"> Csv Format</a>
 				</div>
 				<div class="col-sm-4">
-					<a href="{% url 'News:category-excel' %}" class="btn btn-secondary"> Excel Format</a>
+					<a href="{% url 'news:category-excel' %}" class="btn btn-secondary"> Excel Format</a>
 				</div>
 			</div>
 		</div>
@@ -70,8 +70,8 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ cat.title }}</td>
                     <td>
-                        <a href="{% url 'News:update-category' cat.id %}" class="btn btn-info editbtn"> Edit </a>
-                        <a href="{% url 'News:delete-category' cat.id %}" class="btn btn-danger deletebtn"> Delete </a>
+                        <a href="{% url 'news:update-category' cat.id %}" class="btn btn-info editbtn"> Edit </a>
+                        <a href="{% url 'news:delete-category' cat.id %}" class="btn btn-danger deletebtn"> Delete </a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -14,7 +14,7 @@ from django.http import JsonResponse
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
 	form_class = RegisterForms
-	success_url = reverse_lazy('Accounts:register')
+	success_url = reverse_lazy('accounts:register')
 	success_message = "Your Information is Created"
 
 	def form_valid(self, form):
@@ -31,7 +31,7 @@ class RegisterView(SuccessMessageMixin,CreateView):
 #for login
 class LoginPage(FormView):
 	template_name='registration/login.html'
-	success_url=reverse_lazy('News:dashboard-page')
+	success_url=reverse_lazy('news:dashboard-page')
 	form_class=LoginForm
 
 	def form_valid(self, form):

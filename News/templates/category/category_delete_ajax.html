@@ -1,5 +1,5 @@
 {% block content %}
-<form method="POST" action="{% url 'News:delete-category' object.id %}">
+<form method="POST" action="{% url 'news:delete-category' object.id %}">
     {% csrf_token %}
     <div class="modal-header">
         <h4 class="modal-title">Delete Category</h4>
@@ -8,15 +8,6 @@
     <div class="modal-body">
         <p>Are you sure you want to delete these Records?</p>
         <p class="text-warning"><small>{{ object.title }}: Information deleted </small></p>
-    </div>
-    <div class="modal-body">
-        {% for f in form %}
-        <div class="form-group">
-            <label>{{ f.label }}</label>
-            {{ f }}
-        </div>
-        {% endfor %}
-        <br>
     </div>
     <div class="modal-footer">
         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

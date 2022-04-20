@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'Accounts',
+    #installed app
+    'accounts',
     'crispy_forms',
-    'News',
+    'news',
     'rest_framework',
     'ckeditor',
     'newsapp',
