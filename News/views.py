@@ -241,11 +241,7 @@ class NewsUpdate(SuccessMessageMixin, UpdateView):
 class NewsDelete(SuccessMessageMixin, DeleteView):
     ajax_template_name='news/new_delete_ajax.html'
     model=News
-<<<<<<< HEAD
-    success_url=reverse_lazy("News:new-list")
-=======
     success_url=reverse_lazy("news:delete-news")
->>>>>>> f9a27a9ef065607026a9dcac40798f1780bfc1ce
     success_message="News information is deleted"
 
     def get_object(self, **kwargs):

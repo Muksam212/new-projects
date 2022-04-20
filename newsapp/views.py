@@ -1,11 +1,7 @@
-from multiprocessing import context
-from unicodedata import category
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import *
 from django.urls import reverse_lazy
-from requests import get
-
-from News.models import News
+from news.models import News
 # Create your views here.
 
 class BaseTemplate(TemplateView):
