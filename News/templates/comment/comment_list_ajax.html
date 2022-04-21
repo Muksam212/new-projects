@@ -77,7 +77,7 @@
                     <td>{{ co.news }}</td>
                     <td>{{ co.user }}</td>
                     <td>{{ co.email }}</td>
-                    <td>{{ co.comment }}</td>
+                    <td>{{ co.comment|striptags }}</td>
                     <td>{{ co.status }}</td>
                     <td>
                         <a href="{% url 'news:comment-update' co.id %}" class="btn btn-info editbtn"> Edit </a>                      

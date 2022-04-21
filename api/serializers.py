@@ -8,19 +8,19 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
-        fields = ['id','author','news','user','email','comment','status']
-        depth = 1
+        model=Comment
+        fields=['id','author','news','user','email','comment','status']
+        depth=1
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
-        fields = ['id','title']
+        model=Category
+        fields=['id','title']
 
 
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = News
-        fields = ['id','category','title','image','details']
-        depth = 1
+        model=News
+        fields=['id','category','title','image','details']
+        depth=1

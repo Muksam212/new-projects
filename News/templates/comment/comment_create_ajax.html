@@ -16,6 +16,7 @@
     {% endif %}
     {% csrf_token %}
     {{ form.media }}
+    {{ variable_name.field_name|safe }}
     <div class="modal-header">
         <h4 class="modal-title">Add Comment</h4>
     </div>

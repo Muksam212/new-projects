@@ -75,7 +75,7 @@
                     <td> {{ new.category }} </td>
                     <td> {{ new.title }}</td>
                     <td><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td>
-                    <td> {{ new.details }} </td>
+                    <td> {{ new.details|striptags }} </td>
                 
                     <td>
                         <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>
