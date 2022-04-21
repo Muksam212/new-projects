@@ -1,4 +1,3 @@
-from unicodedata import category
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import *
 from django.urls import reverse_lazy
@@ -35,9 +34,6 @@ class DashboardTemplate(TemplateView):
 
 class IndexView(TemplateView):
     template_name='admin/index.html'
-
-    
-    
     
 
 #author
@@ -333,8 +329,6 @@ class CategoryList(ListView):
             category_list=queryset
         return category_list
     
-   
-    
 class CategoryCreate(SuccessMessageMixin, CreateView):
     ajax_template_name='category/category_create_ajax.html'
     form_class=CategoryForm
@@ -446,8 +440,9 @@ class CategoryDetailsExcel(View):
         wb.save(response)
         return response
 
-#comment
 
+
+#comment
 class CommentList(ListView):
     ajax_template_name='comment/comment_list_ajax.html'
     context_object_name='comment_list'

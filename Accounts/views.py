@@ -52,9 +52,8 @@ class LoginPage(FormView):
 		return super().form_valid(form)
 
 
+#for logout
 class LogoutView(View):
 	def get(self, request):
 		logout(request)
 		return redirect("/loginPage")
-class PasswordReset(TemplateView):
-	template_name='registration/reset_password.html'
