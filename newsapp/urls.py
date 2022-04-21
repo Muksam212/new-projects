@@ -5,7 +5,7 @@ app_name='newsapp'
 
 urlpatterns=[
     path('', IndexTemplate.as_view(), name = 'index'),
-    path('details/<int:pk>/', DetailsTemplate.as_view(), name='details-page'),
+    path('category/<int:pk>/news', DetailsTemplate.as_view(), name='details-page'),
     
 
     

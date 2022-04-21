@@ -46,7 +46,7 @@ class AuthorList(ListView):
     model=Author
     template_name='Author/author_list.html'
     success_url=reverse_lazy("news:list-author")
-    paginate_by=1
+    paginate_by=4
     
 
     def get_queryset(self):
@@ -190,7 +190,7 @@ class NewList(ListView):
     model=News
     context_object_name='new_list'
     success_url=reverse_lazy("news:new-list")
-    paginate_by=1
+    paginate_by=4
 
     def get_queryset(self):
         queryset=News.objects.all()
@@ -241,11 +241,7 @@ class NewsUpdate(SuccessMessageMixin, UpdateView):
 class NewsDelete(SuccessMessageMixin, DeleteView):
     ajax_template_name='news/new_delete_ajax.html'
     model=News
-<<<<<<< HEAD
-    success_url=reverse_lazy("News:new-list")
-=======
-    success_url=reverse_lazy("news:delete-news")
->>>>>>> f9a27a9ef065607026a9dcac40798f1780bfc1ce
+    success_url=reverse_lazy("news:new-list")
     success_message="News information is deleted"
 
     def get_object(self, **kwargs):
@@ -322,7 +318,7 @@ class CategoryList(ListView):
     ajax_template_name='category/category_list_ajax.html'
     model=Category
     context_object_name='category_list'
-    paginate_by=1
+    paginate_by=4
 
     def get_template_names(self):
         return self.ajax_template_name
