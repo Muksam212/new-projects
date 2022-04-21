@@ -1,13 +1,15 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% for news in news_detail %}
 <div class="col-lg-4">
     <div class="single-bottom mb-35">
-           <img src="{{ news_detail.image.url }}" alt="">
-            <div class="trend-bottom-cap">
-                <h4><a href="#"> {{ news_detail.title }}    </a></h4>
-                <span class="color1">{{ news_detail.details }}</span>
-            </div>
+        <img src="{{ news.image.url }}" alt="">
+        <div class="trend-bottom-cap">
+            <h4><a href="#"> {{ news.title }} </a></h4>
+            <span class="color1">{{ news.details }}</span>
+        </div>
     </div>
 </div>
+{% endfor %}
 {% endblock content %}

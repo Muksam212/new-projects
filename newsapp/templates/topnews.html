@@ -3,13 +3,15 @@
     <div class="col-12">
         <div class="weekly-news-active dot-style d-flex dot-style">
             <div class="weekly-single">
+                {% for news_object in sports_news %}
                 <div class="weekly-img">
-                    <img src="{% static 'assets/img/news/weeklyNews2.jpg' %}" alt="">
+                    <img src="{{ news_object.image.url }}" alt="">
                 </div>
                 <div class="weekly-caption">
-                    <span class="color1">Strike</span>
-                    <h4><a href="#">Welcome To The Best Model Winner Contest</a></h4>
+                    <span class="color1">{{ news_object.category.title.title }}</span>
+                    <h4><a href="">{{ news_object.catagory.title}}</a></h4>
                 </div>
+                {% endfor %}
             </div>
             <div class="weekly-single active">
                 <div class="weekly-img">
