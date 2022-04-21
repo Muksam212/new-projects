@@ -34,9 +34,6 @@ class DetailsTemplate(BaseMixin, ListView):
     paginate_by = 1
 
     def get_queryset(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['news_detail'] = News.objects.all()
-
         queryset = super().get_queryset()
         category = self.kwargs.get('pk')
         queryset = queryset.filter(category__id=category)
