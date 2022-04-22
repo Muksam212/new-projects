@@ -182,7 +182,7 @@ class AuthorDetailsExcel(View):
 
 #New details with crud
 class NewList(ListView):
-    template_name='news/new_list.html'
+    ajax_template_name='news/new_list_ajax.html'
     model=News
     context_object_name='new_list'
     success_url=reverse_lazy("news:new-list")
@@ -198,6 +198,8 @@ class NewList(ListView):
             new_list=queryset
         return new_list
 
+    def get_template_names(self):
+        return self.ajax_template_name
 
 class NewsCreate(SuccessMessageMixin, CreateView):
     ajax_template_name='news/new_create_ajax.html'

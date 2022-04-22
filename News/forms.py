@@ -26,7 +26,7 @@ class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())
     class Meta:
         model=News
-        fields=['category','title','image','details']
+        fields=['category','title','image','details','subcategory']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -38,6 +38,7 @@ class NewsForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class':'form-control'
             })
+
  
 class CategoryForm(forms.ModelForm):
     class Meta:

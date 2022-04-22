@@ -4,16 +4,10 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 #create your models here
 
-class SubCategory(models.Model):
-	name = models.CharField(max_length=100)
-
-	def __str__(self):
-		return self.name
 
 class Category(models.Model):
 	title = models.CharField(max_length=100)
-	subcategory = models.ManyToManyField(SubCategory, blank=True, null=True)
-	
+
 	def __str__(self):
 		return self.title
 
@@ -32,6 +26,7 @@ class Author(models.Model):
 
 class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
+	subcategory=models.CharField(max_length=100)
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
 	details=RichTextField()

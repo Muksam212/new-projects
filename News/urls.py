@@ -49,6 +49,7 @@ urlpatterns = [
     path('comment/<int:id>/delete/', CommentDelete.as_view(), name='comment-delete'),
     path('commentPdf/', CommentDetailsPdf.as_view(), name='comment-pdf'),
     path('commentCsv/', CommentDetailsCSV.as_view(), name='comment-csv'),
-    path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel')
+    path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel'),
 
+    #sub-category
 ]

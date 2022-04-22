@@ -14,8 +14,8 @@ class AuthorDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AuthorSerializer
     lookup_field = 'id'
 
-    def get(self, request):
-        serializer = AuthorSerializer(serializer_class,image = request.image)
+    # def get(self, request):
+    #     serializer = AuthorSerializer(serializer_class,image = request.image)
 
 #comment api
 class CommentList(generics.ListCreateAPIView):
