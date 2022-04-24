@@ -77,7 +77,9 @@
                     <td> {{ new.title }}</td>
                     <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
                     <td> {{ new.details|striptags }} </td>
-                    <td> {{ new.subcategory }} </td>
+                    {% for sub in new.subcategory.all %}
+                    <td> {{ sub }} </td>
+                    {% endfor %}
                 
                     <td>
                         <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>

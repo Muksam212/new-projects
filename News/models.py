@@ -26,7 +26,7 @@ class Author(models.Model):
 
 class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
-	subcategory=models.CharField(max_length=100)
+	subcategory=models.ManyToManyField(Category, related_name='categorys')
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
 	details=RichTextField()
@@ -44,3 +44,12 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return str(self.user)
+
+
+class Video(models.Model):
+	title = models.CharField(max_length=100)
+	video_link = models.URLField(max_length=200)
+	thumbnail = models.ImageField(upload_to='video/images')
+
+	def __str__(self):
+		return "{}".format(self.title)
