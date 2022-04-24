@@ -75,7 +75,7 @@
                     <td> {{ forloop.counter }} </td>
                     <td> {{ new.category }} </td>
                     <td> {{ new.title }}</td>
-                    <td><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td>
+                    <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
                     <td> {{ new.details|striptags }} </td>
                     <td> {{ new.subcategory }} </td>
                 

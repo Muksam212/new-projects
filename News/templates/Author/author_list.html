@@ -75,7 +75,7 @@
                     <td>{{ aut.name }}</td>
                     <td>{{ aut.address }}</td>
                     <td>{{ aut.email }}</td>
-                    <td><img src="{% if aut.image %}{{ aut.image.url }}{% endif %}" alt="No Image" style="width:40px;"></td>
+                    <td><a href="{% if aut.image %}{{ aut.image.url }} {% endif %}"><img src="{% if aut.image %}{{ aut.image.url }}{% endif %}" alt="No Image" style="width:40px;"></td></a>
                     <td>
                         <a href="{% url 'news:update-author' aut.id %}" class="btn btn-info editbtn">Edit </a>
                         <a href="{% url 'news:delete-author' aut.id %}" class="btn btn-danger deletebtn"> Delete </a>
