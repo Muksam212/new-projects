@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<!-- Sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<form method="POST" action="{% url 'news:video-create' %}">
+    {% if messages %}
+        {% for message in messages %}
+        <script>
+            swal({
+                title: "Good job!",
+                text: "{{ message }}",
+                icon: "success",
+              });
+        </script>
+        {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+    <div class="modal-header">
+        <h4 class="modal-title">Add Video</h4>
+    </div>
+    <div class="modal-body">
+        
+        {{ form.non_field_errors }}
+        {% for f in form %}
+        <div class="form-group" required>
+            <label>{{ f.label  }}</label>
+            {{ f }}
+            <span> {{ f.errors|striptags }} </span>
+        </div>
+        {% endfor %}
+        <button class="btn btn-primary"> Add </button>
+    </div>
+</form>
+
+{% endblock content %}
