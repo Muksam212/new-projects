@@ -27,6 +27,7 @@ class UserRequiredMixin(object):
             return redirect('accounts:login')
         return super().dispatch(request, *args, **kwargs)
 
+
 class LogoutView(UserRequiredMixin,View):
     def get(self, request):
         logout(request)
