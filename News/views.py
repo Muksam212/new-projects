@@ -13,8 +13,8 @@ from news.utils import render_to_pdf, link_callback
 import xlwt
 
 
-from .models import Author, News, Category, Comment
-from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm
+from .models import Author, News, Category, Comment, Video
+from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
 import csv
 
 
@@ -34,7 +34,8 @@ class ChartDetails(TemplateView):
         category = Category.objects.all().count()
         news = News.objects.all().count()
         comment = Comment.objects.all().count()
-        context = {'author':author,'category':category,'news':news,'comment':comment}
+        video = Video.objects.all().count()
+        context = {'author':author,'category':category,'news':news,'comment':comment,'video':video}
         return render(self.request,'dashboard/chart.html', context)
 
 #creating the process
@@ -588,3 +589,67 @@ class CommentDetailsExcel(View):
 
         wb.save(response)
         return response
+
+
+class VideoCreate(SuccessMessageMixin, CreateView):
+    ajax_template_name='video/create_video_ajax.html'
+    form_class=VideoForm
+    success_message="Video is created"
+    success_url=reverse_lazy('news:create-video')
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+
+
+class VideoList(ListView):
+    ajax_template_name='video/video_list_ajax.html'
+    success_url=reverse_lazy('news:video-list')
+    queryset=Video.objects.all()
+    context_object_name='video_list'
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+
+class VideoUpdate(SuccessMessageMixin, UpdateView):
+    ajax_template_name='video/video_update_ajax.html'
+    form_class=VideoForm
+    success_url=reverse_lazy('news:video-list')
+    success_message='Video Update Successfully'
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('id')
+        return get_object_or_404(Video, id=id)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+
+class VideoDelete(SuccessMessageMixin, DeleteView):
+    ajax_template_name='video/video_delete_ajax.html'
+    success_message='Video deleted successfull'
+    success_url=reverse_lazy('news:video-list')
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('id')
+        return get_object_or_404(Video, id=id)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data

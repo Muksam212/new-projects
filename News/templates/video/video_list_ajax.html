@@ -1,0 +1,133 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+{% load static %}
+
+<!--Sweet alert-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!--Search -->
+
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Manage <b>News</b></h2>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <script>
+                        swal({
+                            title: "Good job!",
+                            text: "{{ message }}",
+                            icon: "success",
+                        });
+                    </script>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID </th>
+                    <th>Title </th>
+                    <th>Url</th>
+                    <th>DateCreated</th>
+                    <th>Action</th>
+
+                </tr>
+                {% for video in video_list %}
+                <tr>
+                    <td> {{ forloop.counter }}</td>
+                    <td>{{ video.title }}</td>
+                    <td><a href="{{ video.url }}">{{ video.url }}</td></a>
+                    <td>{{ video.date_created }}</td>
+                    <td>
+                        <a href="{% url 'news:video-update' video.id %}" class="btn btn-info edit">Edit </a>
+                        <a href="{% url 'news:video-delete' video.id %}" class="btn btn-danger delete"> Delete </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </thead>
+        </table>
+
+        <!--Add pagination in Author-->
+        <div class="container">
+            <div class="row justify-content-end">
+                <nav aria-label="Page navigation example">
+                    {% if is_paginated %}
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{page_obj.previous_page_number}}">&laquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">&laquo;</a>
+                        </li>
+                        {% endif %} {% for i in paginator.page_range %} {% if page_obj.number == i %}
+                        <li class="page-item"><a class="page-link active">{{ i }}</a></li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                        {% endif %} {% endfor %} {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{page_obj.next_page_number}}" class="page-link">&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+        <!--Add Author-->
+
+        <!-- Edit News-->
+        <div id="editVideoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete News-->
+        <div id="deleteVideoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block scripts %}
+<script>
+    $('.edit').on('click', function (e) {
+        e.preventDefault()
+        var url = $(this).attr('href');
+        $.get(url, function (data) {
+            console.log(data)
+            $('#editVideoModal').modal('show');
+            $('#editVideoModal .modal-content').empty().append(data)
+        })
+    })
+
+    $('.delete').on('click', function (e){
+        e.preventDefault()
+        var url = $(this).attr('href');
+        $.get(url, function (data){
+            console.log(data)
+            $('#deleteVideoModal').modal('show')
+            $('#deleteVideoModal .modal-content').empty().append(data)
+        })
+    })
+</script>
+{% endblock scripts %}

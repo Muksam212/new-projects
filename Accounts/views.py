@@ -36,27 +36,22 @@ class LoginView(FormView):
 	success_url=reverse_lazy('news:dashboard-page')
 	form_class=LoginForm
 
+	def form_valid(self, form):
+		uname = form.cleaned_data['username']
+		pword = form.cleaned_data['password']
+
+		usr = authenticate(username = uname, password = pword)
+		if usr is not None:
+			login(self.request, usr)
+		else:
+			return render(self.request, self.template_name, {
+					'error':'Invalid username or password',
+					'form':form
+				})
+
+		return super().form_valid(form)
+
+class LogoutView(LoginRequiredMixin, View):
 	def get(self, request):
-		form = self.form_class
-		message =''
-		return render(request, self.template_name, context={'form':form,'message':message})
-
-	def post(self, request):
-		form = self.form_class(request.POST)
-		if form.is_valid():
-			usr = authenticate(
-				uname = request.POST['username'],
-				pword = request.POST['pssword']
-				)
-			if usr is not None:
-				login(request, usr)
-				return redirect('news:dashboard-page')
-		message='login failed'
-		return render(request, self.template_name, context={'form':form, 'message':message})
-
-class LogoutView(LoginRequiredMixin,RedirectView):
-	
-	def get_redirect_url(self, *args, **kwargs):
-		if self.request.user.is_authenticated():
-			logout(self, request)
-		return super(LogoutView,self).get_redirect_url(*args, **kwargs)
+		logout(request)
+		return redirect('accounts:login')

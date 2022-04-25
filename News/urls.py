@@ -4,7 +4,8 @@ IndexView,AuthorList, AuthorUpdate, CommentDetailsCSV,CommentDetailsExcel,
 CategoryUpdate, AuthorCreate,DashboardTemplate,ChartDetails,
 AuthorList,AuthorUpdate, AuthorDelete,NewsCreate,NewList, NewsUpdate, NewsDelete, CategoryCreate, 
 CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,NewsDetailsPdf,
-NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails)
+NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails,VideoCreate
+,VideoList,VideoUpdate,VideoDelete)
 
 
 app_name ='news' #implementing custom url
@@ -54,5 +55,9 @@ urlpatterns = [
     path('commentCsv/', CommentDetailsCSV.as_view(), name='comment-csv'),
     path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel'),
 
-    #sub-category
+    #video
+    path('videoList/', VideoList.as_view(), name='video-list'),
+    path('createVideo/', VideoCreate.as_view(), name='create-video'),
+    path('video/<int:id>/update/', VideoUpdate.as_view(), name='video-update'),
+    path('video/<int:id>/delete/', VideoDelete.as_view(), name='video-delete')
 ]

@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<form method="POST" action="{% url 'news:video-create' %}">
+<form method="POST" action="{% url 'news:create-video' %}">
     {% if messages %}
         {% for message in messages %}
         <script>
@@ -28,7 +28,7 @@
             <span> {{ f.errors|striptags }} </span>
         </div>
         {% endfor %}
-        <button class="btn btn-primary"> Add </button>
+        <button class="btn btn-primary"> Add Video</button>
     </div>
 </form>
 

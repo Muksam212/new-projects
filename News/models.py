@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from embed_video.fields import EmbedVideoField
 #create your models here
 
 
@@ -47,9 +48,9 @@ class Comment(models.Model):
 
 
 class Video(models.Model):
-	title = models.CharField(max_length=100)
-	video_link = models.URLField(max_length=200)
-	thumbnail = models.ImageField(upload_to='video/images')
+	title=models.CharField(max_length=100)
+	url=EmbedVideoField()
+	date_created=models.DateField() 
 
 	def __str__(self):
 		return "{}".format(self.title)

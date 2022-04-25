@@ -1,5 +1,5 @@
 from django import forms
-from .models import Author, News,Category, Comment
+from news.models import Author, News,Category, Comment, Video
 from ckeditor.widgets import CKEditorWidget
 
 class AuthorForm(forms.ModelForm):
@@ -72,4 +72,22 @@ class CommentForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs.update({
                 'class':'form-control'
+            })
+
+class VideoForm(forms.ModelForm):
+    date_created = forms.DateField(widget=forms.SelectDateWidget)
+    
+    class Meta:
+        model=Video
+        fields=['title','url','date_created']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({
+                'class':'form-control',
+                'placeholder':'Enter your title'
+            })
+        self.fields['url'].widget.attrs.update({
+                'class':'form-control',
+                'placeholder':'Enter your title'
             })
