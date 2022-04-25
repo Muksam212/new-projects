@@ -4,12 +4,17 @@ IndexView,AuthorList, AuthorUpdate, CommentDetailsCSV,CommentDetailsExcel,
 CategoryUpdate, AuthorCreate,DashboardTemplate,ChartDetails,
 AuthorList,AuthorUpdate, AuthorDelete,NewsCreate,NewList, NewsUpdate, NewsDelete, CategoryCreate, 
 CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,NewsDetailsPdf,
-NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails)
+NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails,LogoutView)
 
 
 app_name ='news' #implementing custom url
 
 urlpatterns = [
+
+    #for logout
+    path('logoutPage/', LogoutView.as_view(), name='logout'),
+
+    #for chart, dashboard
     path('chart/', ChartDetails.as_view(), name='chart-page'),
     path('index/',IndexView.as_view(),name='index'),
     path('dashboard/', DashboardTemplate.as_view(), name='dashboard-page'),
@@ -49,6 +54,7 @@ urlpatterns = [
     path('comment/<int:id>/delete/', CommentDelete.as_view(), name='comment-delete'),
     path('commentPdf/', CommentDetailsPdf.as_view(), name='comment-pdf'),
     path('commentCsv/', CommentDetailsCSV.as_view(), name='comment-csv'),
-    path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel')
+    path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel'),
 
+    #sub-category
 ]

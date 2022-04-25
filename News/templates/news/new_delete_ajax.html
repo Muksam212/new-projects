@@ -1,4 +1,4 @@
-<!-- Sweet alert-->
+{% block content %}
 <form method="POST" action="{% url 'news:delete-news' object.id %}">
     {% csrf_token %}
         <div class="modal-header">
@@ -14,3 +14,4 @@
         <input type="submit" class="btn btn-success" value="Delete">
     </div>
 </form>
+{% endblock content %}

@@ -2,16 +2,20 @@ from api.serializers import AuthorSerializer, CommentSerializer, NewsSerializer,
 from news.models import Author, Comment, News, Category
 from rest_framework import mixins, generics
 
-
 #author api
 class AuthorList(generics.ListCreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+
+
 class AuthorDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     lookup_field = 'id'
+
+    # def get(self, request):
+    #     serializer = AuthorSerializer(serializer_class,image = request.image)
 
 #comment api
 class CommentList(generics.ListCreateAPIView):

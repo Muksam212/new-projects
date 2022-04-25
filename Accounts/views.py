@@ -5,12 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.http import JsonResponse
+from news.views import UserRequiredMixin
 
 # Create your views here.
 #register 
+
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
 	form_class = RegisterForms
@@ -50,11 +50,3 @@ class LoginPage(FormView):
 			{'Error':'Invalid username or password','form':form})
 
 		return super().form_valid(form)
-
-
-class LogoutView(View):
-	def get(self, request):
-		logout(request)
-		return redirect("/loginPage")
-class PasswordReset(TemplateView):
-	template_name='registration/reset_password.html'
