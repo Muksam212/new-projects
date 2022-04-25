@@ -1,5 +1,5 @@
 from django.urls import path
-from api.views import AuthorList, AuthorDetails, CommentList,CommentDetails, NewsList, NewDetails,CategoryList, CategoryDetails
+from api.views import AuthorList, AuthorDetails, CommentList,CommentDetails, NewsList, NewDetails,CategoryList, CategoryDetails, VideoList, VideoDetails
 from api import views
 
 
@@ -16,6 +16,9 @@ urlpatterns=[
     path('api/<int:id>/news/', NewDetails.as_view(), name='new-details'),
 
     path('api/category/', CategoryList.as_view(), name='category-list'),
-    path('api/<int:id>/category/', CategoryDetails.as_view(), name='category-details')
+    path('api/<int:id>/category/', CategoryDetails.as_view(), name='category-details'),
+
+    path('api/video/', VideoList.as_view(), name='video-list'),
+    path('api/<int:id>/video/', VideoDetails.as_view(), name='video-details')
 
 ]

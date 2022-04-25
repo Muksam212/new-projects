@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from news.models import Author, Comment, Category, News
+from news.models import Author, Comment, Category, News, Video
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +24,9 @@ class NewsSerializer(serializers.ModelSerializer):
         model=News
         fields=['id','category','title','image','details','subcategory']
         depth=1
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Video
+        fields=['id','title','url','date_created']

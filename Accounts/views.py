@@ -1,18 +1,18 @@
 from django.views.generic import *
 from django.views import View
-from .forms import RegisterForms, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
-from news.views import LoginRequiredMixin
-
 from django.views.generic import RedirectView
 
-# Create your views here.
-#register 
+from news.views import LoginRequiredMixin
+from accounts.forms import RegisterForms, LoginForm
 
+# Create your views here.
+
+#register 
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
 	form_class = RegisterForms
@@ -51,7 +51,8 @@ class LoginView(FormView):
 
 		return super().form_valid(form)
 
-class LogoutView(LoginRequiredMixin, View):
+#logout
+class LogoutView(View):
 	def get(self, request):
 		logout(request)
-		return redirect('accounts:login')
+		return redirect('newsapp:index')

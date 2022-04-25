@@ -18,14 +18,16 @@ from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
 import csv
 
 
-class LoginRequiredMixin:
+class LoginRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
+        print(user,'-------------')
+
         if user.is_authenticated:
             pass
         else:
             return redirect('accounts:login')
-        return super().dispatch(request, *args, **kwargs)
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class ChartDetails(TemplateView):
@@ -47,7 +49,7 @@ class IndexView(TemplateView):
     
 
 #author
-class AuthorList(LoginRequiredMixin,ListView):
+class AuthorList(ListView):
     context_object_name='author_list'
     model=Author
     template_name='Author/author_list.html'
@@ -611,12 +613,23 @@ class VideoCreate(SuccessMessageMixin, CreateView):
 class VideoList(ListView):
     ajax_template_name='video/video_list_ajax.html'
     success_url=reverse_lazy('news:video-list')
-    queryset=Video.objects.all()
     context_object_name='video_list'
+    model=Video
+    paginate_by=1
 
     def get_template_names(self):
         return self.ajax_template_name
 
+    #search garne query
+    def get_queryset(self):
+        queryset=Video.objects.all()
+        query=self.request.GET.get('q')
+
+        if query:
+            video_list=self.model.objects.filter(title__icontains=query)
+        else:
+            video_list=queryset
+        return video_list
 
 class VideoUpdate(SuccessMessageMixin, UpdateView):
     ajax_template_name='video/video_update_ajax.html'
