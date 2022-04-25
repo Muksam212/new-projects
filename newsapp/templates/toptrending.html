@@ -16,7 +16,7 @@
     <div class="trending-bottom">
         <div class="container">
             <div class="row">
-                {% for news_object in category_news%}
+                {% for news_object in category_news %}
                 <div class="col-lg-3">
                     <div class="single-bottom mb-35">
                         <div class="trend-bottom-img mb-30">
@@ -24,7 +24,7 @@
                         </div>
                         <div class="trend-bottom-cap">
                             <span class="color1">{{ news_object.category.title }}</span>
-                            <h4><a href="{% url 'newsapp:details-page' news_object.pk %}">{{ news_object.title }}</a>
+                            <h4><a href="{% url 'newsapp:detail-news' news_object.pk %}">{{ news_object.title }}</a>
                             </h4>
                         </div>
                     </div>

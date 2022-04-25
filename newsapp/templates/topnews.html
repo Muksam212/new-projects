@@ -1,4 +1,6 @@
 {% load static %}
+
+
 <div class="row">
     <div class="col-12">
         <div class="weekly-news-active dot-style d-flex dot-style">
@@ -9,7 +11,7 @@
                 </div>
                 <div class="weekly-caption">
                     <span class="color1">{{ news_object.category.title.title }}</span>
-                    <h4><a href="">{{ news_object.catagory.title}}</a></h4>
+                    <h4><a href="">{{ news_object.title}}</a></h4>
                 </div>
                 {% endfor %}
             </div>

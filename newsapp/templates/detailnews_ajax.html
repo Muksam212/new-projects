@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% comment %} {% for news in news_details %} {% endcomment %}
+<div class="col-lg-4">
+    <div class="single-bottom mb-35">
+        <img src="{{ newsdetail.image.url }}" alt="">
+        <div class="trend-bottom-cap">
+            <span class="color1">{{ newsdetail.details }}</span>
+        </div>
+    </div>
+</div>
+{% comment %} {% endfor %} {% endcomment %}
+{% endblock content %}

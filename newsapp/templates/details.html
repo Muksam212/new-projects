@@ -6,10 +6,9 @@
     <div class="single-bottom mb-35">
         <img src="{{ news.image.url }}" alt="">
         <div class="trend-bottom-cap">
-            <h4><a href="#"> {{ news.title }} </a></h4>
-            <span class="color1">{{ news.details }}</span>
+            <span class="color1">{{ news.details.pk }}</span>
         </div>
     </div>
 </div>
 {% endfor %}
-{% endblock content %}
+{% endblock content %} 

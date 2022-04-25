@@ -2,10 +2,14 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from autoslug import AutoSlugField
+
+
 #create your models here
 
 class Category(models.Model):
 	title = models.CharField(max_length=100)
+
 	
 	def __str__(self):
 		return self.title
@@ -15,6 +19,7 @@ class Author(models.Model):
 	address = models.CharField(max_length=100)
 	email = models.EmailField()
 	image = models.ImageField(upload_to='author/images')
+
 
 	def __str__(self):
 		return "{}".format(self.name)
@@ -27,7 +32,13 @@ class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
+	slug = AutoSlugField(populate_from = 'title', unique = True, null = True, default = None)
 	details=RichTextField()
+
+	class Meta:
+		verbose_name = "News"
+		verbose_name_plural = "News"
+
 	def __str__(self):
 		return "{} -> {}".format(self.category, self.title)
 
