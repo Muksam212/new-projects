@@ -2,10 +2,7 @@
 <div class="container">
     <div class="row justify-content-end">
         {% if request.user.is_authenticated %}
-        <h5><span style="color:blue;"> {{ request.user }}</span></h5>
-        <a href="{% url 'accounts:logout' %}"> Logout</a>
-        {% else %}
-        <a href="{% url 'accounts:login' %}"></a>
+        <a href="{% url 'accounts:logout' %}"> {{ user.username }}</a>
         {% endif %}
     </div>
 </div>
