@@ -17,22 +17,15 @@ from .models import Author, News, Category, Comment
 from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm
 import csv
 
-class UserRequiredMixin(object):
-    def dispatch(self, request, *args, **kwargs):
-        user = request.user
 
+class LoginRequiredMixin:
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
         if user.is_authenticated:
             pass
         else:
             return redirect('accounts:login')
         return super().dispatch(request, *args, **kwargs)
-
-
-class LogoutView(UserRequiredMixin,View):
-    def get(self, request):
-        logout(request)
-        return redirect('accounts:login')
-
 
 
 class ChartDetails(TemplateView):
@@ -45,7 +38,7 @@ class ChartDetails(TemplateView):
         return render(self.request,'dashboard/chart.html', context)
 
 #creating the process
-class DashboardTemplate(UserRequiredMixin,TemplateView):
+class DashboardTemplate(LoginRequiredMixin,TemplateView):
     template_name='dashboard/base.html'
 
 class IndexView(TemplateView):
@@ -53,7 +46,7 @@ class IndexView(TemplateView):
     
 
 #author
-class AuthorList(UserRequiredMixin,ListView):
+class AuthorList(LoginRequiredMixin,ListView):
     context_object_name='author_list'
     model=Author
     template_name='Author/author_list.html'
@@ -75,7 +68,7 @@ class AuthorList(UserRequiredMixin,ListView):
         return author_list
 
 
-class AuthorCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
+class AuthorCreate(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='Author/author_create_ajax.html'
     form_class=AuthorForm
     success_url=reverse_lazy("news:create-author")
@@ -97,7 +90,7 @@ class AuthorCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
 
         
 
-class AuthorUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
+class AuthorUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='Author/author_update_ajax.html'
     model=Author
     form_class=AuthorForm
@@ -123,7 +116,7 @@ class AuthorUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
         return self.success_message % cleaned_data
 
 
-class AuthorDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
+class AuthorDelete(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='Author/author_delete_ajax.html'
     success_url=reverse_lazy("news:list-author")
     success_message="Author information is deleted"
@@ -217,7 +210,7 @@ class NewList(ListView):
     def get_template_names(self):
         return self.ajax_template_name
 
-class NewsCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
+class NewsCreate(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='news/new_create_ajax.html'
     form_class=NewsForm
     success_url=reverse_lazy("news:create-news")
@@ -234,7 +227,7 @@ class NewsCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
         return self.ajax_template_name
 
 
-class NewsUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
+class NewsUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='news/new_update_ajax.html'
     form_class=NewsForm
     success_url=reverse_lazy("news:new-list")
@@ -255,7 +248,7 @@ class NewsUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
         return self.success_message % cleaned_data
 
 
-class NewsDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
+class NewsDelete(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='news/new_delete_ajax.html'
     model=News
     success_url=reverse_lazy("news:new-list")
@@ -486,7 +479,7 @@ class CommentList(ListView):
         return comment_list
 
 
-class CommentCreate(UserRequiredMixin,SuccessMessageMixin,CreateView):
+class CommentCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     ajax_template_name='comment/comment_create_ajax.html'
     form_class=CommentForm
     success_message="Comment is added"
@@ -503,7 +496,7 @@ class CommentCreate(UserRequiredMixin,SuccessMessageMixin,CreateView):
         return self.success_message % cleaned_data
 
 
-class CommentUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
+class CommentUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='comment/comment_update_ajax.html'
     form_class=CommentForm
     model=Comment
@@ -524,7 +517,7 @@ class CommentUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
-class CommentDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
+class CommentDelete(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='comment/comment_delete_ajax.html'
     model=Comment
     success_url=reverse_lazy('news:comment-list')

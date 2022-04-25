@@ -4,15 +4,13 @@ IndexView,AuthorList, AuthorUpdate, CommentDetailsCSV,CommentDetailsExcel,
 CategoryUpdate, AuthorCreate,DashboardTemplate,ChartDetails,
 AuthorList,AuthorUpdate, AuthorDelete,NewsCreate,NewList, NewsUpdate, NewsDelete, CategoryCreate, 
 CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,NewsDetailsPdf,
-NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails,LogoutView)
+NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails)
 
 
 app_name ='news' #implementing custom url
 
 urlpatterns = [
 
-    #for logout
-    path('logoutPage/', LogoutView.as_view(), name='logout'),
 
     #for chart, dashboard
     path('chart/', ChartDetails.as_view(), name='chart-page'),
