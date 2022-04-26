@@ -22,7 +22,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model=News
-        fields=['id','category','title','image','details','subcategory']
+        fields=['id','category','title','image','details','subcategory','bannerimage']
         depth=1
 
 

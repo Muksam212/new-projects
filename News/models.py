@@ -30,6 +30,7 @@ class News(models.Model):
 	subcategory=models.ManyToManyField(Category, related_name='categorys')
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
+	bannerimage=models.ImageField(upload_to='add/images')
 	details=RichTextField()
 	def __str__(self):
 		return "{} -> {}".format(self.category, self.title)

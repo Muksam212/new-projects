@@ -1,5 +1,6 @@
 from django.urls import path
-from api.views import AuthorList, AuthorDetails, CommentList,CommentDetails, NewsList, NewDetails,CategoryList, CategoryDetails, VideoList, VideoDetails
+from api.views import (AuthorList, AuthorDetails, CommentList,CommentDetails, NewsList, NewDetails,CategoryList, CategoryDetails, VideoList, 
+    VideoDetails)
 from api import views
 
 
