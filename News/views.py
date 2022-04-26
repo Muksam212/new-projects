@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.contrib.staticfiles import finders
 from django.contrib.auth import login, logout
+from news.mixins import GroupRequiredMixin
 
 from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
@@ -16,6 +17,7 @@ import xlwt
 from .models import Author, News, Category, Comment, Video
 from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
 import csv
+
 
 
 class LoginRequiredMixin(object):
@@ -55,6 +57,7 @@ class AuthorList(ListView):
     template_name='Author/author_list.html'
     success_url=reverse_lazy("news:list-author")
     paginate_by=4
+    group_required=['Author']
     
 
     def get_queryset(self):
@@ -71,11 +74,12 @@ class AuthorList(ListView):
         return author_list
 
 
-class AuthorCreate(LoginRequiredMixin,SuccessMessageMixin, CreateView):
+class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='Author/author_create_ajax.html'
     form_class=AuthorForm
     success_url=reverse_lazy("news:create-author")
     success_message='Author information is created'
+    group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -93,12 +97,14 @@ class AuthorCreate(LoginRequiredMixin,SuccessMessageMixin, CreateView):
 
         
 
-class AuthorUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='Author/author_update_ajax.html'
     model=Author
     form_class=AuthorForm
     success_url=reverse_lazy("news:list-author")
     success_message='Author information is updated'
+    group_required=['Author']
+
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -119,10 +125,11 @@ class AuthorUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
         return self.success_message % cleaned_data
 
 
-class AuthorDelete(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='Author/author_delete_ajax.html'
     success_url=reverse_lazy("news:list-author")
     success_message="Author information is deleted"
+    group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -193,12 +200,13 @@ class AuthorDetailsExcel(View):
         return response
 
 #New details with crud
-class NewList(ListView):
+class NewList(GroupRequiredMixin,ListView):
     ajax_template_name='news/new_list_ajax.html'
     model=News
     context_object_name='new_list'
     success_url=reverse_lazy("news:new-list")
     paginate_by=4
+    group_required=['Author']
 
     def get_queryset(self):
         queryset=News.objects.all()
@@ -213,11 +221,12 @@ class NewList(ListView):
     def get_template_names(self):
         return self.ajax_template_name
 
-class NewsCreate(LoginRequiredMixin,SuccessMessageMixin, CreateView):
+class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='news/new_create_ajax.html'
     form_class=NewsForm
     success_url=reverse_lazy("news:create-news")
     success_message='News is created'
+    group_required=['Author']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -230,11 +239,12 @@ class NewsCreate(LoginRequiredMixin,SuccessMessageMixin, CreateView):
         return self.ajax_template_name
 
 
-class NewsUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='news/new_update_ajax.html'
     form_class=NewsForm
     success_url=reverse_lazy("news:new-list")
     success_message="News has been updated"
+    group_required=['Author']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
@@ -251,11 +261,12 @@ class NewsUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
         return self.success_message % cleaned_data
 
 
-class NewsDelete(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='news/new_delete_ajax.html'
     model=News
     success_url=reverse_lazy("news:new-list")
     success_message="News information is deleted"
+    group_required=['Author']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
@@ -461,11 +472,12 @@ class CategoryDetailsExcel(View):
 
 
 #comment
-class CommentList(ListView):
+class CommentList(GroupRequiredMixin,ListView):
     ajax_template_name='comment/comment_list_ajax.html'
     context_object_name='comment_list'
     model=Comment
     paginate_by=2
+    group_required=['Reader']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -482,11 +494,12 @@ class CommentList(ListView):
         return comment_list
 
 
-class CommentCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
+class CommentCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin,CreateView):
     ajax_template_name='comment/comment_create_ajax.html'
     form_class=CommentForm
     success_message="Comment is added"
     success_url=reverse_lazy("news:comment-create")
+    group_required=['Reader']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -499,12 +512,13 @@ class CommentCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
         return self.success_message % cleaned_data
 
 
-class CommentUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class CommentUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='comment/comment_update_ajax.html'
     form_class=CommentForm
     model=Comment
     success_url=reverse_lazy('news:comment-list')
     success_message="Comment updated successfully"
+    group_required=['Reader']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -520,11 +534,12 @@ class CommentUpdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
-class CommentDelete(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class CommentDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='comment/comment_delete_ajax.html'
     model=Comment
     success_url=reverse_lazy('news:comment-list')
     success_message="Comment Delete Successfully"
+    group_required=['Reader']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -593,11 +608,12 @@ class CommentDetailsExcel(View):
         return response
 
 
-class VideoCreate(SuccessMessageMixin, CreateView):
+class VideoCreate(GroupRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='video/create_video_ajax.html'
     form_class=VideoForm
     success_message="Video is created"
     success_url=reverse_lazy('news:create-video')
+    group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -610,12 +626,13 @@ class VideoCreate(SuccessMessageMixin, CreateView):
         return self.success_message % cleaned_data
 
 
-class VideoList(ListView):
+class VideoList(GroupRequiredMixin,ListView):
     ajax_template_name='video/video_list_ajax.html'
     success_url=reverse_lazy('news:video-list')
     context_object_name='video_list'
     model=Video
     paginate_by=1
+    group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -631,11 +648,12 @@ class VideoList(ListView):
             video_list=queryset
         return video_list
 
-class VideoUpdate(SuccessMessageMixin, UpdateView):
+class VideoUpdate(GroupRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='video/video_update_ajax.html'
     form_class=VideoForm
     success_url=reverse_lazy('news:video-list')
     success_message='Video Update Successfully'
+    group_required=['Author']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -652,10 +670,11 @@ class VideoUpdate(SuccessMessageMixin, UpdateView):
         return self.ajax_template_name
 
 
-class VideoDelete(SuccessMessageMixin, DeleteView):
+class VideoDelete(GroupRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='video/video_delete_ajax.html'
     success_message='Video deleted successfull'
     success_url=reverse_lazy('news:video-list')
+    group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
