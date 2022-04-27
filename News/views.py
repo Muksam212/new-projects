@@ -14,7 +14,7 @@ from news.utils import render_to_pdf, link_callback
 import xlwt
 
 
-from .models import Author, News, Category, Comment, Video
+from .models import Author, New, Category, Comment, Video
 from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
 import csv
 
@@ -36,7 +36,7 @@ class ChartDetails(TemplateView):
     def get(self, *args, **kwargs):
         author = Author.objects.all().count()
         category = Category.objects.all().count()
-        news = News.objects.all().count()
+        news = New.objects.all().count()
         comment = Comment.objects.all().count()
         video = Video.objects.all().count()
         context = {'author':author,'category':category,'news':news,'comment':comment,'video':video}
@@ -202,7 +202,7 @@ class AuthorDetailsExcel(View):
 #New details with crud
 class NewList(GroupRequiredMixin,ListView):
     ajax_template_name='news/new_list_ajax.html'
-    model=News
+    model=New
     context_object_name='new_list'
     success_url=reverse_lazy("news:new-list")
     paginate_by=4
@@ -248,7 +248,7 @@ class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Upda
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
-        return get_object_or_404(News,id=id)
+        return get_object_or_404(New,id=id)
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -263,14 +263,14 @@ class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Upda
 
 class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='news/new_delete_ajax.html'
-    model=News
+    model=New
     success_url=reverse_lazy("news:new-list")
     success_message="News information is deleted"
     group_required=['Author']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
-        return get_object_or_404(News, id=id)
+        return get_object_or_404(New, id=id)
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -281,7 +281,7 @@ class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Dele
 
 class NewsDetailsPdf(View):
     def get(self, request, *args, **kwargs):
-        new=News.objects.all()
+        new=New.objects.all()
         data = {
             'count':new.count(),
             'new':new,
@@ -297,7 +297,7 @@ class NewsDetailsCSV(View):
         writer=csv.writer(response)
         writer.writerow(['category','title','details'])
 
-        for new in News.objects.all().values_list('category','title','details'):
+        for new in New.objects.all().values_list('category','title','details'):
             writer.writerow(new)
 
         response['Content-Disposition']='attachment; filename="news.csv"'
@@ -326,7 +326,7 @@ class NewsDetailsExcel(View):
     # Sheet body, remaining rows
         font_style = xlwt.XFStyle()
 
-        rows =News.objects.all().values_list('category','title','details')
+        rows =New.objects.all().values_list('category','title','details')
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):
@@ -631,7 +631,7 @@ class VideoList(GroupRequiredMixin,ListView):
     success_url=reverse_lazy('news:video-list')
     context_object_name='video_list'
     model=Video
-    paginate_by=1
+    paginate_by=2
     group_required=['Author']
 
     def get_template_names(self):

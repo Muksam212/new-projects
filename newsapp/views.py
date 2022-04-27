@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import *
 from django.urls import reverse_lazy
 from news.models import Category
-from news.models import News
+from news.models import New
 # Create your views here.
 
 class BaseMixin:
@@ -29,7 +29,7 @@ class BaseTemplate(TemplateView):
 class DetailsTemplate(BaseMixin, ListView):
     template_name='details.html'
     success_url=reverse_lazy('newsapp:details-page')
-    model = News
+    model = New
     context_object_name = 'news_detail'
     paginate_by = 1
 
@@ -46,8 +46,8 @@ class IndexTemplate(BaseMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category_news'] = News.objects.all()
-        context['sports_news'] = News.objects.filter(category__title='खेलकुद')
+        context['category_news'] = New.objects.all()
+        context['sports_news'] = New.objects.filter(category__title='खेलकुद')
         return context
 
 # def today():
