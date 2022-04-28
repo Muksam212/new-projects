@@ -50,7 +50,7 @@ class IndexTemplate(BaseMixin, TemplateView):
         context['sports_news'] = New.objects.filter(category__title='खेलकुद')
         return context
 
-# def today():
-#     today = datetime.datetime.now().strftime("%I")
+    def today():
+        today = datetime.datetime.now().strftime("%I")
 
     

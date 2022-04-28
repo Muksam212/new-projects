@@ -7,8 +7,9 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.contrib.staticfiles import finders
 from django.contrib.auth import login, logout
-from news.mixins import GroupRequiredMixin
 
+
+from news.mixins import GroupRequiredMixin
 from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
 import xlwt
@@ -23,8 +24,6 @@ import csv
 class LoginRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        print(user,'-------------')
-
         if user.is_authenticated:
             pass
         else:
@@ -51,7 +50,7 @@ class IndexView(TemplateView):
     
 
 #author
-class AuthorList(ListView):
+class AuthorList(GroupRequiredMixin,ListView):
     context_object_name='author_list'
     model=Author
     template_name='Author/author_list.html'
@@ -209,7 +208,7 @@ class NewList(GroupRequiredMixin,ListView):
     group_required=['Author']
 
     def get_queryset(self):
-        queryset=News.objects.all()
+        queryset=New.objects.all()
         query=self.request.GET.get('q')
 
         if query:

@@ -67,6 +67,7 @@
                     <th>Image</th>
                     <th>Details</th>
                     <th>SubCategory</th>
+                    <th>DateCreated</th>
                     <th>Action</th>
 
                 </tr>
@@ -80,6 +81,7 @@
                     {% for sub in new.subcategory.all %}
                     <td> {{ sub }} </td>
                     {% endfor %}
+                    <td> {{ new.date_created }} </td>
                 
                     <td>
                         <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>

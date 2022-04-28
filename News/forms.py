@@ -26,7 +26,7 @@ class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())
     class Meta:
         model=New
-        fields=['category','title','image','details','subcategory','bannerimage']
+        fields=['category','subcategory','title','image','details','date_created']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,10 +51,6 @@ class CategoryForm(forms.ModelForm):
             'class' : 'form-control',
             'placeholder':'enter your title'
         })
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class':'form-control'
-            })
 
 
 class CommentForm(forms.ModelForm):

@@ -3,13 +3,12 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 from ckeditor.fields import RichTextField
-from embed_video.fields import EmbedVideoField
 #create your models here
 
 
 class Category(models.Model):
 	title = models.CharField(max_length=100)
-	parent = models.ForeignKey('self', related_name='parents', null=True, blank=True, on_delete=models.CASCADE)
+	parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
 	class Meta:
 		verbose_name='Category'
@@ -36,12 +35,12 @@ class Author(models.Model):
 
 
 class New(models.Model):
-	category=models.ForeignKey(Category, on_delete=models.CASCADE)
+	category=models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
 	subcategory=models.ManyToManyField(Category, related_name='news')
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
-	bannerimage=models.ImageField(upload_to='add/images')
 	details=RichTextField()
+	date_created=models.DateField(auto_now_add=False)
 
 	class Meta:
 		verbose_name='New'
@@ -52,8 +51,8 @@ class New(models.Model):
 
 
 class Comment(models.Model):
-	author=models.ForeignKey(Author, on_delete=models.CASCADE)
-	news=models.ForeignKey(New, on_delete=models.CASCADE)
+	author=models.ForeignKey(Author, related_name='authors', on_delete=models.CASCADE)
+	news=models.ForeignKey(New, related_name='news', on_delete=models.CASCADE)
 	user=models.OneToOneField(User, on_delete=models.CASCADE)
 	email=models.CharField(max_length=100)
 	comment=RichTextField()
@@ -69,7 +68,7 @@ class Comment(models.Model):
 
 class Video(models.Model):
 	title=models.CharField(max_length=100)
-	url=EmbedVideoField()
+	url=models.URLField(max_length=100)
 	date_created=models.DateField() 
 
 	class Meta:
