@@ -16,14 +16,6 @@
                             <i class="fas fa-arrow-down"></i>
                         </a>
                     </a>
-                    {% comment %} <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for category_object in categories %}
-                        {{ category_object }}
-                        <li class="nav-category"><a href="{% url 'newsapp:details-page' category_object.pk %}"> {{ category_object.title }}</a></li>
-                        {% endfor %}
-
-                        
-                    </div> {% endcomment %}
                     {% for category_object in categories %}
                     <li class="nav-category"><a href="{% url 'newsapp:details-page' category_object.pk %}">{{ category_object.title }}</a></li>
                     {% endfor %}

@@ -2,21 +2,11 @@
 {% block content %}
 <div class="col-lg-12">
     <!-- Trending Top -->
-    {% comment %} <div class="trending-top mb-30">
-        <div class="trend-top-img">
-            <img src="{% static 'assets/img/trending/jn-and-madhav-1024x666.png' %}" alt="">
-            <div class="trend-top-cap">
-
-                <h2><a href="{% url 'newsapp:details-page' %}">एकीकृत समाजवादीको अडान : शक्तिका आधारमा होइन, सहमतिमा
-                        भागबण्डा !<br></a></h2>
-            </div>
-        </div>
-    </div> {% endcomment %}
     <!-- Trending Bottom -->
     <div class="trending-bottom">
         <div class="container">
             <div class="row">
-                {% for news_object in category_news%}
+                {% for news_object in category_news %}
                 <div class="col-lg-3">
                     <div class="single-bottom mb-35">
                         <div class="trend-bottom-img mb-30">
