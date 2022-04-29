@@ -8,7 +8,6 @@ from ckeditor.fields import RichTextField
 
 class Category(models.Model):
 	title = models.CharField(max_length=100)
-	parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
 	class Meta:
 		verbose_name='Category'
