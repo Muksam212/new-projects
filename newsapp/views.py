@@ -12,13 +12,6 @@ class BaseMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
-        # context['business_news'] = category_qs.filter(category__title='अर्थ')
-        # context['political_news'] = category_qs.filter(category__title='राजनीति')
-        # context['manoranjan_news'] = category_qs.filter(category__title ='मनोरन्जन')
-        # context['sports_news']= category_qs.filter(category__title = 'खेलकुद')
-        # context['bichar'] = category_qs.filter(category__title = 'बिचार')
-        # context['cinema_news'] = category_qs.filter(category__title= 'सिनेमा')
- 
         return context 
     
 
