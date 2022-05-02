@@ -17,10 +17,6 @@ class AuthorForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class':'form-control'
             })
-        # self.fields['category'].widget.attrs.update({
-        #     'class': 'form-control select2'
-        # })
- 
 
 class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())

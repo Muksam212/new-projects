@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<form method="POST" action="{% url 'news:create-author' %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'news:create-author' %}" enctype="multipart/form-data" id="image">
     {% if messages %}
         {% for message in messages %}
         <script>
@@ -19,7 +19,6 @@
         <h4 class="modal-title">Add Author</h4>
     </div>
     <div class="modal-body">
-        
         {{ form.non_field_errors }}
         {% for f in form %}
         <div class="form-group" required>
@@ -31,7 +30,6 @@
         <button class="btn btn-primary"> Add Author </button>
     </div>
 </form>
-
 {% endblock %}
 
 {% block scripts %}
