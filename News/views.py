@@ -59,6 +59,7 @@ class AuthorList(GroupRequiredMixin,ListView):
     group_required=['Author']
     
 
+    #Search garda aaune query
     def get_queryset(self):
         queryset=Author.objects.all()
         query=self.request.GET.get('q')
@@ -141,6 +142,7 @@ class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, De
         return get_object_or_404(Author,id=id)
 
 
+#convert text data into pdf format data
 class AuthorDetailsPdf(View):
     def get(self, request, *args, **kwargs):
         author=Author.objects.all()
