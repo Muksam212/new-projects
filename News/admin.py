@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Author, Category, New, Comment
+from .models import Author, Category, News, Comment
 # Register your models here.
-admin.site.register([Author,Category,New,Comment])
+admin.site.register([Author,Category,News,Comment])

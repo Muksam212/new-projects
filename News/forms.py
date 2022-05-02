@@ -1,5 +1,5 @@
 from django import forms
-from news.models import Author, New,Category, Comment, Video
+from news.models import Author, News,Category, Comment, Video
 from ckeditor.widgets import CKEditorWidget
 
 class AuthorForm(forms.ModelForm):
@@ -25,8 +25,8 @@ class AuthorForm(forms.ModelForm):
 class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())
     class Meta:
-        model=New
-        fields=['category','subcategory','title','image','details','date_created']
+        model=News
+        fields=['author','category','subcategory','title','image','details','is_published','date_created']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

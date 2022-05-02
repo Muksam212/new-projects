@@ -15,7 +15,7 @@ from news.utils import render_to_pdf, link_callback
 import xlwt
 
 
-from .models import Author, New, Category, Comment, Video
+from .models import Author, News, Category, Comment, Video
 from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
 import csv
 
@@ -203,14 +203,14 @@ class AuthorDetailsExcel(View):
 #New details with crud
 class NewList(GroupRequiredMixin,ListView):
     ajax_template_name='news/new_list_ajax.html'
-    model=New
+    model=News
     context_object_name='new_list'
     success_url=reverse_lazy("news:new-list")
     paginate_by=4
     group_required=['Author']
 
     def get_queryset(self):
-        queryset=New.objects.all()
+        queryset=News.objects.all()
         query=self.request.GET.get('q')
 
         if query:
@@ -249,7 +249,7 @@ class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Upda
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
-        return get_object_or_404(New,id=id)
+        return get_object_or_404(News,id=id)
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -264,14 +264,14 @@ class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Upda
 
 class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='news/new_delete_ajax.html'
-    model=New
+    model=News
     success_url=reverse_lazy("news:new-list")
     success_message="News information is deleted"
     group_required=['Author']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
-        return get_object_or_404(New, id=id)
+        return get_object_or_404(News, id=id)
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -282,7 +282,7 @@ class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Dele
 
 class NewsDetailsPdf(View):
     def get(self, request, *args, **kwargs):
-        new=New.objects.all()
+        new=News.objects.all()
         data = {
             'count':new.count(),
             'new':new,

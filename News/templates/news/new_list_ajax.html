@@ -62,30 +62,34 @@
             <thead>
                 <tr>
                     <th>ID </th>
+                    <th>Author</th>
                     <th>Category</th>
                     <th>Title</th>
                     <th>Image</th>
                     <th>Details</th>
                     <th>SubCategory</th>
                     <th>DateCreated</th>
+                    <th>IsPublished</th>
                     <th>Action</th>
 
                 </tr>
-                {% for new in new_list %}
+                {% for news in new_list %}
                 <tr>
                     <td> {{ forloop.counter }} </td>
-                    <td> {{ new.category }} </td>
-                    <td> {{ new.title }}</td>
-                    <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
-                    <td> {{ new.details|striptags }} </td>
-                    {% for sub in new.subcategory.all %}
+                    <td> {{ news.author }} </td>
+                    <td> {{ news.category }} </td>
+                    <td> {{ news.title }}</td>
+                    <td><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
+                    <td> {{ news.details|striptags }} </td>
+                    {% for sub in news.subcategory.all %}
                     <td> {{ sub }} </td>
                     {% endfor %}
-                    <td> {{ new.date_created }} </td>
+                    <td> {{ news.date_created }} </td>
+                    <td> {{ news.is_published }}</td>
                 
                     <td>
-                        <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>
-                        <a href="{% url 'news:delete-news' new.id %}" class="btn btn-danger delete"> Delete </a>
+                        <a href="{% url 'news:update-news' news.id %}" class="btn btn-info edit">Edit </a>
+                        <a href="{% url 'news:delete-news' news.id %}" class="btn btn-danger delete"> Delete </a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -33,12 +33,14 @@ class Author(models.Model):
 		return reverse("News:create-author", kwargs={'id':self.id})
 
 
-class New(models.Model):
+class News(models.Model):
+	author=models.ForeignKey(Author, on_delete=models.CASCADE)
 	category=models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-	subcategory=models.ManyToManyField(Category, related_name='news')
+	subcategory=models.ManyToManyField(Category, related_name='subcategory_news')
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
 	details=RichTextField()
+	is_published=models.BooleanField(default=False)
 	date_created=models.DateField(auto_now_add=False)
 
 	class Meta:
@@ -51,7 +53,7 @@ class New(models.Model):
 
 class Comment(models.Model):
 	author=models.ForeignKey(Author, related_name='authors', on_delete=models.CASCADE)
-	news=models.ForeignKey(New, related_name='news', on_delete=models.CASCADE)
+	news=models.ForeignKey(News, related_name='news', on_delete=models.CASCADE)
 	user=models.OneToOneField(User, on_delete=models.CASCADE)
 	email=models.CharField(max_length=100)
 	comment=RichTextField()

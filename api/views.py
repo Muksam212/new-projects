@@ -1,5 +1,5 @@
 from api.serializers import AuthorSerializer, CommentSerializer, NewsSerializer, CategorySerializer, VideoSerializer
-from news.models import Author, Comment, New, Category, Video
+from news.models import Author, Comment, News, Category, Video
 from rest_framework import mixins, generics
 
 #author api
@@ -29,11 +29,11 @@ class CommentDetails(generics.RetrieveUpdateDestroyAPIView):
 
 #news api
 class NewsList(generics.ListCreateAPIView):
-    queryset = New.objects.all()
+    queryset = News.objects.all()
     serializer_class = NewsSerializer
 
 class NewDetails(generics.RetrieveUpdateDestroyAPIView):
-    queryset = New.objects.all()
+    queryset = News.objects.all()
     serializer_class = NewsSerializer
     lookup_field = 'id'
 
