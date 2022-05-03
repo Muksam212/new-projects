@@ -36,7 +36,7 @@ class ChartDetails(TemplateView):
     def get(self, *args, **kwargs):
         author = Author.objects.all().count()
         category = Category.objects.all().count()
-        news = New.objects.all().count()
+        news = News.objects.all().count()
         comment = Comment.objects.all().count()
         video = Video.objects.all().count()
         context = {'author':author,'category':category,'news':news,'comment':comment,'video':video}
@@ -245,7 +245,6 @@ class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Upda
 
     def form_valid(self, form):
         print(form.cleaned_data)
-        print(form.cleaned_data.get('image'), '------------------------', form.instance.image)
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
