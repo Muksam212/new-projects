@@ -10,7 +10,6 @@ class GroupRequiredMixin(object):
 		for group in request.user.groups.values_list('name', flat=True):
 			user_groups.append(group)
 
-		print(self.group_required,"hello world")
 		if len(set(user_groups).intersection(self.group_required)) <= 0:
 			raise PermissionDenied
 

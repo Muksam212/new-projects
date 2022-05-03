@@ -17,6 +17,10 @@ class AuthorForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class':'form-control'
             })
+        self.fields['image'].widget.attrs.update({
+                'class':'form-control',
+                'onchange':'loadFile(event)',
+            })
 
 class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())
@@ -33,6 +37,10 @@ class NewsForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs.update({
                 'class':'form-control'
+            })
+        self.fields['image'].widget.attrs.update({
+            'class':'form-control',
+            'onchange':'loadFile(event)',
             })
 
  

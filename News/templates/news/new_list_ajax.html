@@ -81,9 +81,7 @@
                     <td> {{ news.title }}</td>
                     <td><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
                     <td> {{ news.details|striptags }} </td>
-                    {% for sub in news.subcategory.all %}
-                    <td> {{ sub }} </td>
-                    {% endfor %}
+                    <td> {% for new in news.subcategory.all %} {{ new }}, {% endfor %}</td>
                     <td> {{ news.date_created }} </td>
                     <td> {{ news.is_published }}</td>
                 
