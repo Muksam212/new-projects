@@ -26,7 +26,7 @@ class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())
     class Meta:
         model=News
-        fields=['author','category','subcategory','title','image','details','is_published','date_created']
+        fields=['author','category','subcategory','title','details','is_published','date_created','image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
