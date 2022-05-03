@@ -7,8 +7,9 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.contrib.staticfiles import finders
 from django.contrib.auth import login, logout
+from django.utils import timezone
 
-
+from news.filters import AuthorFilter,CategoryFilter
 from news.mixins import GroupRequiredMixin
 from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
@@ -51,27 +52,15 @@ class IndexView(TemplateView):
 
 #author
 class AuthorList(GroupRequiredMixin,ListView):
-    context_object_name='author_list'
     model=Author
     template_name='Author/author_list.html'
-    success_url=reverse_lazy("news:list-author")
     paginate_by=4
     group_required=['Author']
-    
 
-    #Search garda aaune query
-    def get_queryset(self):
-        queryset=Author.objects.all()
-        query=self.request.GET.get('q')
-
-        if query:
-            author_list=self.model.objects.filter(
-                Q(name__icontains=query)|
-                Q(address__icontains=query)
-            )
-        else:
-            author_list=queryset
-        return author_list
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter']=AuthorFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 
 class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
@@ -230,7 +219,7 @@ class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Crea
     group_required=['Author']
 
     def form_valid(self, form):
-        print(form.cleaned_data)
+        form.instance.date_created = timezone.now()
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
@@ -256,6 +245,7 @@ class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Upda
 
     def form_valid(self, form):
         print(form.cleaned_data)
+        print(form.cleaned_data.get('image'), '------------------------', form.instance.image)
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
@@ -342,23 +332,18 @@ class NewsDetailsExcel(View):
 class CategoryList(ListView):
     ajax_template_name='category/category_list_ajax.html'
     model=Category
-    context_object_name='category_list'
 
     paginate_by=4
 
     def get_template_names(self):
         return self.ajax_template_name
 
-    def get_queryset(self):
-        queryset=Category.objects.all()
-        query=self.request.GET.get('q')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_filter']=CategoryFilter(self.request.GET, self.get_queryset())
+        return context
 
-        if query:
-            category_list=self.model.objects.filter(title__icontains=query)
-        else:
-            category_list=queryset
-        return category_list
-    
+
 class CategoryCreate(SuccessMessageMixin, CreateView):
     ajax_template_name='category/category_create_ajax.html'
     form_class=CategoryForm

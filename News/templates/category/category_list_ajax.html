@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}
+{% load bootstrap %}
 {% block content %}
 {% load static %}
 
@@ -26,17 +27,13 @@
 </div>
 
 <div class="container">
-	<div class="row justify-content-end">
-		<div class="col-3">
 			<form method="GET">
 				{% csrf_token %}
+                {{ category_filter.form|bootstrap }}
 				<div class="input-group">
-					<input type="text" class="form-control rounded" placeholder="Search" name="q"/>
 					<button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
 				</div>
 			</form>
-		</div>
-	</div>
 </div>
 <div class="container">
     <div class="table-wrapper">
@@ -65,7 +62,7 @@
                     <th>Title</th>
                     <th>Action</th>
                 </tr>
-                {% for cat in category_list %}
+                {% for cat in category_filter.qs %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ cat.title }}</td>
