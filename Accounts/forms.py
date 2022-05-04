@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
@@ -18,7 +18,7 @@ class RegisterForms(UserCreationForm):
 		if self.cleaned_data.get('password1') != self.cleaned_data.get('password2'):
 			raise forms.ValidationError("Password are note equal")
 		return self.cleaned_data
-	
+
 
 class LoginForm(forms.Form):
 	username = forms.CharField(widget=forms.TextInput(attrs={
@@ -29,16 +29,3 @@ class LoginForm(forms.Form):
 		'placeholder':'Enter your password',
 		'class':'form-control',
 		}))
-
-	def clean(self):
-		uname=self.cleaned_data['username']
-		pword=self.cleaned_data['password']
-		print(uname,'---------')
-		print(pword,'----------')
-
-		usr = auth.authenticate(username=uname, password=pword)
-		print(usr,'-------------')
-		if not usr.is_authenticated:
-			raise forms.ValidationError({
-				'username':'Username or Password is incorrect'
-			})
