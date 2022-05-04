@@ -28,6 +28,7 @@
             <span> {{ f.errors|striptags }} </span>
         </div>
         {% endfor %}
+        <img id ="output"/ style="width:100px;" "height:100px;">
         <button class="btn btn-primary"> add </button>
     </div>
 </form>
@@ -39,6 +40,15 @@
     $(document).ready(function (){
         $('#id_banneradd').select2();
     })
+
+    {% comment %} image preview ko lagi {% endcomment %}
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+          URL.revokeObjectURL(output.src) // free memory
+        }
+      };
 </script>
 
 {% endblock scripts %}

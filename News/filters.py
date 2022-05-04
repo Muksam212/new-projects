@@ -13,12 +13,14 @@ class AuthorFilter(django_filters.FilterSet):
         model = Author
         fields = ('name')
 
-class NewsFilter(django_filters.FilterSet):
-    title = django_filters.CharFilter(lookup_expr='icontains')
+class NewsFilter(django_filters.FilterSet):    
 
-    class meta:
+    class Meta:
         model = News
-        fields = ('title', 'category')
+        fields = {
+            'title' : ['icontains'],
+            'category__title' : ['icontains']
+        }
 
 class CategoryFilter(django_filters.FilterSet):
     title= django_filters.CharFilter(lookup_expr = 'iexact')

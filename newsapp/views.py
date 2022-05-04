@@ -1,10 +1,8 @@
-from datetime import datetime
-from multiprocessing import context
-from pyexpat import model
-from unicodedata import category
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import *
 from django.urls import reverse_lazy
+
+
 from news.models import Banneradd
 from news.models import Category,News   
 # Create your views here.

@@ -1,6 +1,7 @@
 from django.urls import path
-from newsapp.views import BaseTemplate, DetailsTemplate, IndexTemplate, DetailnewsView
 from django.contrib.auth import views as auth_views
+
+from newsapp.views import BaseTemplate, DetailsTemplate, IndexTemplate, DetailnewsView
 
 app_name='newsapp'
 

@@ -42,6 +42,10 @@ class NewsForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class':'form-control'
             })
+        self. fields['image'].widget.attrs.update({
+            'class': 'form-control',
+            'onchange' : 'loadFile(event)'
+        })
 
  
 class CategoryForm(forms.ModelForm):
@@ -94,3 +98,8 @@ class BanneraddForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class':'form-control',
             })
+        self.fields['image'].widget.attrs.update({
+            'class': 'form-control',
+            'onchange': 'loadFile(event)'
+        })
+            

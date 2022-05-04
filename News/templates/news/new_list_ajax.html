@@ -71,6 +71,7 @@
                 {% for new in news_filter.qs %}
                 <tr>
                     <td> {{ forloop.counter }} </td>
+                    <td> {{ new.author }} </td>
                     <td> {{ new.category }} </td>
                     <td> {{ new.title }}</td>
                     <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>

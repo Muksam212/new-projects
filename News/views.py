@@ -247,6 +247,7 @@ class NewsCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
+
     def get_template_names(self):
         return self.ajax_template_name
 

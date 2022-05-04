@@ -1,12 +1,13 @@
 from django.views.generic import *
 from django.views import View
-from .forms import RegisterForms, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
+
 from news.views import UserRequiredMixin
+from accounts.forms import RegisterForms, LoginForm
 
 # Create your views here.
 #register 
@@ -36,14 +37,10 @@ class LoginPage(FormView):
 
 	def form_valid(self, form):
 		uname=form.cleaned_data['username']
-		print(uname,'---------')
 		pword=form.cleaned_data['password']
-		print(pword,'----------')
-
 		user = authenticate(username=uname, password=pword)
-		print(user, '=====================')
+		
 		if user is not None:
-			print(user, '---------------------')
 			login(self.request, user)
 		else:
 			return render(self.request,'registration/login.html',
