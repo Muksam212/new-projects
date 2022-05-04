@@ -1,8 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.utils.html import mark_safe
-
 from ckeditor.fields import RichTextField
 #create your models here
 
