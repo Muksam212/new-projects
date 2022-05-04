@@ -22,6 +22,17 @@ class AuthorForm(forms.ModelForm):
                 'onchange':'loadFile(event)',
             })
 
+    def clean(self):
+        super(AuthorForm, self).clean()
+        name = self.cleaned_data.get('name')
+
+        if len(name) < 5:
+            self._errors['name']=self.error_class([
+                    'Minimum 5 characters required'
+                ])
+
+        return self.cleaned_data
+
 class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())
     class Meta:

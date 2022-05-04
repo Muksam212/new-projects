@@ -46,20 +46,9 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form method = "POST">
-                                {% if messages %}
-                                    {% for message in messages %}
-                                        <script>
-                                            swal({
-                                                title: "Good job!",
-                                                text: "{{ message }}",
-                                                icon: "success",
-                                              }); 
-                                        </script>
-                                    {% endfor %}
-                                {% endif %}
+                            <form method="POST">
                                 {% csrf_token %}
-                                {{ form|crispy }}
+                                {{ form }}
                                 <input type="submit" value="Register" class="btn btn-success">
                             </form>
                             <hr>
@@ -84,6 +73,17 @@
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                swal({
+                    title: "Good job!",
+                    text: "{{ message }}",
+                    icon: "success",
+                  }); 
+            </script>
+        {% endfor %}
+    {% endif %}
     {% block script %}
     {% endblock script %}
 </body>

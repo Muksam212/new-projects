@@ -73,14 +73,6 @@ class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Cr
     def get_template_names(self):
         return self.ajax_template_name
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        errors=form.errors.as_json()
-        return JsonResponse({'errors':errors},status=400)
-
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 

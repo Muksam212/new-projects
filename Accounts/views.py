@@ -11,7 +11,6 @@ from news.views import LoginRequiredMixin
 from accounts.forms import RegisterForms, LoginForm
 
 # Create your views here.
-
 #register 
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
@@ -22,10 +21,6 @@ class RegisterView(SuccessMessageMixin,CreateView):
 	def form_valid(self, form):
 		print(form.cleaned_data)
 		return super().form_valid(form)
-
-	def form_invalid(self, form):
-		errors=form.errors.as_json()
-		return JsonResponse({'errors':errors},status=400)
 
 	def get_success_message(self, cleaned_data):
 		return self.success_message % cleaned_data

@@ -84,7 +84,7 @@
                     <td style="width: 50px;"> {% for new in news.subcategory.all %} {{ new }}, {% endfor %}</td>
                     <td style="width: 50px;"> {{ news.date_created }} </td>
                     <td style="width: 50px;"> {{ news.is_published }}</td>
-                    <td style="width: 50px;"><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
+                    <td style="width: 60px;" "height:60px;"><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
                     <td style="width: 50px;">
                         <a href="{% url 'news:update-news' news.id %}" class="btn btn-info edit">Edit </a>
                         <a href="{% url 'news:delete-news' news.id %}" class="btn btn-danger delete"> Delete </a>
