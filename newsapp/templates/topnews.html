@@ -10,38 +10,54 @@
                     <img src="{{ news_object.image.url }}" alt="">
                 </div>
                 <div class="weekly-caption">
-                    <span class="color1">{{ news_object.category.title.title }}</span>
+                    <span class="color1">{{ news_object.category.title }}</span>
                     <h4><a href="">{{ news_object.title}}</a></h4>
                 </div>
                 {% endfor %}
             </div>
             <div class="weekly-single active">
+                {% for news_object in political_news%}
                 <div class="weekly-img">
-                    <img src="{% static 'assets/img/news/weeklyNews1.jpg' %}" alt="">
+                    <img src="{{ news_object.image.url }}" alt="">
                 </div>
                 <div class="weekly-caption">
-                    <span class="color1">Strike</span>
-                    <h4><a href="#">Welcome To The Best Model Winner Contest</a></h4>
+                    <span class="color1">{{ news_object.category.title.title }}</span>
+                    <h4><a href="#">{{ news_object.title }}</a></h4>
                 </div>
+                {% endfor %}
             </div>
             <div class="weekly-single">
+                {% for news_object in business_news %}
                 <div class="weekly-img">
-                    <img src="{% static 'assets/img/news/weeklyNews3.jpg' %}" alt="">
+                    <img src="{{ news_object.image.url }}" alt="">
                 </div>
                 <div class="weekly-caption">
-                    <span class="color1">Strike</span>
-                    <h4><a href="#">Welcome To The Best Model Winner Contest</a></h4>
+                    <span class="color1">{{ news_object.category.title }}</span>
+                    <h4><a href="#">{{ news_object.title }}</a></h4>
                 </div>
+                {% endfor %}
             </div>
             <div class="weekly-single">
+                {% for news_object in cinema_news%}
                 <div class="weekly-img">
-                    <img src="{% static 'assets/img/news/weeklyNews1.jpg' %}" alt="">
+                    <img src="{{ news_object.image.url }}" alt="">
                 </div>
                 <div class="weekly-caption">
-                    <span class="color1">Strike</span>
-                    <h4><a href="#">Welcome To The Best Model Winner Contest</a></h4>
+                    <span class="color1">{{ news_object.category.title }}</span>
+                    <h4><a href="#">{{ news_object.title }}</a></h4>
                 </div>
+                {% endfor %}
             </div>
         </div>
+    </div>
+    <div class="single-bottom mb-45">
+        <br>
+        {% for s in banner_add %}
+        <div class="weekly-img">
+            <img src="{{ s.image.url }} " style="padding-left: 500px; "  alt="">
+        </div>
+        <div class="weekly-caption">
+        </div>
+        {% endfor %}
     </div>
 </div>

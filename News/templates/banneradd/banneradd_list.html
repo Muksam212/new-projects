@@ -1,5 +1,4 @@
 {% extends 'dashboard/base.html' %}
-{% load bootstrap%}
 {% block content %}
 {% load static %}
 
@@ -9,38 +8,11 @@
 
 
 <div class="container">
-	<div class="card" style="width:40rem;">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-sm-4">
-					<a href="{% url 'news:category-pdf' %}" class="btn btn-info"> Pdf Format </a>
-				</div>
-				<div class="col-sm-4">
-					<a href="{% url 'news:category-csv' %}" class="btn btn-success"> Csv Format</a>
-				</div>
-				<div class="col-sm-4">
-					<a href="{% url 'news:category-excel' %}" class="btn btn-secondary"> Excel Format</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="container">
-            <form method="GET">
-                {{ category_filter.form|bootstrap }}
-				{% csrf_token %}
-				<div class="input-group">
-					<button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-				</div>
-            </form>
-</div>
-<div class="container">
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h2>Manage <b>Category</b></h2>
+                    <h2>manage <b>Bannneradd</b></h2>
                     {% if messages %}
                     {% for message in messages %}
                     <script>
@@ -60,22 +32,26 @@
                 <tr>
                     <th>ID</th>
                     <th>Title</th>
+                    <th>Image</th>
+                    <th>is_active</th>
                     <th>Action</th>
                 </tr>
-                {% for cat in category_filter.qs %}
+                {% for banner in banneradd_list %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ cat.title }}</td>
+                    <td>{{ banner.title }}</td>
+                    <td><img src="{{ banner.image.url }}" style="width:40px;" alt="No Image"></td>
+                    <td>{{ banner.is_active }}</td>
                     <td>
-                        <a href="{% url 'news:update-category' cat.id %}" class="btn btn-info editbtn"> Edit </a>
-                        <a href="{% url 'news:delete-category' cat.id %}" class="btn btn-danger deletebtn"> Delete </a>
+                        <a href="{% url 'news:banneradd_update' banner.id %}" class="btn btn-info editbtn"> Edit </a>
+                        <a href="{% url 'news:banneradd_delete' banner.id %}" class="btn btn-danger deletebtn"> Delete </a>
                     </td>
                 </tr>
                 {% endfor %}
             </thead>
         </table>
 
-        <!--Add pagination in Comment -->
+        <!--Add pagination in banneradd -->
         <div class="container">
             <div class="row justify-content-end">
                 <nav aria-label="Page navigation example">
@@ -110,7 +86,7 @@
             </div>
         </div>
         <!-- Edit Author-->
-        <div id="editCategoryModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+        <div id="editbanneraddModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -119,7 +95,7 @@
         </div>
 
         <!--Delete Author-->
-        <div id="deleteCategoryModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+        <div id="deletebanneraddModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -138,8 +114,8 @@
         var url = $(this).attr('href');
         $.get(url, function (data) {
             console.log(data)
-            $('#editCategoryModal').modal('show');
-            $('#editCategoryModal .modal-content').empty().append(data)
+            $('#editbanneraddModal').modal('show');
+            $('#editbanneraddModal .modal-content').empty().append(data)
         })
     })
 
@@ -148,8 +124,8 @@
         var url = $(this).attr('href');
         $.get(url, function (data){
             console.log(data)
-            $('#deleteCategoryModal').modal('show');
-            $('#deleteCategoryModal .modal-content').empty().append(data)
+            $('#deletebanneraddModal').modal('show');
+            $('#deletebanneraddModal .modal-content').empty().append(data)
         })
     })
 

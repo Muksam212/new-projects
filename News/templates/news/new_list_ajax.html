@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}
+{% load bootstrap %}
 {% block content %}
 {% load static %}
 
@@ -25,17 +26,13 @@
 </div>
 
 <div class="container">
-	<div class="row justify-content-end">
-		<div class="col-3">
 			<form method="GET">
+                {{ news_filter.form|bootstrap }}
 				{% csrf_token %}
 				<div class="input-group">
-					<input type="text" class="form-control rounded" placeholder="Search" name="q"/>
 					<button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
 				</div>
 			</form>
-		</div>
-	</div>
 </div>
 
 <div class="container">
@@ -62,6 +59,7 @@
             <thead>
                 <tr>
                     <th>ID </th>
+                    <th> Author</th>
                     <th>Category</th>
                     <th>Title</th>
                     <th>Image</th>
@@ -70,13 +68,14 @@
                     <th>Action</th>
 
                 </tr>
-                {% for new in new_list %}
+                {% for new in news_filter.qs %}
                 <tr>
                     <td> {{ forloop.counter }} </td>
                     <td> {{ new.category }} </td>
                     <td> {{ new.title }}</td>
                     <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
-                    <td> {{ new.details|striptags }} </td>
+                    <td> {{ new.details|safe|striptags|truncatechars:'200' }} </td>
+                    <td> {{ new.subcategory.all }}
                     {% for sub in new.subcategory.all %}
                     <td> {{ sub }} </td>
                     {% endfor %}

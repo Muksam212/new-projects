@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<form method="POST" action="{% url 'news:create-author' %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'news:banneradd_create' %}" enctype="multipart/form-data">
     {% if messages %}
         {% for message in messages %}
         <script>
@@ -16,7 +16,7 @@
     {% endif %}
     {% csrf_token %}
     <div class="modal-header">
-        <h4 class="modal-title">Add Author</h4>
+        <h4 class="modal-title">Add Banneradd</h4>
     </div>
     <div class="modal-body">
         
@@ -28,8 +28,7 @@
             <span> {{ f.errors|striptags }} </span>
         </div>
         {% endfor %}
-        <img id ="output"/ style="width:100px;" "height:100px;">
-        <button class="btn btn-primary"> Add Author </button>
+        <button class="btn btn-primary"> add </button>
     </div>
 </form>
 
@@ -38,16 +37,8 @@
 {% block scripts %}
 <script>
     $(document).ready(function (){
-        $('#id_category').select2();
+        $('#id_banneradd').select2();
     })
-    var loadFile = function(event) {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function() {
-          URL.revokeObjectURL(output.src) // free memory
-        }
-      };
-
 </script>
 
 {% endblock scripts %}

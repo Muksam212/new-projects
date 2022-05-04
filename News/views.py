@@ -1,3 +1,6 @@
+from multiprocessing import context
+from pkgutil import ImpLoader
+from re import template
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import *
 from django.urls import reverse_lazy
@@ -8,13 +11,16 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.staticfiles import finders
 from django.contrib.auth import login, logout
 
+from news.filters import CategoryFilter, NewsFilter
+from .filters import AuthorFilter
+
 from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
 import xlwt
 
 
-from .models import Author, News, Category, Comment
-from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm
+from .models import Author, News, Category, Comment, Banneradd
+from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, BanneraddForm
 import csv
 
 class UserRequiredMixin(object):
@@ -53,25 +59,31 @@ class IndexView(TemplateView):
 
 #author
 class AuthorList(UserRequiredMixin,ListView):
-    context_object_name='author_list'
     model=Author
     template_name='Author/author_list.html'
     success_url=reverse_lazy("news:list-author")
     paginate_by=4
     
 
-    def get_queryset(self):
-        queryset=Author.objects.all()
-        query=self.request.GET.get('q')
+    # def get_queryset(self):
+    #     queryset=Author.objects.all()
+    #     query=self.request.GET.get('q')
 
-        if query:
-            author_list=self.model.objects.filter(
-                Q(name__icontains=query)|
-                Q(address__icontains=query)
-            )
-        else:
-            author_list=queryset
-        return author_list
+    #     if query:
+    #         author_list=self.model.objects.filter(
+    #             Q(name__icontains=query)|
+    #             Q(address__icontains=query)
+    #         )
+    #     else:
+    #         author_list=queryset
+    #     return author_list
+
+    # django filter for author:
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['author_filter'] = AuthorFilter(self.request.GET, queryset = self.get_queryset())
+        return context
 
 
 class AuthorCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
@@ -199,19 +211,25 @@ class AuthorDetailsExcel(View):
 class NewList(ListView):
     ajax_template_name='news/new_list_ajax.html'
     model=News
-    context_object_name='new_list'
     success_url=reverse_lazy("news:new-list")
     paginate_by=4
 
-    def get_queryset(self):
-        queryset=News.objects.all()
-        query=self.request.GET.get('q')
+    # def get_queryset(self):
+    #     queryset=super().get_queryset()
+    #     query=self.request.GET.get('q')
 
-        if query:
-            new_list=self.model.objects.filter(title__icontains=query)
-        else:
-            new_list=queryset
-        return new_list
+    #     if query:
+    #         new_list=self.model.objects.filter(title__icontains=query)
+    #     else:
+    #         new_list=queryset
+    #     return new_list
+
+    # django - filter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['news_filter'] = NewsFilter(self.request.GET, queryset = self.get_queryset())
+        return context
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -222,9 +240,9 @@ class NewsCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
     success_url=reverse_lazy("news:create-news")
     success_message='News is created'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     print(form.cleaned_data)
+    #     return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
@@ -333,22 +351,35 @@ class NewsDetailsExcel(View):
 class CategoryList(ListView):
     ajax_template_name='category/category_list_ajax.html'
     model=Category
-    context_object_name='category_list'
+
 
     paginate_by=4
 
     def get_template_names(self):
         return self.ajax_template_name
 
-    def get_queryset(self):
-        queryset=Category.objects.all()
-        query=self.request.GET.get('q')
+    ## django - filter
 
-        if query:
-            category_list=self.model.objects.filter(title__icontains=query)
-        else:
-            category_list=queryset
-        return category_list
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_filter'] = CategoryFilter(self.request.GET, queryset = self.get_queryset())
+        return context
+
+
+
+
+
+
+
+    # def get_queryset(self):
+    #     queryset=Category.objects.all()
+    #     query=self.request.GET.get('q')
+
+    #     if query:
+    #         category_list=self.model.objects.filter(title__icontains=query)
+    #     else:
+    #         category_list=queryset
+    #     return category_list
     
 class CategoryCreate(SuccessMessageMixin, CreateView):
     ajax_template_name='category/category_create_ajax.html'
@@ -594,3 +625,56 @@ class CommentDetailsExcel(View):
 
         wb.save(response)
         return response
+
+class Banneraddlist(ListView):
+    template_name = 'banneradd/banneradd_list.html'
+    model = Banneradd
+    context_object_name = 'banneradd_list'
+    paginate_by=2
+
+
+class BanneraddCreate(SuccessMessageMixin, CreateView):
+    template_name = 'banneradd/banneradd_create.html'
+    form_class = BanneraddForm
+    success_message = 'banneradd is created'
+    success_url = reverse_lazy("news:banneradd_list")
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+    
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+
+class BanneraddUpdate(SuccessMessageMixin, UpdateView):
+    template_name = 'banneradd/banneradd_update.html'
+    form_class = BanneraddForm
+    success_message = "banneradd is updated"
+    success_url = reverse_lazy('news:banneradd_list')
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+    
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+    
+    def get_object(self, ** kwargs):
+        id = self.kwargs.get('id')
+        return get_object_or_404(Banneradd, id = id)
+    
+class BanneraddDelete(SuccessMessageMixin, DeleteView):
+    template_name = 'banneradd/banneradd_delete.html'
+    model = Banneradd
+    success_url = reverse_lazy('news:banneradd_list')
+    success_message = 'banneradd deleted successfully'
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('id')
+        return get_object_or_404(Banneradd, id = id)
+    
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+
+
+

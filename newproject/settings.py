@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'ckeditor',
     'newsapp',
+    'django_filters',
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [

@@ -1,4 +1,6 @@
 from django.urls import path
+
+from news.views import Banneraddlist, BanneraddCreate, BanneraddUpdate, BanneraddDelete
 from news.views import (CommentList,CommentCreate, CommentUpdate, CommentDelete, CommentDetailsPdf,
 IndexView,AuthorList, AuthorUpdate, CommentDetailsCSV,CommentDetailsExcel,
 CategoryUpdate, AuthorCreate,DashboardTemplate,ChartDetails,
@@ -56,5 +58,13 @@ urlpatterns = [
     path('commentCsv/', CommentDetailsCSV.as_view(), name='comment-csv'),
     path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel'),
 
-    #sub-category
+   #banneradd
+    
+    path('banneraddlist/', Banneraddlist.as_view(), name = 'banneradd_list'),
+    path('BanneraddCreate/', BanneraddCreate.as_view(), name = 'banneradd_create'),
+    path('banneradd/<int:id>/update', BanneraddUpdate.as_view(), name = 'banneradd_update'),
+    path('banneradd/<int:id>/delete', BanneraddDelete.as_view(), name = 'banneradd_delete'),
+
+
+
 ]

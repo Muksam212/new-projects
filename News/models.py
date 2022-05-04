@@ -1,8 +1,9 @@
+from pyexpat import model
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
-from autoslug import AutoSlugField
+# from autoslug import AutoSlugField
 
 
 #create your models here
@@ -10,7 +11,6 @@ from autoslug import AutoSlugField
 
 class Category(models.Model):
 	title = models.CharField(max_length=100)
-
 	def __str__(self):
 		return self.title
 
@@ -30,10 +30,12 @@ class Author(models.Model):
 
 class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
-	subcategory=models.ManyToManyField(Category, related_name='categorys')
+	# subcategory=models.ManyToManyField(Category, related_name='categorys')
+	author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True)
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
-	slug = AutoSlugField(populate_from = 'title', unique = True, null = True, default = None)
+	# banneradd=models.ImageField(upload_to='bannersadd/images')
+	# slug = AutoSlugField(populate_from = 'title', unique = True, null = True, default = None)
 	details=RichTextField()
 
 	class Meta:
@@ -63,3 +65,16 @@ class Video(models.Model):
 
 	def __str__(self):
 		return "{}".format(self.title)
+
+class Banneradd(models.Model):
+	title = models.CharField(max_length=50)
+	image = models.ImageField(upload_to = 'banneradd/image')
+	url=models.URLField(max_length=255)
+	is_active=models.BooleanField(default=False)
+
+	def __str__(self):
+		return "{}".format(self.title)
+
+
+
+

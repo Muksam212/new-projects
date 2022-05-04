@@ -2,13 +2,27 @@
 {% load static %}
 {% block content %}
 {% comment %} {% for news in news_details %} {% endcomment %}
-<div class="col-lg-4">
-    <div class="single-bottom mb-35">
-        <img src="{{ newsdetail.image.url }}" alt="">
-        <div class="trend-bottom-cap">
-            <span class="color1">{{ newsdetail.details }}</span>
+<div class="container">
+    <div class="row justify-content-around">
+        <div class="col-md-10">
+            <div class="single-bottom">
+                <hr>
+                <img src="{{ newsdetail.image.url }}" style="width:90%; height:98%;" alt="">
+                <div class="trend-bottom-cap">
+                    <hr>
+                    <span>
+                        <h3 class="text-center">{{ newsdetail.title }}</h3>
+                    </span>
+                    <hr>
+                    <span class="color1">{{ newsdetail.details|safe|striptags }}</span>
+                    {% for banner in banneradd_list %}
+                    <h3> {{ banner.image.url }} </h3>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
+    
 </div>
 {% comment %} {% endfor %} {% endcomment %}
 {% endblock content %}

@@ -34,9 +34,17 @@
 {% endblock content %}
 {% block scripts %}
 <script>
-    $(document).ready(function (){
-        $('#id_category').select2();
-    })
+   $('#id_category').select2();
+   $('#id_author').select2();
+   
+   var loadFile = function(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
 </script>
 
 {% endblock scripts %}

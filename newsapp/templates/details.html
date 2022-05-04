@@ -1,14 +1,117 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% for news in news_detail %}
-<div class="col-lg-4">
-    <div class="single-bottom mb-35">
-        <img src="{{ news.image.url }}" alt="">
-        <div class="trend-bottom-cap">
-            <span class="color1">{{ news.details.pk }}</span>
+<style>
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        color: black !important;
+    }
+</style>
+{% if category_news.0 %}
+<div class="container">
+    <div class="row justify-content-around">
+        <div class="col-md-8">
+            <div class="single-bottom">
+                <hr>
+                <img width="80%" height="auto" src="{{ category_news.0.image.url }}" alt="">
+            </div>
+        </div>
+        <div class="col-xl-4 d-flex" style="margin-top: 12rem;">
+            <br>
+            <a href="https://www.facebook.com/imeremit"
+                target="_blank"><img alt="" class="animated fadeIn"
+                    data-src="https://ratopatis.prixacdn.net/media/Ime_new_april_17.gif" style="width:100%"
+                    src="https://ratopatis.prixacdn.net/media/Ime_new_april_17.gif"></a>
+        </div>
+        <div class="row justify-content-around">
+            <span>
+                <hr>
+                <h4 class="text-center"> {{ category_news.0.title }} </h4>
+                <hr>
+            </span>
+            <div class="col-lg-10">
+                <span class="color1">{{ category_news.0.details|safe|striptags|truncatechars:'200' }}</span>
+            </div>
         </div>
     </div>
+    <!-- category box -->
 </div>
-{% endfor %}
-{% endblock content %} 
+{% endif %}
+<div class="container">
+    <div class="recent-wrapper">
+         <!-- section Tittle -->
+         <div class="row">
+             <div class="col-lg-12">
+                 <div class="section-tittle mb-30">
+                    <div class="what-cap">
+                        <span class="color1"><h3 style="color: darkgreen;"> <a href="#">  {{ category_object }} </a> </h3> </span>
+                        
+                    </div>
+                 </div>
+
+             </div>
+         </div>
+         
+         <div class="row">
+             {% for news_object in category_news|slice:'1:' %}
+             <div class="col-4">
+                <div class="recent-active dot-style d-flex dot-style">
+       
+                    <div class="single-recent mb-100"> 
+                         <div class="what-img">
+                             <img style="width: 400px; height:300px;" src="{{ news_object.image.url }}" alt="">
+                         </div>
+                     
+                         <div class="white-cap">
+                             <span>{{ category_object }} </span>
+                             <h4><a href="">{{ news_object.title }}</a></h4>
+                            
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+
+</div>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

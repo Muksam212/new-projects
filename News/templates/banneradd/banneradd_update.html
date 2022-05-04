@@ -1,0 +1,29 @@
+{% block content %}
+<form method="POST" action="{% url 'news:banneradd_update' object.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="modal-header">
+        <h4 class="modal-title">Edit banneradd</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+        {% for f in form %}
+        <div class="form-group">
+            <label>{{ f.label }}</label>
+            {{ f }}
+        </div>
+        {% endfor %}
+        <br>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+        <input type="submit" class="btn btn-success" value="Edit">
+    </div>
+</form>
+{% endblock content %}
+{% block scripts %}
+<script>
+    $(document).ready(function (){
+        $('#id_banneradd').select2();
+    })
+</script>
+{% endblock scripts %}
