@@ -8,13 +8,13 @@ from django.http import JsonResponse
 from django.views.generic import RedirectView
 
 from news.views import LoginRequiredMixin
-from accounts.forms import RegisterForms, LoginForm
+from accounts.forms import SignUpForm, LoginForm
 
 # Create your views here.
 #register 
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
-	form_class = RegisterForms
+	form_class = SignUpForm
 	success_url = reverse_lazy('accounts:register')
 	success_message = "Your Information is Created"
 
