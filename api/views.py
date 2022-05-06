@@ -13,10 +13,7 @@ class AuthorDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     lookup_field = 'id'
-
-    # def get(self, request):
-    #     serializer = AuthorSerializer(serializer_class,image = request.image)
-
+    
 #comment api
 class CommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()

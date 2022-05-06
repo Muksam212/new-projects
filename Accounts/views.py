@@ -11,7 +11,7 @@ from news.views import LoginRequiredMixin
 from accounts.forms import SignUpForm, LoginForm
 
 # Create your views here.
-#register 
+#register
 class RegisterView(SuccessMessageMixin,CreateView):
 	template_name = 'register/register.html'
 	form_class = SignUpForm
