@@ -30,7 +30,7 @@ class Author(models.Model):
 
 class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
-	# subcategory=models.ManyToManyField(Category, related_name='categorys')
+	subcategory=models.ManyToManyField(Category, related_name='categorys')
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True)
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')

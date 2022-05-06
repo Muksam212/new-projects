@@ -76,10 +76,7 @@
                     <td> {{ new.title }}</td>
                     <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
                     <td> {{ new.details|safe|striptags|truncatechars:'200' }} </td>
-                    <td> {{ new.subcategory.all }}
-                    {% for sub in new.subcategory.all %}
-                    <td> {{ sub }} </td>
-                    {% endfor %}
+                    <td>{% for news in new.subcategory.all %} {{ news }}, {% endfor %} </td>
                 
                     <td>
                         <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>
@@ -168,5 +165,7 @@
             $('#deleteNewsModal .modal-content').empty().append(data)
         })
     })
+
+    $('#id_subcategory').select2();
 </script>
 {% endblock scripts %}

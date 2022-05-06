@@ -59,7 +59,7 @@ class IndexTemplate(BaseMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_news'] = News.objects.all().order_by('-id')
-        context['sports_news'] = News.objects.filter(category__title='खेलकुद').order_by('-id')
+        context['sports_news'] = News.objects.filter(category__title='खेलकुद').order_by('-id')[:1]
         context['political_news'] =News.objects.filter(category__title = 'राजनीति').order_by('-id')[:1]
         context['business_news'] = News.objects.filter(category__title = 'अर्थ').order_by('-id')[:1]
         context['cinema_news'] = News.objects.filter(category__title = 'सिनेमा').order_by('-id')[:1]

@@ -30,7 +30,7 @@ class NewsForm(forms.ModelForm):
     details=forms.CharField(widget=CKEditorWidget())
     class Meta:
         model=News
-        fields=['author','category','title','image','details']
+        fields=['author','category','subcategory','title','image','details']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

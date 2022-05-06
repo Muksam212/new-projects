@@ -1,63 +1,75 @@
 {% load static %}
+{% block content%}
+<style>
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        color: red !important;
+    }
+</style>
 
 
 <div class="row">
     <div class="col-12">
-        <div class="weekly-news-active dot-style d-flex dot-style">
-            <div class="weekly-single">
-                {% for news_object in sports_news %}
+        <div class="weekly-news-active  d-flex">
+            {% for news_object in sports_news %}
+            <div class="weekly-single active">
                 <div class="weekly-img">
                     <img src="{{ news_object.image.url }}" alt="">
                 </div>
-                <div class="weekly-caption">
+                <div class="weekly-caption" style="bottom:auto;">
                     <span class="color1">{{ news_object.category.title }}</span>
-                    <h4><a href="">{{ news_object.title}}</a></h4>
+                    <h4><a href="{% url 'newsapp:detail-news' news_object.pk %}">{{ news_object.title}}</a></h4>
                 </div>
-                {% endfor %}
+                
             </div>
+            {% endfor %}
             <div class="weekly-single active">
                 {% for news_object in political_news%}
                 <div class="weekly-img">
                     <img src="{{ news_object.image.url }}" alt="">
                 </div>
-                <div class="weekly-caption">
-                    <span class="color1">{{ news_object.category.title.title }}</span>
-                    <h4><a href="#">{{ news_object.title }}</a></h4>
+                <div class="weekly-caption" style="bottom:auto;">
+                    <span class="color1">{{ news_object.category.title }}</span>
+                    <h4><a href="{% url 'newsapp:detail-news' news_object.pk %}">{{ news_object.title }}</a></h4>
                 </div>
                 {% endfor %}
             </div>
-            <div class="weekly-single">
+            <div class="weekly-single active">
                 {% for news_object in business_news %}
                 <div class="weekly-img">
-                    <img src="{{ news_object.image.url }}" alt="">
+                    <img src="{{ news_object.image.url }}" alt="" > 
                 </div>
-                <div class="weekly-caption">
+                <div class="weekly-caption" style="bottom:auto;">
                     <span class="color1">{{ news_object.category.title }}</span>
-                    <h4><a href="#">{{ news_object.title }}</a></h4>
+                    <h4><a href="{% url 'newsapp:detail-news' news_object.pk %}">{{ news_object.title }}</a></h4>
                 </div>
                 {% endfor %}
             </div>
-            <div class="weekly-single">
-                {% for news_object in cinema_news%}
+            <div class="weekly-single active">
+                {% for news_object in cinema_news %}
                 <div class="weekly-img">
                     <img src="{{ news_object.image.url }}" alt="">
                 </div>
-                <div class="weekly-caption">
+                <div class="weekly-caption" style="bottom:auto;">
                     <span class="color1">{{ news_object.category.title }}</span>
-                    <h4><a href="#">{{ news_object.title }}</a></h4>
+                    <h4><a href="{% url 'newsapp:detail-news' news_object.pk %}">{{ news_object.title }}</a></h4>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-    <div class="single-bottom mb-45">
-        <br>
-        {% for s in banner_add %}
-        <div class="weekly-img">
-            <img src="{{ s.image.url }} " style="padding-left: 500px; "  alt="">
-        </div>
-        <div class="weekly-caption">
-        </div>
-        {% endfor %}
-    </div>
+    
 </div>
+<div class="single-bottom">
+    <br>
+    {% for s in banner_add %}
+    <div class="weekly-img">
+        <img src="{{ s.image.url }} " style="padding-left: 500px; "  alt="">
+    </div>
+    <div class="weekly-caption">
+    </div>
+    {% endfor %}
+</div>
+{% endblock%}
