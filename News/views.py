@@ -47,7 +47,7 @@ class DashboardTemplate(LoginRequiredMixin,TemplateView):
 
 class IndexView(TemplateView):
     template_name='admin/index.html'
-    
+
 
 #author
 class AuthorList(GroupRequiredMixin,ListView):
@@ -75,7 +75,7 @@ class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Cr
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
-        
+
 
 class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='Author/author_update_ajax.html'
@@ -89,7 +89,7 @@ class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Up
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
-        
+
     def get_template_names(self):
         return self.ajax_template_name
 
@@ -259,18 +259,6 @@ class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Dele
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
-
-# class NewsDetailsPdf(View):
-#     def get(self, request, *args, **kwargs):
-#         new=News.objects.all()
-#         data = {
-#             'count':new.count(),
-#             'new':new,
-#         }
-#         pdf = render_to_pdf('news/new_pdf.html', data)
-#         return HttpResponse(pdf, content_type='application/pdf')
-
-
 class NewsDetailsCSV(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='application/csv')
@@ -339,7 +327,7 @@ class CategoryCreate(SuccessMessageMixin, CreateView):
     form_class=CategoryForm
     success_message="Category information is created"
     success_url=reverse_lazy("news:create-category")
-    
+
     def get_template_names(self):
         return self.ajax_template_name
 
@@ -360,7 +348,7 @@ class CategoryUpdate(SuccessMessageMixin, UpdateView):
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
-        
+
     def get_template_names(self):
         return self.ajax_template_name
 
@@ -519,7 +507,7 @@ class CommentDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, D
 
     def get_template_names(self):
         return self.ajax_template_name
-    
+
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
         return get_object_or_404(Comment, id=id)

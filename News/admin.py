@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Category, News, Comment
+from .models import Author, Category, News, Comment, Video
 # Register your models here.
 
-admin.site.register([Author,Category,News,Comment])
+admin.site.register([Author,Category,News,Comment,Video])
