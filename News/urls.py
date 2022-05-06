@@ -3,7 +3,7 @@ from news.views import (CommentList,CommentCreate, CommentUpdate, CommentDelete,
 IndexView,AuthorList, AuthorUpdate, CommentDetailsCSV,CommentDetailsExcel,
 CategoryUpdate, AuthorCreate,DashboardTemplate,ChartDetails,
 AuthorList,AuthorUpdate, AuthorDelete,NewsCreate,NewList, NewsUpdate, NewsDelete, CategoryCreate, 
-CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,NewsDetailsPdf,
+CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,
 NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails,VideoCreate
 ,VideoList,VideoUpdate,VideoDelete)
 
@@ -33,7 +33,6 @@ urlpatterns = [
     path('createNews/', NewsCreate.as_view(), name='create-news'),
     path('news/<int:id>/update/',NewsUpdate.as_view(), name='update-news'),
     path('news/<int:id>/delete/',NewsDelete.as_view(), name='delete-news'),
-    path('newPdf/',NewsDetailsPdf.as_view(), name='new-pdf'),
     path('newCsv/',NewsDetailsCSV.as_view(), name='new-csv'),
     path('newExcel/', NewsDetailsExcel.as_view(), name='new-excel'),
 

@@ -12,7 +12,7 @@
     }
 </style>
 <div class="container">
-    <div class="table-wrapper">
+    <div class="table-wrapper xl-4">
         <h3> News count : {{ count }} </h3>
         <table border="0.1" style="border-collapse: collapse;">
             <thead>
@@ -20,16 +20,23 @@
                     <th>ID</th>
                     <th>Category</th>
                     <th>Title</th>
+                    <th>Details</th>
+                    <th>SubCategory</th>
+                    <th>IsPublished</th>
                     <th>Image</th>
                     <th>Details</th>
+                    <th>DateCreated</th>
                 </tr>
                 {% for ne in new %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ ne.category }}</td>
                     <td>{{ ne.title }}</td>
+                    <td>{{ ne.details|striptags }} </td>
+                    <td>{{ ne.subcategory }}</td>
                     <td><img src="{% if ne.image %}{{ ne.image.path }} {% endif %}" style="width:50px;"></td>
                     <td>{{ ne.details}}</td><br>
+                    <td>{{ ne.date_created }}</td>
                 </tr>
                 {% endfor %}
             </thead>

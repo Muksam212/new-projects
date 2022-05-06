@@ -11,9 +11,6 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-sm-4">
-					<a href="{% url 'news:new-pdf' %}" class="btn btn-info"> Pdf Format </a>
-				</div>
-				<div class="col-sm-4">
 					<a href="{% url 'news:new-csv' %}" class="btn btn-success"> Csv Format</a>
 				</div>
 				<div class="col-sm-4">
@@ -56,9 +53,9 @@
                     <th>Title</th>
                     <th>Details</th>
                     <th>SubCategory</th>
-                    <th>DateCreated</th>
                     <th>IsPublished</th>
                     <th>Image</th>
+                    <th>DateCreated</th>
                     <th>Action</th>
 
                 </tr>
@@ -71,9 +68,9 @@
                    
                     <td style="width: 50px;"> {{ news.details|striptags }} </td>
                     <td style="width: 50px;"> {% for new in news.subcategory.all %} {{ new }}, {% endfor %}</td>
-                    <td style="width: 50px;"> {{ news.date_created }} </td>
                     <td style="width: 50px;"> {{ news.is_published }}</td>
                     <td style="width: 60px;" "height:60px;"><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
+                    <td style="width: 50px;"> {{ news.date_created }} </td>
                     <td style="width: 50px;">
                         <a href="{% url 'news:update-news' news.id %}" class="btn btn-info edit">Edit </a>
                         <a href="{% url 'news:delete-news' news.id %}" class="btn btn-danger delete"> Delete </a>

@@ -89,10 +89,6 @@ class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Up
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        errors=form.errors.as_json()
-        return JsonResponse({'errors':errors},status=400)
         
     def get_template_names(self):
         return self.ajax_template_name
@@ -264,15 +260,15 @@ class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Dele
         return self.success_message % cleaned_data
 
 
-class NewsDetailsPdf(View):
-    def get(self, request, *args, **kwargs):
-        new=News.objects.all()
-        data = {
-            'count':new.count(),
-            'new':new,
-        }
-        pdf = render_to_pdf('news/new_pdf.html', data)
-        return HttpResponse(pdf, content_type='application/pdf')
+# class NewsDetailsPdf(View):
+#     def get(self, request, *args, **kwargs):
+#         new=News.objects.all()
+#         data = {
+#             'count':new.count(),
+#             'new':new,
+#         }
+#         pdf = render_to_pdf('news/new_pdf.html', data)
+#         return HttpResponse(pdf, content_type='application/pdf')
 
 
 class NewsDetailsCSV(View):
@@ -280,9 +276,9 @@ class NewsDetailsCSV(View):
         response = HttpResponse(content_type='application/csv')
 
         writer=csv.writer(response)
-        writer.writerow(['category','title','details'])
+        writer.writerow(['author','category','subcategory','title','image','details','is_published','date_created'])
 
-        for new in New.objects.all().values_list('category','title','details'):
+        for new in News.objects.all().values_list('author','category','subcategory','title','image','details','is_published','date_created'):
             writer.writerow(new)
 
         response['Content-Disposition']='attachment; filename="news.csv"'
@@ -311,7 +307,7 @@ class NewsDetailsExcel(View):
     # Sheet body, remaining rows
         font_style = xlwt.XFStyle()
 
-        rows =New.objects.all().values_list('category','title','details')
+        rows =News.objects.all().values_list('author','category','subcategory','title','image','details','is_published','date_created')
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):
