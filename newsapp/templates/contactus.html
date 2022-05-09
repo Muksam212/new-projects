@@ -1,0 +1,56 @@
+{% block content %}
+
+<div class="container-fluid py-4 bg-light">
+    <h1 class="heading-2 text-center mb-5">Contact Us</h1>
+    <div class="row">
+      <h1 class="news"> Prixa Location </h1>
+        <div class="col-md-8">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.4606561992778!2d85.31160481506132!3d27.672153882806548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19d81c96a557%3A0xb60bf52a809a2e46!2sPrixa%20Technologies!5e0!3m2!1sen!2snp!4v1652079774692!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen=""
+             loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="col-md-4">
+          <h2> Send Us Message </h2>
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">
+                        <strong>Name</strong>
+                    </label>
+                    <input id="name" name="name" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        <strong>Email address</strong>
+                    </label>
+                    <input id="email" type="email" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">
+                        <strong>Enter Your Message</strong>
+                    </label>
+                    <textarea id="message" class="form-control" rows="3"></textarea>
+                </div>
+
+                <!-- <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+                    <label class="form-check-label text-primary" for="exampleCheck1">
+                        I want to subscribe for Newsletters
+                    </label>
+                </div> -->
+
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col">
+      <p class="small text-muted mb-0 text-dark" style="text-align:center;">Copyright. All rights reserved. <a class="text-dark" href="">Prixa News © 2022</a></p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

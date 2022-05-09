@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+
+
 from ckeditor.fields import RichTextField
 #create your models here
 
@@ -69,7 +71,7 @@ class Comment(models.Model):
 class Video(models.Model):
 	title=models.CharField(max_length=100)
 	url=models.URLField(max_length=100)
-	date_created=models.DateField() 
+	date_created=models.DateField()
 
 	class Meta:
 		verbose_name='Video'

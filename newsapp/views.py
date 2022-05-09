@@ -1,9 +1,9 @@
 from datetime import datetime
-from multiprocessing import context
-from unicodedata import category
+
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import *
 from django.urls import reverse_lazy
+
 from news.models import Category
 from news.models import News
 # Create your views here.
@@ -12,8 +12,8 @@ class BaseMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
-        return context 
-    
+        return context
+
 
 class BaseTemplate(TemplateView):
     template_name='base.html'
@@ -31,7 +31,7 @@ class DetailsTemplate(BaseMixin, ListView):
         category = self.kwargs.get('pk')
         queryset = queryset.filter(category__id=category)
         return queryset
-        
+
 
 class IndexTemplate(BaseMixin, TemplateView):
     template_name='index.html'
@@ -45,5 +45,3 @@ class IndexTemplate(BaseMixin, TemplateView):
 
     def today():
         today = datetime.datetime.now().strftime("%I")
-
-    
