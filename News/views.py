@@ -8,7 +8,7 @@ from django.contrib.staticfiles import finders
 from django.contrib.auth import login, logout
 from django.utils import timezone
 
-from news.filters import AuthorFilter,CategoryFilter
+from news.filters import AuthorFilter,CategoryFilter, NewsFilter
 from news.mixins import GroupRequiredMixin
 from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
@@ -68,6 +68,10 @@ class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Cr
     success_url=reverse_lazy("news:create-author")
     success_message='Author information is created'
     group_required=['Author']
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -181,26 +185,16 @@ class NewList(GroupRequiredMixin,ListView):
     ajax_template_name='news/new_list_ajax.html'
     model=News
     success_url=reverse_lazy("news:new-list")
-    context_object_name='new_list'
     paginate_by=4
     group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
 
-    def get_queryset(self):
-        queryset=News.objects.all()
-        query=self.request.GET.get('q')
-
-        if query:
-            new_list = self.model.objects.filter(title__icontains=query)
-        else:
-            new_list=queryset
-        return new_list
-
-
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = NewsFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='news/new_create_ajax.html'

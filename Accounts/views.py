@@ -36,7 +36,7 @@ class RegisterView(SuccessMessageMixin,CreateView):
 				message.success(request,'User Register Successfull')
 		else:
 			message.error(request,'Invalid Credential')
-	return super().form_valid(form)
+		return super().form_valid(form)
 
 	def get_success_message(self, cleaned_data):
 		return self.success_message % cleaned_data

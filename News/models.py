@@ -35,8 +35,8 @@ class Author(models.Model):
 		return reverse("News:create-author", kwargs={'id':self.id})
 
 class News(models.Model):
-	author=models.ForeignKey(Author, on_delete=models.CASCADE)
-	category=models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+	author=models.ForeignKey(Author, on_delete=models.CASCADE, related_name='news', null=True, blank=True)
+	category=models.ForeignKey(Category, on_delete=models.CASCADE,related_name='newss',null=True, blank=True)
 	subcategory=models.ManyToManyField(Category, related_name='subcategory_news')
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
