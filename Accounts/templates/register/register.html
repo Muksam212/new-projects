@@ -28,7 +28,7 @@
 
     <!--sweart alert-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
+
 
 </head>
 
@@ -46,20 +46,22 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form method = "POST">
-                                {% if messages %}
-                                    {% for message in messages %}
-                                        <script>
-                                            swal({
-                                                title: "Good job!",
-                                                text: "{{ message }}",
-                                                icon: "success",
-                                              }); 
-                                        </script>
-                                    {% endfor %}
-                                {% endif %}
+                            <form method="POST" action="" id="">
                                 {% csrf_token %}
-                                {{ form|crispy }}
+                                <div class="form-group">
+                                  <label for="Username"> Username: </label>
+                                  <input type="text" name="username" placeholder="Enter your username" class="form-control">
+
+                                  <label for="email"> Email: </label>
+                                  <input type="email" name="email" placeholder="Enter your email" class="form-control">
+
+                                  <label for="password"> Password: </label>
+                                  <input type="password" name="password1" placeholder="Enter your password" class="form-control">
+
+                                  <label for="password"> Confirm Password: </label>
+                                  <input type="password" name="password2" placeholder="Enter your password again" class="form-control">
+
+                                </div>
                                 <input type="submit" value="Register" class="btn btn-success">
                             </form>
                             <hr>
@@ -84,6 +86,17 @@
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                swal({
+                    title: "Good job!",
+                    text: "{{ message }}",
+                    icon: "success",
+                  });
+            </script>
+        {% endfor %}
+    {% endif %}
     {% block script %}
     {% endblock script %}
 </body>

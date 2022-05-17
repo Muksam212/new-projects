@@ -27,6 +27,7 @@
             <span> {{ f.errors|striptags }} </span>
         </div>
         {% endfor %}
+          <img id="output_image"/ style="width: 100px;" "height: 100px;">
         <button class="btn btn-primary"> Add News </button>
     </div>
 </form>
@@ -36,7 +37,19 @@
 <script>
     $(document).ready(function (){
         $('#id_category').select2();
+        $('#id_author').select2();
+        $('#id_subcategory').select2();
     })
+
+    
+    var loadFile = function(event){
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
 </script>
 
 {% endblock scripts %}

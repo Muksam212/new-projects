@@ -3,16 +3,15 @@ from news.views import (CommentList,CommentCreate, CommentUpdate, CommentDelete,
 IndexView,AuthorList, AuthorUpdate, CommentDetailsCSV,CommentDetailsExcel,
 CategoryUpdate, AuthorCreate,DashboardTemplate,ChartDetails,
 AuthorList,AuthorUpdate, AuthorDelete,NewsCreate,NewList, NewsUpdate, NewsDelete, CategoryCreate, 
-CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,NewsDetailsPdf,
-NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails,LogoutView)
+CategoryList,CategoryUpdate,CategoryDelete,AuthorDetailsPdf,AuthorDetailsCSV,AuthorDetailsExcel,
+NewsDetailsCSV,NewsDetailsExcel,CategoryDetailsPdf,CategoryDetailsCSV,CategoryDetailsExcel, ChartDetails,VideoCreate
+,VideoList,VideoUpdate,VideoDelete)
 
 
 app_name ='news' #implementing custom url
 
 urlpatterns = [
 
-    #for logout
-    path('logoutPage/', LogoutView.as_view(), name='logout'),
 
     #for chart, dashboard
     path('chart/', ChartDetails.as_view(), name='chart-page'),
@@ -34,7 +33,6 @@ urlpatterns = [
     path('createNews/', NewsCreate.as_view(), name='create-news'),
     path('news/<int:id>/update/',NewsUpdate.as_view(), name='update-news'),
     path('news/<int:id>/delete/',NewsDelete.as_view(), name='delete-news'),
-    path('newPdf/',NewsDetailsPdf.as_view(), name='new-pdf'),
     path('newCsv/',NewsDetailsCSV.as_view(), name='new-csv'),
     path('newExcel/', NewsDetailsExcel.as_view(), name='new-excel'),
 
@@ -56,5 +54,9 @@ urlpatterns = [
     path('commentCsv/', CommentDetailsCSV.as_view(), name='comment-csv'),
     path('commentExcel/', CommentDetailsExcel.as_view(), name='comment-excel'),
 
-    #sub-category
+    #video
+    path('videoList/', VideoList.as_view(), name='video-list'),
+    path('createVideo/', VideoCreate.as_view(), name='create-video'),
+    path('video/<int:id>/update/', VideoUpdate.as_view(), name='video-update'),
+    path('video/<int:id>/delete/', VideoDelete.as_view(), name='video-delete')
 ]

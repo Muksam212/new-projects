@@ -1,5 +1,5 @@
-from api.serializers import AuthorSerializer, CommentSerializer, NewsSerializer, CategorySerializer
-from news.models import Author, Comment, News, Category
+from api.serializers import AuthorSerializer, CommentSerializer, NewsSerializer, CategorySerializer, VideoSerializer
+from news.models import Author, Comment, News, Category, Video
 from rest_framework import mixins, generics
 
 #author api
@@ -13,10 +13,7 @@ class AuthorDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     lookup_field = 'id'
-
-    # def get(self, request):
-    #     serializer = AuthorSerializer(serializer_class,image = request.image)
-
+    
 #comment api
 class CommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
@@ -45,4 +42,16 @@ class CategoryList(generics.ListCreateAPIView):
 class CategoryDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    lookup_field = 'id'
+
+
+#video api
+class VideoList(generics.ListCreateAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoSerializer
+
+
+class VideoDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoSerializer
     lookup_field = 'id'

@@ -1,9 +1,9 @@
 from datetime import datetime
-from multiprocessing import context
-from unicodedata import category
+
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import *
 from django.urls import reverse_lazy
+
 from news.models import Category
 from news.models import News
 # Create your views here.
@@ -12,15 +12,8 @@ class BaseMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
-        # context['business_news'] = category_qs.filter(category__title='अर्थ')
-        # context['political_news'] = category_qs.filter(category__title='राजनीति')
-        # context['manoranjan_news'] = category_qs.filter(category__title ='मनोरन्जन')
-        # context['sports_news']= category_qs.filter(category__title = 'खेलकुद')
-        # context['bichar'] = category_qs.filter(category__title = 'बिचार')
-        # context['cinema_news'] = category_qs.filter(category__title= 'सिनेमा')
- 
-        return context 
-    
+        return context
+
 
 class BaseTemplate(TemplateView):
     template_name='base.html'
@@ -38,7 +31,7 @@ class DetailsTemplate(BaseMixin, ListView):
         category = self.kwargs.get('pk')
         queryset = queryset.filter(category__id=category)
         return queryset
-        
+
 
 class IndexTemplate(BaseMixin, TemplateView):
     template_name='index.html'
@@ -50,7 +43,5 @@ class IndexTemplate(BaseMixin, TemplateView):
         context['sports_news'] = News.objects.filter(category__title='खेलकुद')
         return context
 
-# def today():
-#     today = datetime.datetime.now().strftime("%I")
-
-    
+    def today():
+        today = datetime.datetime.now().strftime("%I")

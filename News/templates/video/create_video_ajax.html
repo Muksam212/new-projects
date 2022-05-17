@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<form method="POST" action="">
+<form method="POST" action="{% url 'news:create-video' %}">
     {% if messages %}
         {% for message in messages %}
         <script>
@@ -15,10 +15,8 @@
         {% endfor %}
     {% endif %}
     {% csrf_token %}
-    {{ form.media }}
-    {{ variable_name.field_name|safe }}
     <div class="modal-header">
-        <h4 class="modal-title">Add Comment</h4>
+        <h4 class="modal-title">Add Video</h4>
     </div>
     <div class="modal-body">
         
@@ -30,18 +28,8 @@
             <span> {{ f.errors|striptags }} </span>
         </div>
         {% endfor %}
-        <button class="btn btn-primary"> Add </button>
+        <button class="btn btn-primary"> Add Video</button>
     </div>
 </form>
 
-{% endblock %}
-{% block scripts %}
-<script>
-    $(document).ready(function (){
-        $('#id_author').select2();
-        $('#id_news').select2();
-        $('#id_user').select2();
-    })
-</script>
-
-{% endblock scripts %}
+{% endblock content %}

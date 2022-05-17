@@ -1,6 +1,8 @@
 {% extends 'dashboard/base.html' %}
+{% load bootstrap %}
 {% block content %}
 {% load static %}
+
 
 <!--Sweet alert-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -26,18 +28,16 @@
 </div>
 
 <div class="container">
-	<div class="row justify-content-end">
-		<div class="col-3">
-			<form method="GET">
-				{% csrf_token %}
-				<div class="input-group">
-					<input type="text" class="form-control rounded" placeholder="Search" name="q"/>
-					<button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-				</div>
-			</form>
-		</div>
-	</div>
+    <div class="row justify-content-end">
+        <div class="col-sm-4">
+            <form method="GET">
+                {{ filter.form|bootstrap }}
+                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div>
 </div>
+
 
 <div class="container">
     <div class="table-wrapper">
@@ -45,17 +45,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <h2>Manage <b>Author</b></h2>
-                    {% if messages %}
-                    {% for message in messages %}
-                    <script>
-                        swal({
-                            title: "Good job!",
-                            text: "{{ message }}",
-                            icon: "success",
-                        });
-                    </script>
-                    {% endfor %}
-                    {% endif %}
+                    
                 </div>
             </div>
         </div>
@@ -69,7 +59,7 @@
                     <th>Image</th>
                     <th>Action</th>
                 </tr>
-                {% for aut in author_list %}
+                {% for aut in filter.qs %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ aut.name }}</td>
@@ -142,6 +132,17 @@
     </div>
 </div>
 
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        swal({
+            title: "Good job!",
+            text: "{{ message }}",
+            icon: "success",
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
 {% endblock content %}
 
 {% block scripts %}
@@ -166,6 +167,7 @@
             $('#deleteAuthorModal .modal-content').empty().append(data)
         })
     })
+
 </script>
 
 {% endblock scripts %}

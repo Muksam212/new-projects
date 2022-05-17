@@ -3,17 +3,7 @@
 <!-- Sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <form method="POST" action="{% url 'news:create-category' %}" enctype="multipart/form-data">
-    {% if messages %}
-        {% for message in messages %}
-        <script>
-            swal({
-                title: "Good job!",
-                text: "{{ message }}",
-                icon: "success",
-              });
-        </script>
-        {% endfor %}
-    {% endif %}
+    
     {% csrf_token %}
     <div class="modal-header">
         <h4 class="modal-title">Add Category</h4>
@@ -31,6 +21,18 @@
         <button class="btn btn-primary"> Register </button>
     </div>
 </form>
+
+{% if messages %}
+        {% for message in messages %}
+        <script>
+            swal({
+                title: "Good job!",
+                text: "{{ message }}",
+                icon: "success",
+              });
+        </script>
+        {% endfor %}
+    {% endif %}
 
 {% endblock %}
 

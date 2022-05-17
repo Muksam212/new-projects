@@ -3,35 +3,32 @@ from django.views.generic import *
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView,DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.contrib.staticfiles import finders
 from django.contrib.auth import login, logout
+from django.utils import timezone
 
+from news.filters import AuthorFilter,CategoryFilter
+from news.mixins import GroupRequiredMixin
 from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
 import xlwt
 
 
-from .models import Author, News, Category, Comment
-from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm
+from .models import Author, News, Category, Comment, Video
+from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
 import csv
 
-class UserRequiredMixin(object):
-    def dispatch(self, request, *args, **kwargs):
-        user = request.user
 
+
+class LoginRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
         if user.is_authenticated:
             pass
         else:
             return redirect('accounts:login')
-        return super().dispatch(request, *args, **kwargs)
-
-class LogoutView(UserRequiredMixin,View):
-    def get(self, request):
-        logout(request)
-        return redirect('accounts:login')
-
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class ChartDetails(TemplateView):
@@ -40,77 +37,59 @@ class ChartDetails(TemplateView):
         category = Category.objects.all().count()
         news = News.objects.all().count()
         comment = Comment.objects.all().count()
-        context = {'author':author,'category':category,'news':news,'comment':comment}
+        video = Video.objects.all().count()
+        context = {'author':author,'category':category,'news':news,'comment':comment,'video':video}
         return render(self.request,'dashboard/chart.html', context)
 
 #creating the process
-class DashboardTemplate(UserRequiredMixin,TemplateView):
+class DashboardTemplate(LoginRequiredMixin,TemplateView):
     template_name='dashboard/base.html'
 
 class IndexView(TemplateView):
     template_name='admin/index.html'
-    
+
 
 #author
-class AuthorList(UserRequiredMixin,ListView):
-    context_object_name='author_list'
+class AuthorList(GroupRequiredMixin,ListView):
     model=Author
     template_name='Author/author_list.html'
-    success_url=reverse_lazy("news:list-author")
     paginate_by=4
-    
+    group_required=['Author']
 
-    def get_queryset(self):
-        queryset=Author.objects.all()
-        query=self.request.GET.get('q')
-
-        if query:
-            author_list=self.model.objects.filter(
-                Q(name__icontains=query)|
-                Q(address__icontains=query)
-            )
-        else:
-            author_list=queryset
-        return author_list
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter']=AuthorFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 
-class AuthorCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
+class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='Author/author_create_ajax.html'
     form_class=AuthorForm
     success_url=reverse_lazy("news:create-author")
     success_message='Author information is created'
+    group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        errors=form.errors.as_json()
-        return JsonResponse({'errors':errors},status=400)
-
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
-        
 
-class AuthorUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
+
+class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='Author/author_update_ajax.html'
     model=Author
     form_class=AuthorForm
     success_url=reverse_lazy("news:list-author")
     success_message='Author information is updated'
+    group_required=['Author']
+
 
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        errors=form.errors.as_json()
-        return JsonResponse({'errors':errors},status=400)
-        
+
     def get_template_names(self):
         return self.ajax_template_name
 
@@ -122,10 +101,11 @@ class AuthorUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
         return self.success_message % cleaned_data
 
 
-class AuthorDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
+class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='Author/author_delete_ajax.html'
     success_url=reverse_lazy("news:list-author")
     success_message="Author information is deleted"
+    group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -138,6 +118,7 @@ class AuthorDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
         return get_object_or_404(Author,id=id)
 
 
+#convert text data into pdf format data
 class AuthorDetailsPdf(View):
     def get(self, request, *args, **kwargs):
         author=Author.objects.all()
@@ -196,34 +177,40 @@ class AuthorDetailsExcel(View):
         return response
 
 #New details with crud
-class NewList(ListView):
+class NewList(GroupRequiredMixin,ListView):
     ajax_template_name='news/new_list_ajax.html'
     model=News
-    context_object_name='new_list'
     success_url=reverse_lazy("news:new-list")
+    context_object_name='new_list'
     paginate_by=4
+    group_required=['Author']
+
+    def get_template_names(self):
+        return self.ajax_template_name
 
     def get_queryset(self):
         queryset=News.objects.all()
         query=self.request.GET.get('q')
 
         if query:
-            new_list=self.model.objects.filter(title__icontains=query)
+            new_list = self.model.objects.filter(title__icontains=query)
         else:
             new_list=queryset
         return new_list
 
-    def get_template_names(self):
-        return self.ajax_template_name
 
-class NewsCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
+
+
+
+class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='news/new_create_ajax.html'
     form_class=NewsForm
     success_url=reverse_lazy("news:create-news")
     success_message='News is created'
+    group_required=['Author']
 
     def form_valid(self, form):
-        print(form.cleaned_data)
+        form.instance.date_created = timezone.now()
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
@@ -233,11 +220,12 @@ class NewsCreate(UserRequiredMixin,SuccessMessageMixin, CreateView):
         return self.ajax_template_name
 
 
-class NewsUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
+class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='news/new_update_ajax.html'
     form_class=NewsForm
     success_url=reverse_lazy("news:new-list")
     success_message="News has been updated"
+    group_required=['Author']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
@@ -254,11 +242,12 @@ class NewsUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
         return self.success_message % cleaned_data
 
 
-class NewsDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
+class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='news/new_delete_ajax.html'
     model=News
     success_url=reverse_lazy("news:new-list")
     success_message="News information is deleted"
+    group_required=['Author']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
@@ -270,26 +259,14 @@ class NewsDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
-
-class NewsDetailsPdf(View):
-    def get(self, request, *args, **kwargs):
-        new=News.objects.all()
-        data = {
-            'count':new.count(),
-            'new':new,
-        }
-        pdf = render_to_pdf('news/new_pdf.html', data)
-        return HttpResponse(pdf, content_type='application/pdf')
-
-
 class NewsDetailsCSV(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='application/csv')
 
         writer=csv.writer(response)
-        writer.writerow(['category','title','details'])
+        writer.writerow(['author','category','subcategory','title','image','details','is_published','date_created'])
 
-        for new in News.objects.all().values_list('category','title','details'):
+        for new in News.objects.all().values_list('author','category','subcategory','title','image','details','is_published','date_created'):
             writer.writerow(new)
 
         response['Content-Disposition']='attachment; filename="news.csv"'
@@ -318,7 +295,7 @@ class NewsDetailsExcel(View):
     # Sheet body, remaining rows
         font_style = xlwt.XFStyle()
 
-        rows =News.objects.all().values_list('category','title','details')
+        rows =News.objects.all().values_list('author','category','subcategory','title','image','details','is_published','date_created')
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):
@@ -333,29 +310,24 @@ class NewsDetailsExcel(View):
 class CategoryList(ListView):
     ajax_template_name='category/category_list_ajax.html'
     model=Category
-    context_object_name='category_list'
 
     paginate_by=4
 
     def get_template_names(self):
         return self.ajax_template_name
 
-    def get_queryset(self):
-        queryset=Category.objects.all()
-        query=self.request.GET.get('q')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_filter']=CategoryFilter(self.request.GET, self.get_queryset())
+        return context
 
-        if query:
-            category_list=self.model.objects.filter(title__icontains=query)
-        else:
-            category_list=queryset
-        return category_list
-    
+
 class CategoryCreate(SuccessMessageMixin, CreateView):
     ajax_template_name='category/category_create_ajax.html'
     form_class=CategoryForm
     success_message="Category information is created"
     success_url=reverse_lazy("news:create-category")
-    
+
     def get_template_names(self):
         return self.ajax_template_name
 
@@ -376,7 +348,7 @@ class CategoryUpdate(SuccessMessageMixin, UpdateView):
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
-        
+
     def get_template_names(self):
         return self.ajax_template_name
 
@@ -464,11 +436,12 @@ class CategoryDetailsExcel(View):
 
 
 #comment
-class CommentList(ListView):
+class CommentList(GroupRequiredMixin,ListView):
     ajax_template_name='comment/comment_list_ajax.html'
     context_object_name='comment_list'
     model=Comment
     paginate_by=2
+    group_required=['Reader']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -485,11 +458,12 @@ class CommentList(ListView):
         return comment_list
 
 
-class CommentCreate(UserRequiredMixin,SuccessMessageMixin,CreateView):
+class CommentCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin,CreateView):
     ajax_template_name='comment/comment_create_ajax.html'
     form_class=CommentForm
     success_message="Comment is added"
     success_url=reverse_lazy("news:comment-create")
+    group_required=['Reader']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -502,12 +476,13 @@ class CommentCreate(UserRequiredMixin,SuccessMessageMixin,CreateView):
         return self.success_message % cleaned_data
 
 
-class CommentUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
+class CommentUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     ajax_template_name='comment/comment_update_ajax.html'
     form_class=CommentForm
     model=Comment
     success_url=reverse_lazy('news:comment-list')
     success_message="Comment updated successfully"
+    group_required=['Reader']
 
     def get_template_names(self):
         return self.ajax_template_name
@@ -523,15 +498,16 @@ class CommentUpdate(UserRequiredMixin,SuccessMessageMixin, UpdateView):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
-class CommentDelete(UserRequiredMixin,SuccessMessageMixin, DeleteView):
+class CommentDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='comment/comment_delete_ajax.html'
     model=Comment
     success_url=reverse_lazy('news:comment-list')
     success_message="Comment Delete Successfully"
+    group_required=['Reader']
 
     def get_template_names(self):
         return self.ajax_template_name
-    
+
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
         return get_object_or_404(Comment, id=id)
@@ -594,3 +570,82 @@ class CommentDetailsExcel(View):
 
         wb.save(response)
         return response
+
+
+class VideoCreate(GroupRequiredMixin,SuccessMessageMixin, CreateView):
+    ajax_template_name='video/create_video_ajax.html'
+    form_class=VideoForm
+    success_message="Video is created"
+    success_url=reverse_lazy('news:create-video')
+    group_required=['Author']
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+
+
+class VideoList(GroupRequiredMixin,ListView):
+    ajax_template_name='video/video_list_ajax.html'
+    success_url=reverse_lazy('news:video-list')
+    context_object_name='video_list'
+    model=Video
+    paginate_by=2
+    group_required=['Author']
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+    #search garne query
+    def get_queryset(self):
+        queryset=Video.objects.all()
+        query=self.request.GET.get('q')
+
+        if query:
+            video_list=self.model.objects.filter(title__icontains=query)
+        else:
+            video_list=queryset
+        return video_list
+
+class VideoUpdate(GroupRequiredMixin,SuccessMessageMixin, UpdateView):
+    ajax_template_name='video/video_update_ajax.html'
+    form_class=VideoForm
+    success_url=reverse_lazy('news:video-list')
+    success_message='Video Update Successfully'
+    group_required=['Author']
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('id')
+        return get_object_or_404(Video, id=id)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+
+class VideoDelete(GroupRequiredMixin,SuccessMessageMixin, DeleteView):
+    ajax_template_name='video/video_delete_ajax.html'
+    success_message='Video deleted successfull'
+    success_url=reverse_lazy('news:video-list')
+    group_required=['Author']
+
+    def get_template_names(self):
+        return self.ajax_template_name
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('id')
+        return get_object_or_404(Video, id=id)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data

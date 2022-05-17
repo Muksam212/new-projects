@@ -11,9 +11,6 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-sm-4">
-					<a href="{% url 'news:new-pdf' %}" class="btn btn-info"> Pdf Format </a>
-				</div>
-				<div class="col-sm-4">
 					<a href="{% url 'news:new-csv' %}" class="btn btn-success"> Csv Format</a>
 				</div>
 				<div class="col-sm-4">
@@ -44,17 +41,6 @@
             <div class="row">
                 <div class="col-sm-6">
                     <h2>Manage <b>News</b></h2>
-                    {% if messages %}
-                    {% for message in messages %}
-                    <script>
-                        swal({
-                            title: "Good job!",
-                            text: "{{ message }}",
-                            icon: "success",
-                        });
-                    </script>
-                    {% endfor %}
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -62,29 +48,34 @@
             <thead>
                 <tr>
                     <th>ID </th>
+                    <th>Author</th>
                     <th>Category</th>
                     <th>Title</th>
-                    <th>Image</th>
                     <th>Details</th>
                     <th>SubCategory</th>
+                    <th>IsPublished</th>
+                    <th>Image</th>
+                    <th>DateCreated</th>
                     <th>Action</th>
 
                 </tr>
-                {% for new in new_list %}
+                {% for news in new_list %}
                 <tr>
-                    <td> {{ forloop.counter }} </td>
-                    <td> {{ new.category }} </td>
-                    <td> {{ new.title }}</td>
-                    <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
-                    <td> {{ new.details|striptags }} </td>
-                    {% for sub in new.subcategory.all %}
-                    <td> {{ sub }} </td>
-                    {% endfor %}
-                
-                    <td>
-                        <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>
-                        <a href="{% url 'news:delete-news' new.id %}" class="btn btn-danger delete"> Delete </a>
+                    <td style="width: 50px;"> {{ forloop.counter }} </td>
+                    <td style="width: 50px;"> {{ news.author }} </td>
+                    <td style="width: 30px;"> {{ news.category }} </td>
+                    <td style="width: 50px;"> {{ news.title }}</td>
+                   
+                    <td style="width: 50px;"> {{ news.details|striptags }} </td>
+                    <td style="width: 50px;"> {% for new in news.subcategory.all %} {{ new }}, {% endfor %}</td>
+                    <td style="width: 50px;"> {{ news.is_published }}</td>
+                    <td style="width: 60px;" "height:60px;"><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
+                    <td style="width: 50px;"> {{ news.date_created }} </td>
+                    <td style="width: 50px;">
+                        <a href="{% url 'news:update-news' news.id %}" class="btn btn-info edit">Edit </a>
+                        <a href="{% url 'news:delete-news' news.id %}" class="btn btn-danger delete"> Delete </a>
                     </td>
+                     
                 </tr>
                 {% endfor %}
             </thead>
@@ -147,6 +138,17 @@
 </div>
 
 {% endblock content %}
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        swal({
+            title: "Good job!",
+            text: "{{ message }}",
+            icon: "success",
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
 {% block scripts %}
 <script>
     $('.edit').on('click', function (e) {
