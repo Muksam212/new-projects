@@ -28,7 +28,7 @@
 
     <!--sweart alert-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
+
 
 </head>
 
@@ -48,7 +48,20 @@
                             </div>
                             <form method="POST" action="" id="">
                                 {% csrf_token %}
-                                {{ form|crispy }}
+                                <div class="form-group">
+                                  <label for="Username"> Username: </label>
+                                  <input type="text" name="username" placeholder="Enter your username" class="form-control">
+
+                                  <label for="email"> Email: </label>
+                                  <input type="email" name="email" placeholder="Enter your email" class="form-control">
+
+                                  <label for="password"> Password: </label>
+                                  <input type="password" name="password1" placeholder="Enter your password" class="form-control">
+
+                                  <label for="password"> Confirm Password: </label>
+                                  <input type="password" name="password2" placeholder="Enter your password again" class="form-control">
+
+                                </div>
                                 <input type="submit" value="Register" class="btn btn-success">
                             </form>
                             <hr>
@@ -80,7 +93,7 @@
                     title: "Good job!",
                     text: "{{ message }}",
                     icon: "success",
-                  }); 
+                  });
             </script>
         {% endfor %}
     {% endif %}
