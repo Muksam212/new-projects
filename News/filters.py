@@ -18,8 +18,9 @@ class CategoryFilter(django_filters.FilterSet):
 class NewsFilter(django_filters.FilterSet):
 	#for foreign key in django filter
 	author__name=django_filters.CharFilter(lookup_expr='icontains')
+	subcategory__title = django_filters.CharFilter(lookup_expr = 'iexact')
 
 	#to target the foreign key (underscore __) is used 
 	class Meta:
 		model = News
-		fields = ['author__name']
+		fields = ['author__name', 'subcategory__title']
