@@ -79,6 +79,9 @@ class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Cr
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
+    #setup the initial values 
+    def get_initial(self):
+        return {'name':'abc','address':'self','email':'asdf@gmail.com'}
 
 
 class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
@@ -103,7 +106,6 @@ class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Up
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
-
 
 class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='Author/author_delete_ajax.html'
@@ -212,6 +214,9 @@ class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Crea
 
     def get_template_names(self):
         return self.ajax_template_name
+
+    def get_initial(self):
+        return {'title':'awe','details':'wradd'}
 
 
 class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
@@ -331,6 +336,9 @@ class CategoryCreate(SuccessMessageMixin, CreateView):
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
+
+    def get_initial(self):
+        return {'title':'asdfas'}
 
 
 class CategoryUpdate(SuccessMessageMixin, UpdateView):
@@ -468,6 +476,9 @@ class CommentCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin,Cr
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
+
+    def get_initial(Self):
+        return {'email':'asdf@gmail.com'}
 
 
 class CommentUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
