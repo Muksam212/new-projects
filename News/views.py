@@ -643,7 +643,7 @@ class VideoDelete(GroupRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='video/video_delete_ajax.html'
     success_message='Video deleted successfull'
     success_url=reverse_lazy('news:video-list')
-    group_required=['Author']
+    group_required=['Author','Reader']
 
     def get_template_names(self):
         return self.ajax_template_name

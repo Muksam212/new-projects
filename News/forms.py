@@ -5,19 +5,7 @@ from ckeditor.widgets import CKEditorWidget
 class AuthorForm(forms.ModelForm):
     class Meta:
         model = Author
-        fields = ['name','email','address','image']
-
-    def clean(self):
-        name=self.cleaned_data.get['name']
-        if Author.objects.filter(name=name).exists():
-            raise forms.ValidationError("Already exists. Please take another one")
-        return self.name
-
-    def check_email(self):
-        email=self.cleaned_data.get['email']
-        if Author.objects.filter(email=email).exists():
-            raise forms.ValidationError("Already exists. Please take another one")
-        return self.email
+        fields = ['video','name','email','address','image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
