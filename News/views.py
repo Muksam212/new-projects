@@ -8,7 +8,7 @@ from django.contrib.staticfiles import finders
 from django.contrib.auth import login, logout
 from django.utils import timezone
 
-from news.filters import AuthorFilter,CategoryFilter
+from news.filters import AuthorFilter,CategoryFilter, NewsFilter
 from news.mixins import GroupRequiredMixin
 from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
@@ -69,12 +69,19 @@ class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Cr
     success_message='Author information is created'
     group_required=['Author']
 
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
     def get_template_names(self):
         return self.ajax_template_name
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
+    #setup the initial values 
+    def get_initial(self):
+        return {'name':'abc','address':'self','email':'asdf@gmail.com'}
 
 
 class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
@@ -99,7 +106,6 @@ class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Up
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
-
 
 class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='Author/author_delete_ajax.html'
@@ -181,26 +187,16 @@ class NewList(GroupRequiredMixin,ListView):
     ajax_template_name='news/new_list_ajax.html'
     model=News
     success_url=reverse_lazy("news:new-list")
-    context_object_name='new_list'
     paginate_by=4
     group_required=['Author']
 
     def get_template_names(self):
         return self.ajax_template_name
 
-    def get_queryset(self):
-        queryset=News.objects.all()
-        query=self.request.GET.get('q')
-
-        if query:
-            new_list = self.model.objects.filter(title__icontains=query)
-        else:
-            new_list=queryset
-        return new_list
-
-
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = NewsFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
     ajax_template_name='news/new_create_ajax.html'
@@ -218,6 +214,9 @@ class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Crea
 
     def get_template_names(self):
         return self.ajax_template_name
+
+    def get_initial(self):
+        return {'title':'awe','details':'wradd'}
 
 
 class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
@@ -337,6 +336,9 @@ class CategoryCreate(SuccessMessageMixin, CreateView):
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
+
+    def get_initial(self):
+        return {'title':'asdfas'}
 
 
 class CategoryUpdate(SuccessMessageMixin, UpdateView):
@@ -474,6 +476,9 @@ class CommentCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin,Cr
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
+
+    def get_initial(Self):
+        return {'email':'asdf@gmail.com'}
 
 
 class CommentUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
@@ -638,7 +643,7 @@ class VideoDelete(GroupRequiredMixin,SuccessMessageMixin, DeleteView):
     ajax_template_name='video/video_delete_ajax.html'
     success_message='Video deleted successfull'
     success_url=reverse_lazy('news:video-list')
-    group_required=['Author']
+    group_required=['Author','Reader']
 
     def get_template_names(self):
         return self.ajax_template_name

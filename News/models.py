@@ -18,7 +18,22 @@ class Category(models.Model):
 		return self.title
 
 
+class Video(models.Model):
+	title=models.CharField(max_length=100)
+	url=models.URLField(max_length=100)
+	date_created=models.DateField()
+
+	class Meta:
+		verbose_name='Video'
+		verbose_name_plural='Videos'
+
+	def __str__(self):
+		return "{}".format(self.title)
+
+
+
 class Author(models.Model):
+	video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='videos', blank=True, null=True)
 	name = models.CharField(max_length=100, blank=False)
 	address = models.CharField(max_length=100)
 	email = models.EmailField()
@@ -35,8 +50,8 @@ class Author(models.Model):
 		return reverse("News:create-author", kwargs={'id':self.id})
 
 class News(models.Model):
-	author=models.ForeignKey(Author, on_delete=models.CASCADE)
-	category=models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+	author=models.ForeignKey(Author, on_delete=models.CASCADE, related_name='news', null=True, blank=True)
+	category=models.ForeignKey(Category, on_delete=models.CASCADE,related_name='newss',null=True, blank=True)
 	subcategory=models.ManyToManyField(Category, related_name='subcategory_news')
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
@@ -68,14 +83,3 @@ class Comment(models.Model):
 		return str(self.user)
 
 
-class Video(models.Model):
-	title=models.CharField(max_length=100)
-	url=models.URLField(max_length=100)
-	date_created=models.DateField()
-
-	class Meta:
-		verbose_name='Video'
-		verbose_name_plural='Videos'
-
-	def __str__(self):
-		return "{}".format(self.title)

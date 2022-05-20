@@ -29,12 +29,12 @@
 
 <div class="container">
     <div class="row justify-content-end">
-        <div class="col-sm-4">
-            <form method="GET">
-                {{ filter.form|bootstrap }}
-                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
+        <form class="search-form" method="GET">
+            {{ filter.form|bootstrap }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -57,6 +57,7 @@
                     <th>Address</th>
                     <th>Email</th>
                     <th>Image</th>
+                    <th>Video</th>
                     <th>Action</th>
                 </tr>
                 {% for aut in filter.qs %}
@@ -66,6 +67,7 @@
                     <td>{{ aut.address }}</td>
                     <td>{{ aut.email }}</td>
                     <td><a href="{% if aut.image %}{{ aut.image.url }} {% endif %}"><img src="{% if aut.image %}{{ aut.image.url }}{% endif %}" alt="No Image" style="width:40px;"></td></a>
+                    <td>{{ aut.video }}</td>
                     <td>
                         <a href="{% url 'news:update-author' aut.id %}" class="btn btn-info editbtn">Edit </a>
                         <a href="{% url 'news:delete-author' aut.id %}" class="btn btn-danger deletebtn"> Delete </a>

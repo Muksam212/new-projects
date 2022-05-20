@@ -5,10 +5,9 @@ from django.contrib.auth import authenticate
 
 class SignUpForm(forms.Form):
 	username = forms.CharField(widget=forms.TextInput())
-    email = forms.CharField(widget=forms.EmailInput())
-    pword = forms.CharField(widget=forms.PasswordInput())
-    cf_pword = forms.CharField(widget=forms.PasswordInput())
-
+	email = forms.CharField(widget=forms.EmailInput())
+	pword = forms.CharField(widget=forms.PasswordInput())
+	cf_pword = forms.CharField(widget=forms.PasswordInput())
 
 	def clean(self):
 		uname=self.cleaned_data['username']

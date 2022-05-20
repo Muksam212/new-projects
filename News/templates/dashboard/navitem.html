@@ -13,6 +13,19 @@
 </li>
 
 <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVideoCreate"
+        aria-expanded="true" aria-controls="collapseVideoCreate">
+        <span>Video</span>
+    </a>
+    <div id="collapseVideoCreate" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'news:create-video' %}">Create Video</a>
+            <a class="collapse-item" href="{% url 'news:video-list' %}">Video List </a>
+        </div>
+    </div>
+</li>
+
+<li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
         aria-controls="collapseUtilities">
         <span>Autor</span>
@@ -64,15 +77,3 @@
     </div>
 </li>
 
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVideoCreate"
-        aria-expanded="true" aria-controls="collapseVideoCreate">
-        <span>Video</span>
-    </a>
-    <div id="collapseVideoCreate" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'news:create-video' %}">Create Video</a>
-            <a class="collapse-item" href="{% url 'news:video-list' %}">Video List </a>
-        </div>
-    </div>
-</li>

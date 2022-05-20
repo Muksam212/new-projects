@@ -5,7 +5,7 @@ from ckeditor.widgets import CKEditorWidget
 class AuthorForm(forms.ModelForm):
     class Meta:
         model = Author
-        fields = ['name','email','address','image']
+        fields = ['video','name','email','address','image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
