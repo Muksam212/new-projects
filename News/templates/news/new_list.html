@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}
+{% load bootstrap %}
 {% block content %}
 {% load static %}
 
@@ -7,16 +8,29 @@
 <!--Search -->
 
 <div class="container">
+	<div class="card" style="width:40rem;">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-4">
+					<a href="{% url 'news:new-csv' %}" class="btn btn-success"> Csv Format</a>
+				</div>
+				<div class="col-sm-4">
+					<a href="{% url 'news:new-excel' %}" class="btn btn-secondary"> Excel Format</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
     <div class="row justify-content-end">
-        <div class="col-3">
-            <form method="GET">
-                {% csrf_token %}
-                <div class="input-group">
-                    <input type="text" class="form-control rounded" placeholder="Search" name="q"/>
-                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
-        </div>
+        <form class="search-form" method="GET">
+            {% csrf_token %}
+            {{ news_filter.form|bootstrap }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
     </div>
 </div>
 <div class="container">
@@ -25,17 +39,6 @@
             <div class="row">
                 <div class="col-sm-6">
                     <h2>Manage <b>News</b></h2>
-                    {% if messages %}
-                    {% for message in messages %}
-                    <script>
-                        swal({
-                            title: "Good job!",
-                            text: "{{ message }}",
-                            icon: "success",
-                        });
-                    </script>
-                    {% endfor %}
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -43,22 +46,34 @@
             <thead>
                 <tr>
                     <th>ID </th>
-                    <th>Title </th>
-                    <th>Url</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Title</th>
+                    <th>Details</th>
+                    <th>SubCategory</th>
+                    <th>IsPublished</th>
+                    <th>Image</th>
                     <th>DateCreated</th>
                     <th>Action</th>
 
                 </tr>
-                {% for video in video_list %}
+                {% for news in news_filter.qs %}
                 <tr>
-                    <td> {{ forloop.counter }}</td>
-                    <td>{{ video.title }}</td>
-                    <td><a href="{{ video.url }}">{{ video.url }}</td></a>
-                    <td>{{ video.date_created }}</td>
-                    <td>
-                        <a href="{% url 'news:video-update' video.id %}" class="btn btn-info edit">Edit </a>
-                        <a href="{% url 'news:video-delete' video.id %}" class="btn btn-danger delete"> Delete </a>
+                    <td style="width: 50px;"> {{ forloop.counter }} </td>
+                    <td style="width: 50px;"> {{ news.author }} </td>
+                    <td style="width: 30px;"> {{ news.category }} </td>
+                    <td style="width: 50px;"> {{ news.title }}</td>
+                   
+                    <td style="width: 50px;"> {{ news.details|striptags }} </td>
+                    <td style="width: 50px;"> {% for new in news.subcategory.all %} {{ new }}, {% endfor %}</td>
+                    <td style="width: 50px;"> {{ news.is_published }}</td>
+                    <td style="width: 60px;" "height:60px;"><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
+                    <td style="width: 50px;"> {{ news.date_created }} </td>
+                    <td style="width: 50px;">
+                        <a href="{% url 'news:update-news' news.id %}" class="btn btn-info edit">Edit </a>
+                        <a href="{% url 'news:delete-news' news.id %}" class="btn btn-danger delete"> Delete </a>
                     </td>
+                     
                 </tr>
                 {% endfor %}
             </thead>
@@ -101,7 +116,7 @@
         <!--Add Author-->
 
         <!-- Edit News-->
-        <div id="editVideoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+        <div id="editNewsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -110,7 +125,7 @@
         </div>
 
         <!-- Delete News-->
-        <div id="deleteVideoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+        <div id="deleteNewsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -121,6 +136,17 @@
 </div>
 
 {% endblock content %}
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        swal({
+            title: "Good job!",
+            text: "{{ message }}",
+            icon: "success",
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
 {% block scripts %}
 <script>
     $('.edit').on('click', function (e) {
@@ -128,8 +154,8 @@
         var url = $(this).attr('href');
         $.get(url, function (data) {
             console.log(data)
-            $('#editVideoModal').modal('show');
-            $('#editVideoModal .modal-content').empty().append(data)
+            $('#editNewsModal').modal('show');
+            $('#editNewsModal .modal-content').empty().append(data)
         })
     })
 
@@ -138,8 +164,8 @@
         var url = $(this).attr('href');
         $.get(url, function (data){
             console.log(data)
-            $('#deleteVideoModal').modal('show')
-            $('#deleteVideoModal .modal-content').empty().append(data)
+            $('#deleteNewsModal').modal('show')
+            $('#deleteNewsModal .modal-content').empty().append(data)
         })
     })
 </script>
