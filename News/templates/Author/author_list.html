@@ -29,12 +29,12 @@
 
 <div class="container">
     <div class="row justify-content-end">
-        <div class="col-sm-4">
-            <form method="GET">
-                {{ filter.form|bootstrap }}
-                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
+        <form class="search-form" method="GET">
+            {{ filter.form|bootstrap }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
     </div>
 </div>
 

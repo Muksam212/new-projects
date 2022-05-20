@@ -55,6 +55,3 @@ class VideoDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
     lookup_field = 'id'
-
-
-

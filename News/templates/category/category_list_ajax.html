@@ -27,13 +27,15 @@
 </div>
 
 <div class="container">
-			<form method="GET">
-				{% csrf_token %}
-                {{ category_filter.form|bootstrap }}
-				<div class="input-group">
-					<button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-				</div>
-			</form>
+    <div class="row justify-content-end">
+    	<form class="search-form" method="GET">
+    		{% csrf_token %}
+            {{ category_filter.form|bootstrap }}
+    		<div class="form-group">
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
+            </div>
+    	</form>
+    </div>
 </div>
 <div class="container">
     <div class="table-wrapper">
