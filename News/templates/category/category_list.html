@@ -7,15 +7,19 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!--Search -->
 
+
 <div class="container">
 	<div class="card" style="width:40rem;">
 		<div class="card-body">
 			<div class="row">
 				<div class="col-sm-4">
-					<a href="{% url 'news:new-csv' %}" class="btn btn-success"> Csv Format</a>
+					<a href="{% url 'news:category-pdf' %}" class="btn btn-info"> Pdf Format </a>
 				</div>
 				<div class="col-sm-4">
-					<a href="{% url 'news:new-excel' %}" class="btn btn-secondary"> Excel Format</a>
+					<a href="{% url 'news:category-csv' %}" class="btn btn-success"> Csv Format</a>
+				</div>
+				<div class="col-sm-4">
+					<a href="{% url 'news:category-excel' %}" class="btn btn-secondary"> Excel Format</a>
 				</div>
 			</div>
 		</div>
@@ -24,12 +28,13 @@
 
 <div class="container">
     <div class="row justify-content-end">
-        <div class="col-sm-4">
-            <form method="GET">
-                {{ filter.form|bootstrap }}
-                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
+    	<form class="search-form" method="GET">
+    		{% csrf_token %}
+            {{ category_filter.form|bootstrap }}
+    		<div class="form-group">
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
+            </div>
+    	</form>
     </div>
 </div>
 <div class="container">
@@ -37,48 +42,32 @@
         <div class="table-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h2>Manage <b>News</b></h2>
+                    <h2>Manage <b>Category</b></h2>
+                    
                 </div>
             </div>
         </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID </th>
-                    <th>Author</th>
-                    <th>Category</th>
+                    <th>ID</th>
                     <th>Title</th>
-                    <th>Details</th>
-                    <th>SubCategory</th>
-                    <th>IsPublished</th>
-                    <th>Image</th>
-                    <th>DateCreated</th>
                     <th>Action</th>
-
                 </tr>
-                {% for news in filter.qs %}
+                {% for cat in category_filter.qs %}
                 <tr>
-                    <td style="width: 50px;"> {{ forloop.counter }} </td>
-                    <td style="width: 50px;"> {{ news.author }} </td>
-                    <td style="width: 30px;"> {{ news.category }} </td>
-                    <td style="width: 50px;"> {{ news.title }}</td>
-                   
-                    <td style="width: 50px;"> {{ news.details|striptags }} </td>
-                    <td style="width: 50px;"> {% for new in news.subcategory.all %} {{ new }}, {% endfor %}</td>
-                    <td style="width: 50px;"> {{ news.is_published }}</td>
-                    <td style="width: 60px;" "height:60px;"><a href="{% if news.image %}{{ news.image.url }} {% endif %}"><img src="{% if news.image %} {{ news.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
-                    <td style="width: 50px;"> {{ news.date_created }} </td>
-                    <td style="width: 50px;">
-                        <a href="{% url 'news:update-news' news.id %}" class="btn btn-info edit">Edit </a>
-                        <a href="{% url 'news:delete-news' news.id %}" class="btn btn-danger delete"> Delete </a>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ cat.title }}</td>
+                    <td>
+                        <a href="{% url 'news:update-category' cat.id %}" class="btn btn-info editbtn"> Edit </a>
+                        <a href="{% url 'news:delete-category' cat.id %}" class="btn btn-danger deletebtn"> Delete </a>
                     </td>
-                     
                 </tr>
                 {% endfor %}
             </thead>
         </table>
 
-        <!--Add pagination in Author-->
+        <!--Add pagination in Comment -->
         <div class="container">
             <div class="row justify-content-end">
                 <nav aria-label="Page navigation example">
@@ -112,10 +101,8 @@
                 </nav>
             </div>
         </div>
-        <!--Add Author-->
-
-        <!-- Edit News-->
-        <div id="editNewsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+        <!-- Esdit Author-->
+        <div id="editCategoryModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -123,8 +110,8 @@
             </div>
         </div>
 
-        <!-- Delete News-->
-        <div id="deleteNewsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
+        <!--Delete Author-->
+        <div id="deleteCategoryModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -133,6 +120,7 @@
         </div>
     </div>
 </div>
+
 
 {% endblock content %}
 {% if messages %}
@@ -145,27 +133,29 @@
         });
     </script>
     {% endfor %}
-    {% endif %}
+{% endif %}
 {% block scripts %}
 <script>
-    $('.edit').on('click', function (e) {
+    $('.editbtn').on('click', function (e) {
         e.preventDefault()
         var url = $(this).attr('href');
         $.get(url, function (data) {
             console.log(data)
-            $('#editNewsModal').modal('show');
-            $('#editNewsModal .modal-content').empty().append(data)
+            $('#editCategoryModal').modal('show');
+            $('#editCategoryModal .modal-content').empty().append(data)
         })
     })
 
-    $('.delete').on('click', function (e){
+    $('.deletebtn').on('click', function(e){
         e.preventDefault()
         var url = $(this).attr('href');
         $.get(url, function (data){
             console.log(data)
-            $('#deleteNewsModal').modal('show')
-            $('#deleteNewsModal .modal-content').empty().append(data)
+            $('#deleteCategoryModal').modal('show');
+            $('#deleteCategoryModal .modal-content').empty().append(data)
         })
     })
+
 </script>
+
 {% endblock scripts %}

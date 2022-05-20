@@ -1,5 +1,6 @@
+from distutils.errors import CompileError
 import django_filters
-from news.models import Author, Category, News
+from news.models import Author, Category, News, Video, Comment
 
 #similar to search query and this time using django_filters
 class AuthorFilter(django_filters.FilterSet):
@@ -9,6 +10,12 @@ class AuthorFilter(django_filters.FilterSet):
 		model = Author
 		fields =['name']
 
+class CommentFilter(django_filters.FilterSet):
+	author__name=django_filters.CharFilter(lookup_expr='icontains')
+
+	class Meta:
+		model=Comment
+		fields=['author__name']
 
 class CategoryFilter(django_filters.FilterSet):
 	class Meta:
@@ -26,3 +33,12 @@ class NewsFilter(django_filters.FilterSet):
 	class Meta:
 		model = News
 		fields = ['author__name', 'subcategory__title']
+
+
+#implementing django filter in video
+class VideoFilter(django_filters.FilterSet):
+	title = django_filters.CharFilter(lookup_expr='icontains')
+
+	class Meta:
+		model=Video
+		fields=['title']
