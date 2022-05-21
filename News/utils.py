@@ -12,15 +12,15 @@ from io import BytesIO
 
 
 def link_callback(uri, rel):
-    sUrl=settings.STATIC_URL
-    sRoot=settings.STATIC_ROOT
-    mUrl=settings.MEDIA_URL
-    mRoot=settings.MEDIA_ROOT
+    sUrl = settings.STATIC_URL
+    sRoot = settings.STATIC_ROOT
+    mUrl = settings.MEDIA_URL
+    mRoot = settings.MEDIA_ROOT
 
     if uri.startswith(mUrl):
-        path=os.path.join(mRoot, uri.replace(mUrl,""))
+        path = os.path.join(mRoot, uri.replace(mUrl,""))
     elif uri.startswith(sUrl):
-        path=os.path.join(sRoot, uri.replace(sUrl,""))
+        path = os.path.join(sRoot, uri.replace(sUrl,""))
     else:
         return uri
 
@@ -37,7 +37,7 @@ def render_to_pdf(template_src, context_dict={}):
     html = template.render(context_dict)
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-    pisa_status=pisa.CreatePDF(html, link_callback=link_callback,)
+    pisa_status = pisa.CreatePDF(html, link_callback=link_callback,)
     if not pdf.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None

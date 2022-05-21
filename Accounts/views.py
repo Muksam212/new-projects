@@ -20,10 +20,10 @@ class RegisterView(SuccessMessageMixin,CreateView):
 	success_message = "Your Information is Created"
 
 	def form_valid(self, form):
-		uname=form.cleaned_data['username']
-		email=form.cleaned_data['email']
-		pword=form.cleaned_data['password1']
-		cf_pword=form.cleaned_data['password2']
+		uname = form.cleaned_data['username']
+		email = form.cleaned_data['email']
+		pword = form.cleaned_data['password1']
+		cf_pword = form.cleaned_data['password2']
 
 		if pword == cf_pword:
 			if User.objects.filter(username=uname).exists():
@@ -43,9 +43,9 @@ class RegisterView(SuccessMessageMixin,CreateView):
 
 #for login
 class LoginView(FormView):
-	template_name='registration/login.html'
-	success_url=reverse_lazy('news:dashboard-page')
-	form_class=LoginForm
+	template_name = 'registration/login.html'
+	success_url = reverse_lazy('news:dashboard-page')
+	form_class = LoginForm
 
 	def form_valid(self, form):
 		uname = form.cleaned_data['username']

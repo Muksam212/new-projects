@@ -10,7 +10,7 @@ class SignUpForm(forms.Form):
 	cf_pword = forms.CharField(widget=forms.PasswordInput())
 
 	def clean(self):
-		uname=self.cleaned_data['username']
+		uname = self.cleaned_data['username']
 		if User.objects.filter(username=uname).exists():
 			raise forms.ValidationError("Username Aleady exists. Please take another username")
 

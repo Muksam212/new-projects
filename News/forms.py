@@ -23,10 +23,10 @@ class AuthorForm(forms.ModelForm):
             })
 
 class NewsForm(forms.ModelForm):
-    details=forms.CharField(widget=CKEditorWidget())
+    details = forms.CharField(widget=CKEditorWidget())
     class Meta:
-        model=News
-        fields=['author','category','subcategory','title','details','is_published','image']
+        model = News
+        fields = ['author','category','subcategory','title','details','is_published','image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,8 +46,8 @@ class NewsForm(forms.ModelForm):
  
 class CategoryForm(forms.ModelForm):
     class Meta:
-        model=Category
-        fields=['title']
+        model = Category
+        fields = ['title']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,10 +58,10 @@ class CategoryForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    comment=forms.CharField(widget=CKEditorWidget, label='Comment')
+    comment = forms.CharField(widget=CKEditorWidget, label='Comment')
     class Meta:
-        model=Comment
-        fields=['author','news','user','email','comment','status']
+        model = Comment
+        fields = ['author','news','user','email','comment','status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -78,8 +78,8 @@ class VideoForm(forms.ModelForm):
     date_created = forms.DateField(widget=forms.SelectDateWidget)
     
     class Meta:
-        model=Video
-        fields=['title','url','date_created']
+        model = Video
+        fields = ['title','url','date_created']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
