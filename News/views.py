@@ -51,23 +51,23 @@ class IndexView(TemplateView):
 
 #author
 class AuthorList(GroupRequiredMixin,ListView):
-    model=Author
-    template_name='Author/author_list.html'
-    paginate_by=4
-    group_required=['Author']
+    model = Author
+    template_name = 'Author/author_list.html'
+    paginate_by = 4
+    group_required = ['Author']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['author_filter']=AuthorFilter(self.request.GET, queryset=self.get_queryset())
+        context['author_filter'] = AuthorFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 
 class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
-    template_name='Author/author_create.html'
-    form_class=AuthorForm
-    success_url=reverse_lazy("news:create-author")
-    success_message='Author information is created'
-    group_required=['Author']
+    template_name = 'Author/author_create.html'
+    form_class = AuthorForm
+    success_url = reverse_lazy("news:create-author")
+    success_message = 'Author information is created'
+    group_required = ['Author']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -82,12 +82,12 @@ class AuthorCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Cr
 
 
 class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
-    template_name='Author/author_update.html'
-    model=Author
-    form_class=AuthorForm
-    success_url=reverse_lazy("news:list-author")
-    success_message='Author information is updated'
-    group_required=['Author']
+    template_name = 'Author/author_update.html'
+    model = Author
+    form_class = AuthorForm
+    success_url = reverse_lazy("news:list-author")
+    success_message = 'Author information is updated'
+    group_required = ['Author']
 
 
     def form_valid(self, form):
@@ -102,10 +102,10 @@ class AuthorUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Up
         return self.success_message % cleaned_data
 
 class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
-    template_name='Author/author_delete.html'
-    success_url=reverse_lazy("news:list-author")
-    success_message="Author information is deleted"
-    group_required=['Author']
+    template_name = 'Author/author_delete.html'
+    success_url = reverse_lazy("news:list-author")
+    success_message = "Author information is deleted"
+    group_required = ['Author']
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
@@ -118,7 +118,7 @@ class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, De
 #convert text data into pdf format data
 class AuthorDetailsPdf(View):
     def get(self, request, *args, **kwargs):
-        author=Author.objects.all()
+        author = Author.objects.all()
         data = {
             'count':author.count(),
             'author':author
@@ -130,7 +130,7 @@ class AuthorDetailsCSV(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='application/csv')
 
-        writer=csv.writer(response)
+        writer = csv.writer(response)
         writer.writerow(['id','name','address','email','image'])
         image = request.FILES.get('image')
 
@@ -175,11 +175,11 @@ class AuthorDetailsExcel(View):
 
 #New details with crud
 class NewList(GroupRequiredMixin,ListView):
-    template_name='news/new_list.html'
-    model=News
-    success_url=reverse_lazy("news:new-list")
-    paginate_by=4
-    group_required=['Author']
+    template_name = 'news/new_list.html'
+    model = News
+    success_url = reverse_lazy("news:new-list")
+    paginate_by = 4
+    group_required = ['Author']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -187,11 +187,11 @@ class NewList(GroupRequiredMixin,ListView):
         return context
 
 class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
-    template_name='news/new_create.html'
-    form_class=NewsForm
-    success_url=reverse_lazy("news:create-news")
-    success_message='News is created'
-    group_required=['Author']
+    template_name = 'news/new_create.html'
+    form_class = NewsForm
+    success_url = reverse_lazy("news:create-news")
+    success_message = 'News is created'
+    group_required = ['Author']
 
     def form_valid(self, form):
         form.instance.date_created = timezone.now()
@@ -206,11 +206,11 @@ class NewsCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Crea
 
 
 class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
-    template_name='news/new_update.html'
-    form_class=NewsForm
-    success_url=reverse_lazy("news:new-list")
-    success_message="News has been updated"
-    group_required=['Author']
+    template_name = 'news/new_update.html'
+    form_class = NewsForm
+    success_url = reverse_lazy("news:new-list")
+    success_message = "News has been updated"
+    group_required = ['Author']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
@@ -225,14 +225,14 @@ class NewsUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Upda
 
 
 class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
-    template_name='news/new_delete.html'
-    model=News
-    success_url=reverse_lazy("news:new-list")
-    success_message="News information is deleted"
-    group_required=['Author']
+    template_name = 'news/new_delete.html'
+    model = News
+    success_url = reverse_lazy("news:new-list")
+    success_message = "News information is deleted"
+    group_required = ['Author']
 
     def get_object(self, **kwargs):
-        id=self.kwargs.get('id')
+        id = self.kwargs.get('id')
         return get_object_or_404(News, id=id)
 
 
@@ -300,10 +300,10 @@ class CategoryList(ListView):
 
 
 class CategoryCreate(SuccessMessageMixin, CreateView):
-    template_name='category/category_create.html'
-    form_class=CategoryForm
-    success_message="Category information is created"
-    success_url=reverse_lazy("news:create-category")
+    template_name = 'category/category_create.html'
+    form_class = CategoryForm
+    success_message = "Category information is created"
+    success_url = reverse_lazy("news:create-category")
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -317,10 +317,10 @@ class CategoryCreate(SuccessMessageMixin, CreateView):
 
 
 class CategoryUpdate(SuccessMessageMixin, UpdateView):
-    template_name='category/category_update.html'
-    form_class=CategoryForm
-    success_message="Category is updated"
-    success_url=reverse_lazy("news:category-list")
+    template_name = 'category/category_update.html'
+    form_class = CategoryForm
+    success_message = "Category is updated"
+    success_url = reverse_lazy("news:category-list")
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -408,11 +408,11 @@ class CategoryDetailsExcel(View):
 
 #comment
 class CommentList(GroupRequiredMixin,ListView):
-    template_name='comment/comment_list.html'
-    context_object_name='comment_list'
-    model=Comment
-    paginate_by=2
-    group_required=['Reader']
+    template_name = 'comment/comment_list.html'
+    context_object_name = 'comment_list'
+    model = Comment
+    paginate_by = 2
+    group_required = ['Reader']
 
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
@@ -421,11 +421,11 @@ class CommentList(GroupRequiredMixin,ListView):
 
 
 class CommentCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin,CreateView):
-    template_name='comment/comment_create.html'
-    form_class=CommentForm
-    success_message="Comment is added"
-    success_url=reverse_lazy("news:comment-create")
-    group_required=['Reader']
+    template_name = 'comment/comment_create.html'
+    form_class = CommentForm
+    success_message = "Comment is added"
+    success_url = reverse_lazy("news:comment-create")
+    group_required = ['Reader']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -439,15 +439,15 @@ class CommentCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin,Cr
 
 
 class CommentUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
-    template_name='comment/comment_update.html'
-    form_class=CommentForm
-    model=Comment
-    success_url=reverse_lazy('news:comment-list')
-    success_message="Comment updated successfully"
-    group_required=['Reader']
+    template_name = 'comment/comment_update.html'
+    form_class = CommentForm
+    model = Comment
+    success_url = reverse_lazy('news:comment-list')
+    success_message = "Comment updated successfully"
+    group_required = ['Reader']
 
     def get_object(self, **kwargs):
-        id=self.kwargs.get('id')
+        id = self.kwargs.get('id')
         return get_object_or_404(Comment, id=id)
 
     def form_valid(self, form):
@@ -458,11 +458,11 @@ class CommentUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, U
         return self.success_message % cleaned_data
 
 class CommentDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
-    template_name='comment/comment_delete.html'
-    model=Comment
-    success_url=reverse_lazy('news:comment-list')
-    success_message="Comment Delete Successfully"
-    group_required=['Reader']
+    template_name = 'comment/comment_delete.html'
+    model = Comment
+    success_url = reverse_lazy('news:comment-list')
+    success_message = "Comment Delete Successfully"
+    group_required = ['Reader']
 
     def get_object(self, **kwargs):
         id=self.kwargs.get('id')
@@ -529,11 +529,11 @@ class CommentDetailsExcel(View):
 
 
 class VideoCreate(GroupRequiredMixin,SuccessMessageMixin, CreateView):
-    template_name='video/create_video.html'
-    form_class=VideoForm
-    success_message="Video is created"
-    success_url=reverse_lazy('news:create-video')
-    group_required=['Author']
+    template_name = 'video/create_video.html'
+    form_class = VideoForm
+    success_message = "Video is created"
+    success_url = reverse_lazy('news:create-video')
+    group_required = ['Author']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -544,10 +544,10 @@ class VideoCreate(GroupRequiredMixin,SuccessMessageMixin, CreateView):
 
 
 class VideoList(GroupRequiredMixin,ListView):
-    template_name='video/video_list.html'
-    model=Video
-    paginate_by=2
-    group_required=['Author']
+    template_name = 'video/video_list.html'
+    model = Video
+    paginate_by = 2
+    group_required = ['Author']
 
     #search garne query
     def get_context_data(self, **kwargs):
@@ -556,11 +556,11 @@ class VideoList(GroupRequiredMixin,ListView):
         return context
 
 class VideoUpdate(GroupRequiredMixin,SuccessMessageMixin, UpdateView):
-    template_name='video/video_update.html'
-    form_class=VideoForm
-    success_url=reverse_lazy('news:video-list')
-    success_message='Video Update Successfully'
-    group_required=['Author']
+    template_name = 'video/video_update.html'
+    form_class = VideoForm
+    success_url = reverse_lazy('news:video-list')
+    success_message = 'Video Update Successfully'
+    group_required = ['Author']
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -574,10 +574,10 @@ class VideoUpdate(GroupRequiredMixin,SuccessMessageMixin, UpdateView):
         return self.success_message % cleaned_data
 
 class VideoDelete(GroupRequiredMixin,SuccessMessageMixin, DeleteView):
-    template_name='video/video_delete.html'
-    success_message='Video deleted successfull'
-    success_url=reverse_lazy('news:video-list')
-    group_required=['Author','Reader']
+    template_name = 'video/video_delete.html'
+    success_message = 'Video deleted successfull'
+    success_url = reverse_lazy('news:video-list')
+    group_required = ['Author','Reader']
 
 
     def get_object(self, **kwargs):

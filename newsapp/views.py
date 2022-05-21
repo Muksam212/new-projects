@@ -16,12 +16,12 @@ class BaseMixin:
 
 
 class BaseTemplate(TemplateView):
-    template_name='base.html'
-    success_url=reverse_lazy('newsapp:index-page')
+    template_name = 'base.html'
+    success_url = reverse_lazy('newsapp:index-page')
 
 class DetailsTemplate(BaseMixin, ListView):
-    template_name='details.html'
-    success_url=reverse_lazy('newsapp:details-page')
+    template_name = 'details.html'
+    success_url = reverse_lazy('newsapp:details-page')
     model = News
     context_object_name = 'news_detail'
     paginate_by = 1
@@ -34,7 +34,7 @@ class DetailsTemplate(BaseMixin, ListView):
 
 
 class IndexTemplate(BaseMixin, TemplateView):
-    template_name='index.html'
+    template_name = 'index.html'
     sucess_url = reverse_lazy('newsapp:index')
 
     def get_context_data(self, **kwargs):

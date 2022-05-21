@@ -11,21 +11,21 @@ class Category(models.Model):
 	title = models.CharField(max_length=100)
 
 	class Meta:
-		verbose_name='Category'
-		verbose_name_plural='Categories'
+		verbose_name = 'Category'
+		verbose_name_plural = 'Categories'
 
 	def __str__(self):
 		return self.title
 
 
 class Video(models.Model):
-	title=models.CharField(max_length=100)
-	url=models.URLField(max_length=100)
-	date_created=models.DateField()
+	title = models.CharField(max_length=100)
+	url = models.URLField(max_length=100)
+	date_created = models.DateField()
 
 	class Meta:
-		verbose_name='Video'
-		verbose_name_plural='Videos'
+		verbose_name = 'Video'
+		verbose_name_plural = 'Videos'
 
 	def __str__(self):
 		return "{}".format(self.title)
@@ -40,9 +40,9 @@ class Author(models.Model):
 	image = models.ImageField(upload_to='author/images')
 
 	class Meta:
-		verbose_name='Author'
-		verbose_name_plural='Authors'
-
+		verbose_name = 'Author'
+		verbose_name_plural = 'Authors'
+ 
 	def __str__(self):
 		return "{}".format(self.name)
 
@@ -50,34 +50,34 @@ class Author(models.Model):
 		return reverse("News:create-author", kwargs={'id':self.id})
 
 class News(models.Model):
-	author=models.ForeignKey(Author, on_delete=models.CASCADE, related_name='news', null=True, blank=True)
-	category=models.ForeignKey(Category, on_delete=models.CASCADE,related_name='newss',null=True, blank=True)
-	subcategory=models.ManyToManyField(Category, related_name='subcategory_news')
-	title=models.CharField(max_length=100)
-	image=models.ImageField(upload_to='news/imgs')
-	details=RichTextField()
-	is_published=models.BooleanField(default=False)
-	date_created=models.DateField(auto_now_add=False)
+	author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='news', null=True, blank=True)
+	category = models.ForeignKey(Category, on_delete=models.CASCADE,related_name='newss',null=True, blank=True)
+	subcategory = models.ManyToManyField(Category, related_name='subcategory_news')
+	title = models.CharField(max_length=100)
+	image = models.ImageField(upload_to='news/imgs')
+	details = RichTextField()
+	is_published = models.BooleanField(default=False)
+	date_created = models.DateField(auto_now_add=False)
 
 	class Meta:
-		verbose_name='New'
-		verbose_name_plural='News'
+		verbose_name = 'New'
+		verbose_name_plural = 'News'
 
 	def __str__(self):
 		return "{} -> {}".format(self.category, self.title)
 
 
 class Comment(models.Model):
-	author=models.ForeignKey(Author, related_name='authors', on_delete=models.CASCADE)
-	news=models.ForeignKey(News, related_name='news', on_delete=models.CASCADE)
-	user=models.OneToOneField(User, on_delete=models.CASCADE)
-	email=models.CharField(max_length=100)
-	comment=RichTextField()
-	status=models.BooleanField(default=False)
+	author = models.ForeignKey(Author, related_name='authors', on_delete=models.CASCADE)
+	news = models.ForeignKey(News, related_name='news', on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	email = models.CharField(max_length=100)
+	comment = RichTextField()
+	status = models.BooleanField(default=False)
 
 	class Meta:
-		verbose_name='Comment'
-		verbose_name_plural='Comments'
+		verbose_name = 'Comment'
+		verbose_name_plural = 'Comments'
 
 	def __str__(self):
 		return str(self.user)
