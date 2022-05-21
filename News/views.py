@@ -118,7 +118,7 @@ class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, De
 #convert text data into pdf format data
 class AuthorDetailsPdf(View):
     def get(self, request, *args, **kwargs):
-        author=Author.objects.all()
+        author = Author.objects.all()
         data = {
             'count':author.count(),
             'author':author
@@ -130,7 +130,7 @@ class AuthorDetailsCSV(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='application/csv')
 
-        writer=csv.writer(response)
+        writer = csv.writer(response)
         writer.writerow(['id','name','address','email','image'])
         image = request.FILES.get('image')
 
@@ -232,7 +232,7 @@ class NewsDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, Dele
     group_required = ['Author']
 
     def get_object(self, **kwargs):
-        id=self.kwargs.get('id')
+        id = self.kwargs.get('id')
         return get_object_or_404(News, id=id)
 
 
@@ -439,15 +439,15 @@ class CommentCreate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin,Cr
 
 
 class CommentUpdate(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
-    template_name='comment/comment_update.html'
-    form_class=CommentForm
-    model=Comment
-    success_url=reverse_lazy('news:comment-list')
-    success_message="Comment updated successfully"
-    group_required=['Reader']
+    template_name = 'comment/comment_update.html'
+    form_class = CommentForm
+    model = Comment
+    success_url = reverse_lazy('news:comment-list')
+    success_message = "Comment updated successfully"
+    group_required = ['Reader']
 
     def get_object(self, **kwargs):
-        id=self.kwargs.get('id')
+        id = self.kwargs.get('id')
         return get_object_or_404(Comment, id=id)
 
     def form_valid(self, form):

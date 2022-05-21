@@ -2,10 +2,10 @@
 from django.core.exceptions import PermissionDenied
 
 class GroupRequiredMixin(object):
-	group_required=None
+	group_required = None
 
 	def dispatch(self, request, *args, **kwargs):
-		user_groups=[]
+		user_groups = []
 
 		for group in request.user.groups.values_list('name', flat=True):
 			user_groups.append(group)

@@ -34,7 +34,7 @@ class DetailsTemplate(BaseMixin, ListView):
 
 
 class IndexTemplate(BaseMixin, TemplateView):
-    template_name='index.html'
+    template_name = 'index.html'
     sucess_url = reverse_lazy('newsapp:index')
 
     def get_context_data(self, **kwargs):

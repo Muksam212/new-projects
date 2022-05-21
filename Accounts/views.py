@@ -26,9 +26,9 @@ class RegisterView(SuccessMessageMixin,CreateView):
 		cf_pword = form.cleaned_data['password2']
 
 		if pword == cf_pword:
-			if User.objects.filter(username=uname).exists():
+			if User.objects.filter(username = uname).exists():
 				messages.info(request,'Username Already exists. Please Taken another one')
-			elif User.objects.filter(email=email).exists():
+			elif User.objects.filter(email = email).exists():
 				message.info(request,'Email already exists.Please Taken another one')
 			else:
 				user = User.objects.create_user(username=uname, email=email, password=pword)
