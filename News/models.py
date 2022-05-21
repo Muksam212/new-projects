@@ -42,11 +42,7 @@ class Author(models.Model):
 	class Meta:
 		verbose_name = 'Author'
 		verbose_name_plural = 'Authors'
-<<<<<<< HEAD
 
-=======
- 
->>>>>>> 6014e66bb0889af31cfd43ac09607338b8b2de96
 	def __str__(self):
 		return "{}".format(self.name)
 
@@ -61,11 +57,7 @@ class News(models.Model):
 	image = models.ImageField(upload_to='news/imgs')
 	details = RichTextField()
 	is_published = models.BooleanField(default=False)
-<<<<<<< HEAD
-	date_created=models.DateField(auto_now_add=False)
-=======
 	date_created = models.DateField(auto_now_add=False)
->>>>>>> 6014e66bb0889af31cfd43ac09607338b8b2de96
 
 	class Meta:
 		verbose_name = 'New'
