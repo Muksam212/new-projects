@@ -1,5 +1,5 @@
-from distutils.errors import CompileError
 import django_filters
+
 from news.models import Author, Category, News, Video, Comment
 
 #similar to search query and this time using django_filters

@@ -9,14 +9,14 @@ from django.contrib.auth import login, logout
 from django.utils import timezone
 
 from news.filters import AuthorFilter,CategoryFilter, NewsFilter, VideoFilter, CommentFilter
-from news.mixins import GroupRequiredMixin
-from xhtml2pdf import pisa
 from news.utils import render_to_pdf, link_callback
+from news.mixins import GroupRequiredMixin
+from news.models import Author, News, Category, Comment, Video
+from news.forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
+
+from xhtml2pdf import pisa
+
 import xlwt
-
-
-from .models import Author, News, Category, Comment, Video
-from .forms import AuthorForm, NewsForm, CategoryForm, CommentForm, VideoForm
 import csv
 
 
@@ -137,7 +137,7 @@ class AuthorDetailsCSV(View):
         for author in Author.objects.all().values_list('id','name','address','email','image'):
             writer.writerow(author)
 
-        response['Content-Disposition']='attachment; filename="author.csv"'
+        response['Content-Disposition'] = 'attachment; filename="author.csv"'
 
         return response
 
@@ -295,7 +295,7 @@ class CategoryList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category_filter']=CategoryFilter(self.request.GET, self.get_queryset())
+        context['category_filter'] = CategoryFilter(self.request.GET, self.get_queryset())
         return context
 
 
@@ -415,8 +415,8 @@ class CommentList(GroupRequiredMixin,ListView):
     group_required = ['Reader']
 
     def get_context_data(self, **kwargs):
-        context=super().get_context_data(**kwargs)
-        context['comment_filter']=CommentFilter(self.request.GET, queryset=self.get_queryset())
+        context = super().get_context_data(**kwargs)
+        context['comment_filter'] = CommentFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 
@@ -473,7 +473,7 @@ class CommentDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, D
 
 class CommentDetailsPdf(View):
     def get(self, request, *args, **kwargs):
-        comments=Comment.objects.all()
+        comments = Comment.objects.all()
         data = {
             'count':comments.count(),
             'comments':comments
@@ -552,7 +552,7 @@ class VideoList(GroupRequiredMixin,ListView):
     #search garne query
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['video_filter']=VideoFilter(self.request.GET, queryset=self.get_queryset())
+        context['video_filter'] = VideoFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 class VideoUpdate(GroupRequiredMixin,SuccessMessageMixin, UpdateView):
