@@ -43,10 +43,10 @@ class ChartDetails(TemplateView):
 
 #creating the process
 class DashboardTemplate(LoginRequiredMixin,TemplateView):
-    template_name='dashboard/base.html'
+    template_name = 'dashboard/base.html'
 
 class IndexView(TemplateView):
-    template_name='admin/index.html'
+    template_name = 'admin/index.html'
 
 
 #author
@@ -111,7 +111,7 @@ class AuthorDelete(GroupRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, De
         return self.success_message % cleaned_data
 
     def get_object(self, **kwargs):
-        id=self.kwargs.get('id')
+        id = self.kwargs.get('id')
         return get_object_or_404(Author,id=id)
 
 
@@ -147,7 +147,7 @@ class AuthorDetailsExcel(View):
         response = HttpResponse(content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="Author.xls"'
 
-        wb = xlwt.Workbook(encoding='utf-8')
+        wb = xlwt.Workbook(encoding= 'utf-8')
         ws = wb.add_sheet('Author')
 
     # Sheet header, first row
@@ -244,13 +244,13 @@ class NewsDetailsCSV(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='application/csv')
 
-        writer=csv.writer(response)
+        writer = csv.writer(response)
         writer.writerow(['author','category','subcategory','title','image','details','is_published','date_created'])
 
         for new in News.objects.all().values_list('author','category','subcategory','title','image','details','is_published','date_created'):
             writer.writerow(new)
 
-        response['Content-Disposition']='attachment; filename="news.csv"'
+        response['Content-Disposition'] = 'attachment; filename="news.csv"'
 
         return response
 
@@ -259,7 +259,7 @@ class NewsDetailsExcel(View):
         response = HttpResponse(content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="News.xls"'
 
-        wb = xlwt.Workbook(encoding='utf-8')
+        wb = xlwt.Workbook(encoding= 'utf-8')
         ws = wb.add_sheet('News')
 
     # Sheet header, first row
@@ -291,7 +291,7 @@ class NewsDetailsExcel(View):
 class CategoryList(ListView):
     template_name = 'category/category_list.html'
     model = Category
-    paginate_by=4
+    paginate_by = 4
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -363,22 +363,22 @@ class CategoryDetailsCSV(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='application/csv')
 
-        writer=csv.writer(response)
+        writer = csv.writer(response)
         writer.writerow(['title','details'])
 
         for category in Category.objects.all().values_list('title','details'):
             writer.writerow(category)
 
-        response['Content-Disposition']='attachment; filename="category.csv"'
+        response['Content-Disposition']= 'attachment; filename="category.csv"'
 
         return response
 
 class CategoryDetailsExcel(View):
     def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type='application/ms-excel')
+        response = HttpResponse(content_type= 'application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="Category.xls"'
 
-        wb = xlwt.Workbook(encoding='utf-8')
+        wb = xlwt.Workbook(encoding= 'utf-8')
         ws = wb.add_sheet('Category')
 
     # Sheet header, first row
@@ -479,26 +479,26 @@ class CommentDetailsPdf(View):
             'comments':comments
         }
         pdf = render_to_pdf('comment/comment_pdf.html', data)
-        return HttpResponse(pdf, content_type='application/pdf')
+        return HttpResponse(pdf, content_type= 'application/pdf')
 
 class CommentDetailsCSV(View):
     def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type='application/csv')
+        response = HttpResponse(content_type= 'application/csv')
 
-        writer=csv.writer(response)
+        writer = csv.writer(response)
         writer.writerow(['author','news','user','email','comment','status'])
 
         for comment in Comment.objects.all().values_list('author','news','user','email','comment','status'):
             writer.writerow(comment)
 
-        response['Content-Disposition']='attachment; filename="comment.csv"'
+        response['Content-Disposition']= 'attachment; filename="comment.csv"'
 
         return response
 
 
 class CommentDetailsExcel(View):
     def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type='application/ms-excel')
+        response = HttpResponse(content_type= 'application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="Comment.xls"'
 
         wb = xlwt.Workbook(encoding='utf-8')
@@ -582,7 +582,7 @@ class VideoDelete(GroupRequiredMixin,SuccessMessageMixin, DeleteView):
 
     def get_object(self, **kwargs):
         id = self.kwargs.get('id')
-        return get_object_or_404(Video, id=id)
+        return get_object_or_404(Video, id= id)
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data

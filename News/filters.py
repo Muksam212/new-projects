@@ -4,14 +4,14 @@ from news.models import Author, Category, News, Video, Comment
 
 #similar to search query and this time using django_filters
 class AuthorFilter(django_filters.FilterSet):
-	name = django_filters.CharFilter(lookup_expr='icontains')
+	name = django_filters.CharFilter(lookup_expr= 'icontains')
 
 	class Meta:
 		model = Author
 		fields = ['name']
 
 class CommentFilter(django_filters.FilterSet):
-	author__name = django_filters.CharFilter(lookup_expr='icontains')
+	author__name = django_filters.CharFilter(lookup_expr= 'icontains')
 
 	class Meta:
 		model = Comment
@@ -24,10 +24,10 @@ class CategoryFilter(django_filters.FilterSet):
 
 class NewsFilter(django_filters.FilterSet):
 	#for foreign key in django filter
-	author__name = django_filters.CharFilter(lookup_expr='icontains')
+	author__name = django_filters.CharFilter(lookup_expr= 'icontains')
 
 	#for manytomany fields using django filter
-	subcategory__title = django_filters.CharFilter(lookup_expr = 'iexact')
+	subcategory__title = django_filters.CharFilter(lookup_expr= 'iexact')
 
 	#to target the foreign key (underscore __) is used 
 	class Meta:
@@ -37,7 +37,7 @@ class NewsFilter(django_filters.FilterSet):
 
 #implementing django filter in video
 class VideoFilter(django_filters.FilterSet):
-	title = django_filters.CharFilter(lookup_expr='icontains')
+	title = django_filters.CharFilter(lookup_expr= 'icontains')
 
 	class Meta:
 		model = Video

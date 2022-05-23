@@ -58,7 +58,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    comment = forms.CharField(widget=CKEditorWidget, label='Comment')
+    comment = forms.CharField(widget= CKEditorWidget, label= 'Comment')
     class Meta:
         model = Comment
         fields = ['author','news','user','email','comment','status']
@@ -75,7 +75,7 @@ class CommentForm(forms.ModelForm):
             })
 
 class VideoForm(forms.ModelForm):
-    date_created = forms.DateField(widget=forms.SelectDateWidget)
+    date_created = forms.DateField(widget= forms.SelectDateWidget)
     
     class Meta:
         model = Video

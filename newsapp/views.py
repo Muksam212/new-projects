@@ -1,13 +1,14 @@
 from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import *
+from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 
 from news.models import Category
 from news.models import News
 # Create your views here.
 
+#mixins means extends the properties
 class BaseMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -29,7 +30,7 @@ class DetailsTemplate(BaseMixin, ListView):
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
         category = self.kwargs.get('pk')
-        queryset = queryset.filter(category__id=category)
+        queryset = queryset.filter(category__id= category)
         return queryset
 
 
@@ -40,7 +41,7 @@ class IndexTemplate(BaseMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_news'] = News.objects.all()
-        context['sports_news'] = News.objects.filter(category__title='खेलकुद')
+        context['sports_news'] = News.objects.filter(category__title= 'खेलकुद')
         return context
 
     def today():
