@@ -1,6 +1,32 @@
 from rest_framework import serializers
 from news.models import Author, Comment, Category, News, Video
 
+from django.contrib.auth.models import User
+
+#register serializers
+class RegisterSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(max_length=100)
+    username = serializers.CharField(max_length=100)
+    password = serializers.CharField(max_length=100, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('username','email','password')
+
+    def validate(self, args):
+        email = args.get('email', None)
+        username = args.get('username', None)
+
+        if User.objects.filter(email = email).exists():
+            raise serializers.ValidationError({'email':{'email already exists'}})
+        if User.objects.filter(username = username).exists():
+            raise serializers.ValidationError({'username':{'username already exists'}})
+
+        return super().validate(args)
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News

@@ -1,6 +1,33 @@
-from api.serializers import AuthorSerializer, CommentSerializer, NewsSerializer, CategorySerializer, VideoSerializer
+from api.serializers import AuthorSerializer, CommentSerializer, NewsSerializer, CategorySerializer, VideoSerializer, RegisterSerializer
 from news.models import Author, Comment, News, Category, Video
+
+from django.core import serializers
+
 from rest_framework import mixins, generics
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework import serializers
+
+import uuid
+
+#registration api views
+class RegistrationAPIView(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data = request.data)
+        # serializer.is_valid(raise_exception = True)
+        # serializer.save()
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response({
+                'RequestId': str(uuid.uuid4()),
+                'Message':'User Created Successfully',
+                'User':serializer.data},
+            status=status.HTTP_201_CREATED)
+        return Response({'Errors':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
 
 #author api
 class AuthorList(generics.ListCreateAPIView):
