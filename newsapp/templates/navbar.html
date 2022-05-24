@@ -11,24 +11,29 @@
             <nav>    
             
                 <ul id="navigation">    
-                    <li class="nav-category nav-item dropdown"><a href="{% url 'newsapp:index' %}">होमपेजs
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-arrow-down"></i>
-                        </a>
-                    </a>
-                    {% comment %} <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for category_object in categories %}
-                        {{ category_object }}
-                        <li class="nav-category"><a href="{% url 'newsapp:details-page' category_object.pk %}"> {{ category_object.title }}</a></li>
-                        {% endfor %}
+                    <div class="dropdown">
+                        <li class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-caret-down"></i>
+                        </li>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            {% for category_object in categories%}
+                          <li class="dropdown-item"><a href="{% url 'newsapp:details-page' category_object.pk %}">{{category_object.title}}</a></li>
+                          {% endfor %}
+                          
+                        </div>
+                      </div>
 
-                        
-                    </div> {% endcomment %}
+                      <div class="nav-category">
+                        <li class="nav-category"><a href="{% url 'newsapp:index' %}"><i class="fa-solid fa-house"></i></a></li>
+                        </div>
+
+                    <div class="nav-category">
                     {% for category_object in categories %}
                     <li class="nav-category"><a href="{% url 'newsapp:details-page' category_object.pk %}">{{ category_object.title }}</a></li>
                     {% endfor %}
-                    
+                    </div>
                 </ul>
+                
             </nav>
         </div>
     </div>             

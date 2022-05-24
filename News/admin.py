@@ -6,4 +6,4 @@ from .models import Author, Category, News, Comment
 # class NewsAdmin(admin.ModelAdmin):
 #     list_display=['slug','title']
 
-# admin.site.register(News,NewsAdmin)
+admin.site.register(News)

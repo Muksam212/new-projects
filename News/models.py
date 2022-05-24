@@ -1,4 +1,5 @@
 from pyexpat import model
+from django import views
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -30,10 +31,11 @@ class Author(models.Model):
 
 class News(models.Model):
 	category=models.ForeignKey(Category, on_delete=models.CASCADE)
-	subcategory=models.ManyToManyField(Category, related_name='categorys')
+	subcategory=models.ManyToManyField(Category, related_name='categorys', null=True, blank=True)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True)
 	title=models.CharField(max_length=100)
 	image=models.ImageField(upload_to='news/imgs')
+	views_count = models.IntegerField(default=0)
 	# banneradd=models.ImageField(upload_to='bannersadd/images')
 	# slug = AutoSlugField(populate_from = 'title', unique = True, null = True, default = None)
 	details=RichTextField()

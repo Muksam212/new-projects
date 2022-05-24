@@ -17,10 +17,10 @@
         <div class="container">
             <div class="row">
                 {% for news_object in category_news %}
-                <div class="col-lg-3">
-                    <div class="single-bottom mb-35">
-                        <div class="trend-bottom-img mb-30">
-                            <img src="{{ news_object.image.url }}" alt="">
+                <div class="col-md-3">
+                    <div class="single-bottom">
+                        <div class="trend-bottom-img mb-35">
+                            <img src="{{ news_object.image.url }}" class="img-thumbnail" style="height:200px;" "width:auto;">
                         </div>
                         <div class="trend-bottom-cap">
                             <span class="color1">{{ news_object.category.title }}</span>

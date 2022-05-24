@@ -7,11 +7,11 @@
                     <div class="single-footer-caption">
                         <!-- logo -->
                         <div class="footer-logo">
-                            <a href="index.html"><img src="{% static 'assets/img/logo/logo2_footer.png' %}" alt=""></a>
+                            <h1> Prixa News </h1>
                         </div>
                         <div class="footer-tittle">
                             <div class="footer-pera">
-                                <p>Suscipit mauris pede for con sectetuer sodales adipisci for cursus fames lectus tempor da blandit gravida sodales  Suscipit mauris pede for con sectetuer sodales adipisci for cursus fames lectus tempor da blandit gravida sodales  Suscipit mauris pede for sectetuer.</p>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.4606561992778!2d85.31160481506132!3d27.672153882806548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19d81c96a557%3A0xb60bf52a809a2e46!2sPrixa%20Technologies!5e0!3m2!1sen!2snp!4v1652075862375!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </div>
                         <!-- social -->
@@ -26,41 +26,31 @@
             <div class="col-xl-3 col-lg-3 col-md-4  col-sm-6">
                 <div class="single-footer-caption mt-60">
                     <div class="footer-tittle">
-                        <h4>Newsletter</h4>
+                        <h4 style="color:black;">Newsletter</h4>
                         <p>Heaven fruitful doesn't over les idays appear creeping</p>
                         <!-- Form -->
                         <div class="footer-form" >
                             <div id="mc_embed_signup">
-                                <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="subscribe_form relative mail_part">
-                                    <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                                    class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = ' Email Address '">
-                                    <div class="form-icon">
-                                    <button type="submit" name="submit" id="newsletter-submit"
-                                    class="email_icon newsletter-submit button-contactForm"><img src="assets/img/logo/form-iocn.png" alt=""></button>
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="Name"> Name: </label>
+                                        <input type="text" name="first name" placeholder="Enter your Name" class="form-control">
+
+                                        <label for="Email"> Email: </label>
+                                        <input type="email" name="email" placeholder="Enter your email" class="form-control">
+
+                                        <div class="col-sm-12">
+                                            <textarea name="message" class="contact-message" id="message" rows="6"
+                                            placeholder="Enter your message" required></textarea>
+                                        </div>
+                                        
+                                        <br>
+                                        <button type="submit" class="btn btn-success"> Submit </button>
                                     </div>
-                                    <div class="mt-10 info"></div>
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
-                <div class="single-footer-caption mb-50 mt-60">
-                    <div class="footer-tittle">
-                        <h4>Instagram Feed</h4>
-                    </div>
-                    <div class="instagram-gellay">
-                        <ul class="insta-feed">
-                            <li><a href="#"><img src="{% static 'assets/img/post/instra1.jpg' %}" alt=""></a></li>
-                            <li><a href="#"><img src="{% static 'assets/img/post/instra2.jpg' %}" alt=""></a></li>
-                            <li><a href="#"><img src="{% static 'assets/img/post/instra3.jpg' %}" alt=""></a></li>
-                            <li><a href="#"><img src="{% static 'assets/img/post/instra4.jpg' %}" alt=""></a></li>
-                            <li><a href="#"><img src="{% static 'assets/img/post/instra5.jpg' %}" alt=""></a></li>
-                            <li><a href="#"><img src="{% static 'assets/img/post/instra6.jpg' %}" alt=""></a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -75,7 +65,7 @@
                 <div class="col-lg-6">
                     <div class="footer-copy-right">
                         <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-    NewsPortal  @ Website 2022 All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+    Prixa News  @ Website 2022 All rights reserved 
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                 </div>

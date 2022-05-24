@@ -212,7 +212,7 @@ class NewList(ListView):
     ajax_template_name='news/new_list_ajax.html'
     model=News
     success_url=reverse_lazy("news:new-list")
-    paginate_by=4
+    paginate_by=2
 
     # def get_queryset(self):
     #     queryset=super().get_queryset()
@@ -229,6 +229,7 @@ class NewList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['news_filter'] = NewsFilter(self.request.GET, queryset = self.get_queryset())
+        context['clear_search'] = News.objects.all()
         return context
 
     def get_template_names(self):

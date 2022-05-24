@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 from news.views import UserRequiredMixin
 from accounts.forms import RegisterForms, LoginForm
@@ -19,12 +21,24 @@ class RegisterView(SuccessMessageMixin,CreateView):
 	success_message = "Your Information is Created"
 
 	def form_valid(self, form):
-		print(form.cleaned_data)
-		return super().form_valid(form)
+		username=form.cleaned_data['username']
+		password = form.cleaned_data['password1']
+		cf_password =form.cleaned_data['password2']
+		email = form.cleaned_data['email']
 
-	def form_invalid(self, form):
-		errors=form.errors.as_json()
-		return JsonResponse({'errors':errors},status=400)
+
+
+		if password == cf_password:
+			if User.objects.filter(username=username).exists():
+				messages.info(request, 'username is already exists')
+			elif User.objects.filter(email = email ).exists():
+				messages.info(request, 'email is already exists')
+		else:
+			return render(self.request, self.template_name,
+			{'error':'Invalid username or password','form':form})
+
+		return super().form_valid(form)
+	
 
 	def get_success_message(self, cleaned_data):
 		return self.success_message % cleaned_data

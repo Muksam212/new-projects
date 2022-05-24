@@ -8,31 +8,37 @@
 <!--Search -->
 
 <div class="container">
-	<div class="card" style="width:40rem;">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-sm-4">
-					<a href="{% url 'news:new-pdf' %}" class="btn btn-info"> Pdf Format </a>
-				</div>
-				<div class="col-sm-4">
-					<a href="{% url 'news:new-csv' %}" class="btn btn-success"> Csv Format</a>
-				</div>
-				<div class="col-sm-4">
-					<a href="{% url 'news:new-excel' %}" class="btn btn-secondary"> Excel Format</a>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="card" style="width:40rem;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="{% url 'news:new-pdf' %}" class="btn btn-info"> Pdf Format </a>
+                </div>
+                <div class="col-sm-4">
+                    <a href="{% url 'news:new-csv' %}" class="btn btn-success"> Csv Format</a>
+                </div>
+                <div class="col-sm-4">
+                    <a href="{% url 'news:new-excel' %}" class="btn btn-secondary"> Excel Format</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container">
-			<form method="GET">
+    <div class="row">
+        <div class="col-6">
+            <form method="GET">
                 {{ news_filter.form|bootstrap }}
-				{% csrf_token %}
-				<div class="input-group">
-					<button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-				</div>
-			</form>
+                {% csrf_token %}
+                <div class="input-group">
+                    <button type="submit" class="btn btn-outline-primary" style="margin-top:30px;"><i class="fas fa-search"></i>search</button>
+                    <a href="{% url 'news:new-list' %}" class="btn btn-outline-primary" style="margin-top:30px;">clear</a>
+                </div>
+            </form>
+            
+        </div>
+    </div>
 </div>
 
 <div class="container">
@@ -74,10 +80,12 @@
                     <td> {{ new.author }} </td>
                     <td> {{ new.category }} </td>
                     <td> {{ new.title }}</td>
-                    <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image" style="width:50px"></td></a>
+                    <td><a href="{% if new.image %}{{ new.image.url }} {% endif %}"><img
+                                src="{% if new.image %} {{ new.image.url }} {% endif %}" alt="No Image"
+                                style="width:50px"></td></a>
                     <td> {{ new.details|safe|striptags|truncatechars:'200' }} </td>
                     <td>{% for news in new.subcategory.all %} {{ news }}, {% endfor %} </td>
-                
+
                     <td>
                         <a href="{% url 'news:update-news' new.id %}" class="btn btn-info edit">Edit </a>
                         <a href="{% url 'news:delete-news' new.id %}" class="btn btn-danger delete"> Delete </a>
@@ -124,8 +132,7 @@
         <!--Add Author-->
 
         <!-- Edit News-->
-        <div id="editNewsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..."
-            aria-hidden="true">
+        <div id="editNewsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="..." aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 </div>
@@ -156,10 +163,10 @@
         })
     })
 
-    $('.delete').on('click', function (e){
+    $('.delete').on('click', function (e) {
         e.preventDefault()
         var url = $(this).attr('href');
-        $.get(url, function (data){
+        $.get(url, function (data) {
             console.log(data)
             $('#deleteNewsModal').modal('show')
             $('#deleteNewsModal .modal-content').empty().append(data)

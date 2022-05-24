@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import *
 from django.urls import reverse_lazy
@@ -63,7 +64,8 @@ class IndexTemplate(BaseMixin, TemplateView):
         context['political_news'] =News.objects.filter(category__title = 'राजनीति').order_by('-id')[:1]
         context['business_news'] = News.objects.filter(category__title = 'अर्थ').order_by('-id')[:1]
         context['cinema_news'] = News.objects.filter(category__title = 'सिनेमा').order_by('-id')[:1]
-        context['banner_add'] = Banneradd.objects.filter(is_active=True).order_by('-id')[:1]
+        context['banner_add'] = Banneradd.objects.filter(is_active=True).order_by('-id')[:1]   
+        context['trending_news'] = News.objects.order_by('-views_count')[:3]
         return context
 
 class DetailnewsView(BaseMixin, DetailView):
@@ -73,7 +75,10 @@ class DetailnewsView(BaseMixin, DetailView):
     context_object_name = "newsdetail"
 
     def get_context_data(self, **kwargs):
-        context  = super().get_context_data(**kwargs)
+        context  = super().get_context_data(**kwargs)   
+        obj = self.get_object()
+        obj.views_count += 1
+        obj.save(update_fields=['views_count'])
         return context
 
     def get_template_names(self):

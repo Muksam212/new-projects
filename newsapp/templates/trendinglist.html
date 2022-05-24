@@ -1,12 +1,10 @@
+{% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="trending-tittle">
-    <strong><a href="">ट्रेन्डिङ</strong></a>
-</div>
 <div class="trending-bottom">
     <div class="row">
         <div class="col-12">
-            <div class="weekly-news-active d-flex">
+            <div class="weekly-news-active  d-flex">
                 {% for news_object in trending_news %}
                 <div class="weekly-single active">
                     <div class="weekly-img">
@@ -24,6 +22,4 @@
     </div>
 
 </div>
-
-<hr style="color:blue;">
 {% endblock content %}

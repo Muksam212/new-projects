@@ -16,9 +16,9 @@
             {% for news_object in sports_news %}
             <div class="weekly-single active">
                 <div class="weekly-img">
-                    <img src="{{ news_object.image.url }}" alt="">
+                    <img src="{{ news_object.image.url }}" class="img-thumbnail" style="height:195px;" "width:auto;">
                 </div>
-                <div class="weekly-caption" style="bottom:auto;">
+                <div class="weekly-caption" style = "bottom:auto;">
                     <span class="color1">{{ news_object.category.title }}</span>
                     <h4><a href="{% url 'newsapp:detail-news' news_object.pk %}">{{ news_object.title}}</a></h4>
                 </div>
@@ -26,9 +26,9 @@
             </div>
             {% endfor %}
             <div class="weekly-single active">
-                {% for news_object in political_news%}
+                {% for news_object in political_news %}
                 <div class="weekly-img">
-                    <img src="{{ news_object.image.url }}" alt="">
+                    <img src="{{ news_object.image.url }}" class="img-thumbnail" style="height:200px;" "width:auto;">
                 </div>
                 <div class="weekly-caption" style="bottom:auto;">
                     <span class="color1">{{ news_object.category.title }}</span>
@@ -39,7 +39,7 @@
             <div class="weekly-single active">
                 {% for news_object in business_news %}
                 <div class="weekly-img">
-                    <img src="{{ news_object.image.url }}" alt="" > 
+                    <img src="{{ news_object.image.url }}" class="img-thumbnail" style="height:200px;" "width:auto;"> 
                 </div>
                 <div class="weekly-caption" style="bottom:auto;">
                     <span class="color1">{{ news_object.category.title }}</span>
@@ -50,7 +50,7 @@
             <div class="weekly-single active">
                 {% for news_object in cinema_news %}
                 <div class="weekly-img">
-                    <img src="{{ news_object.image.url }}" alt="">
+                    <img src="{{ news_object.image.url }}" class="img-thumbnail" style="height:200px;" "width:auto;">
                 </div>
                 <div class="weekly-caption" style="bottom:auto;">
                     <span class="color1">{{ news_object.category.title }}</span>
@@ -62,11 +62,11 @@
     </div>
     
 </div>
-<div class="single-bottom">
+<div class="single-bottom" style="margin-top:15%;">
     <br>
     {% for s in banner_add %}
     <div class="weekly-img">
-        <img src="{{ s.image.url }} " style="padding-left: 500px; "  alt="">
+        <img src="{{ s.image.url }} " style="padding-left: 500px;">
     </div>
     <div class="weekly-caption">
     </div>
