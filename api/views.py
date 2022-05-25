@@ -28,6 +28,9 @@ class RegistrationAPIView(generics.GenericAPIView):
             status=status.HTTP_201_CREATED)
         return Response({'Errors':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request):
+        pass
+
 
 #author api
 class AuthorList(generics.ListCreateAPIView):
