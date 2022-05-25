@@ -40,6 +40,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ['id','news','address','email','image']
+        depth = 1 
 
 class CommentSerializer(serializers.ModelSerializer):
     authors = NewsSerializer(many=True, read_only=True)
@@ -55,6 +56,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id','subcategory_news']
+        depth = 1
 
 
 class VideoSerializer(serializers.ModelSerializer):
@@ -62,3 +64,4 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = ['id','videos','url','date_created']
+        depth = 1
